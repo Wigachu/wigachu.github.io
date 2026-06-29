@@ -3,10 +3,9 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="Wigachu – trusted bulk supplies for your shop. We got you." />
-  <title>Wigachu – Bulk supplies for your business</title>
+  <meta name="description" content="Wigachu – Viral picks, bulk deals, shop essentials, cars & luxury. We got you." />
+  <title>Wigachu – Discover & Restock Smart</title>
 
-  <!-- Tailwind CDN + custom font -->
   <script src="https://cdn.tailwindcss.com"></script>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="style.css" />
@@ -17,25 +16,13 @@
         extend: {
           colors: {
             brand: {
-              50: '#f0fdf4',
-              100: '#dcfce7',
-              200: '#bbf7d0',
-              300: '#86efac',
-              400: '#4ade80',
-              500: '#22c55e',
-              600: '#16a34a',
-              700: '#15803d',
-              800: '#166534',
-              900: '#14532d',
+              50: '#f0fdf4', 100: '#dcfce7', 200: '#bbf7d0', 300: '#86efac',
+              400: '#4ade80', 500: '#22c55e', 600: '#16a34a', 700: '#15803d',
+              800: '#166534', 900: '#14532d',
             },
-            navy: {
-              800: '#1e293b',
-              900: '#0f172a',
-            }
+            navy: { 800: '#1e293b', 900: '#0f172a' }
           },
-          fontFamily: {
-            sans: ['Poppins', 'system-ui', 'sans-serif'],
-          },
+          fontFamily: { sans: ['Poppins', 'system-ui', 'sans-serif'] },
         }
       }
     }
@@ -47,16 +34,14 @@
   <header class="sticky top-0 z-50 bg-white/80 backdrop-blur-md border-b border-gray-200">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div class="flex justify-between items-center py-4">
-        <a href="#" class="text-2xl font-extrabold tracking-tight text-navy-900">
-          Wigachu<span class="text-brand-500">.</span>
-        </a>
+        <a href="#" class="text-2xl font-extrabold tracking-tight text-navy-900">Wigachu<span class="text-brand-500">.</span></a>
         <nav class="hidden md:flex space-x-8 text-sm font-medium">
-          <a href="#products" class="hover:text-brand-600 transition">Products</a>
-          <a href="#pesapad" class="hover:text-brand-600 transition">Pesapad App</a>
-          <a href="#how-it-works" class="hover:text-brand-600 transition">How It Works</a>
-          <a href="#footer" class="hover:text-brand-600 transition">Contact</a>
+          <a href="#products" class="hover:text-brand-600">Products</a>
+          <a href="#pesapad" class="hover:text-brand-600">Pesapad</a>
+          <a href="#how-it-works" class="hover:text-brand-600">How It Works</a>
+          <a href="#footer" class="hover:text-brand-600">Contact</a>
         </nav>
-        <button id="mobile-menu-btn" class="md:hidden p-2 rounded-lg hover:bg-gray-100 transition" aria-label="Menu">
+        <button id="mobile-menu-btn" class="md:hidden p-2 rounded-lg hover:bg-gray-100" aria-label="Menu">
           <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
           </svg>
@@ -64,7 +49,7 @@
       </div>
       <div id="mobile-menu" class="md:hidden hidden pb-4 space-y-2">
         <a href="#products" class="block py-2 text-sm font-medium hover:text-brand-600">Products</a>
-        <a href="#pesapad" class="block py-2 text-sm font-medium hover:text-brand-600">Pesapad App</a>
+        <a href="#pesapad" class="block py-2 text-sm font-medium hover:text-brand-600">Pesapad</a>
         <a href="#how-it-works" class="block py-2 text-sm font-medium hover:text-brand-600">How It Works</a>
         <a href="#footer" class="block py-2 text-sm font-medium hover:text-brand-600">Contact</a>
       </div>
@@ -72,86 +57,62 @@
   </header>
 
   <main>
-    <!-- Hero section -->
+    <!-- Hero -->
     <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-20 pb-16 text-center">
       <h1 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-navy-900 leading-tight">
-        Bulk supplies for your shop,<br/><span class="text-brand-600">we got you.</span>
+        Discover products that work,<br/><span class="text-brand-600">we got you.</span>
       </h1>
       <p class="mt-6 max-w-2xl mx-auto text-lg text-gray-600">
-        Hand‑picked, honest products for restocking your kiosk, salon, or grocery.
-        Every item is tested and linked to trusted suppliers – no scams, no surprises.
+        From viral TikTok gadgets to bulk shop supplies, cars, and luxury jewelry – we curate only the best,
+        with honest descriptions and direct links to trusted sellers.
       </p>
       <div class="mt-8 flex flex-col sm:flex-row justify-center gap-4">
-        <a href="#products" class="inline-flex items-center justify-center px-8 py-3 border border-transparent text-base font-medium rounded-md text-white bg-brand-600 hover:bg-brand-700 transition shadow-sm">
-          Browse Products
-        </a>
-        <a href="#pesapad" class="inline-flex items-center justify-center px-8 py-3 border border-brand-500 text-base font-medium rounded-md text-brand-700 bg-white hover:bg-brand-50 transition">
-          Discover Pesapad
-        </a>
+        <a href="#products" class="inline-flex items-center px-8 py-3 border border-transparent text-base font-medium rounded-md text-white bg-brand-600 hover:bg-brand-700 shadow-sm">Browse Products</a>
+        <a href="#pesapad" class="inline-flex items-center px-8 py-3 border border-brand-500 text-base font-medium rounded-md text-brand-700 bg-white hover:bg-brand-50">Discover Pesapad</a>
       </div>
     </section>
 
-    <!-- About section (for Amazon content richness) -->
+    <!-- About -->
     <section class="max-w-4xl mx-auto px-4 py-8 text-center border-t border-gray-200">
       <h2 class="text-xl font-semibold text-navy-900">Why Wigachu?</h2>
       <p class="mt-2 text-gray-600 max-w-2xl mx-auto">
-        We’re a small team that tests and curates bulk supplies specifically for shop owners in East Africa.
-        No counterfeit junk, no fake reviews – just honest picks to keep your business stocked.
+        We test, curate, and link only products that solve real problems or bring genuine joy.
+        No fake reviews, no junk. Just straight‑up useful picks – from shop shelves to your garage, and even your jewelry box.
       </p>
     </section>
 
-    <!-- Products section -->
+    <!-- Search & Filter -->
     <section id="products" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-      <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-8">
-        <h2 class="text-2xl font-bold text-navy-900">Top picks for your business</h2>
-        <div class="mt-4 sm:mt-0 flex flex-wrap gap-2" id="filter-buttons">
-          <!-- Generated by JS -->
+      <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-8">
+        <h2 class="text-2xl font-bold text-navy-900">Top picks right now</h2>
+        <div class="relative w-full sm:w-64">
+          <input type="text" id="search-input" placeholder="Search products..."
+                 class="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-full text-sm focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-transparent" />
+          <svg class="absolute left-3 top-2.5 w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+          </svg>
         </div>
       </div>
-      <div id="product-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-        <!-- Generated by JS -->
-      </div>
+      <div class="flex flex-wrap gap-2 mb-8" id="filter-buttons"></div>
+      <div id="product-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6"></div>
     </section>
 
-    <!-- Pesapad promotion -->
+    <!-- Pesapad -->
     <section id="pesapad" class="bg-navy-900 text-white">
-      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
-        <div class="lg:flex lg:items-center lg:justify-between gap-12">
-          <div class="lg:w-1/2">
-            <span class="inline-block px-3 py-1 rounded-full text-xs font-semibold bg-brand-400 text-navy-900 tracking-wide uppercase">Free App</span>
-            <h2 class="mt-4 text-3xl font-extrabold tracking-tight sm:text-4xl">
-              Manage customer debts & trust. <br/>Offline, no fees.
-            </h2>
-            <p class="mt-4 text-lg text-gray-300 max-w-xl">
-              Pesapad helps you track who owes you, who you owe, and see trust scores –
-              all from your phone, even without internet. Built for shop owners like you.
-            </p>
-            <div class="mt-6 flex flex-col sm:flex-row gap-4">
-              <a href="https://pesapad.github.io" target="_blank" rel="noopener" class="inline-flex items-center justify-center px-6 py-3 border border-transparent text-base font-medium rounded-md text-navy-900 bg-brand-400 hover:bg-brand-300 transition">
-                Get Pesapad Free
-              </a>
-              <a href="#" class="inline-flex items-center justify-center px-6 py-3 border border-white/30 text-base font-medium rounded-md text-white hover:bg-white/10 transition">
-                Learn more
-              </a>
-            </div>
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 lg:flex lg:items-center lg:justify-between gap-12">
+        <div class="lg:w-1/2">
+          <span class="inline-block px-3 py-1 rounded-full text-xs font-semibold bg-brand-400 text-navy-900 uppercase">Free App</span>
+          <h2 class="mt-4 text-3xl font-extrabold tracking-tight sm:text-4xl">Manage customer debts & trust. Offline, no fees.</h2>
+          <p class="mt-4 text-lg text-gray-300 max-w-xl">Pesapad helps you track who owes you, who you owe, and see trust scores – even without internet.</p>
+          <div class="mt-6 flex flex-col sm:flex-row gap-4">
+            <a href="https://pesapad.github.io" target="_blank" rel="noopener" class="inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-md text-navy-900 bg-brand-400 hover:bg-brand-300">Get Pesapad Free</a>
+            <a href="#" class="inline-flex items-center px-6 py-3 border border-white/30 text-base font-medium rounded-md hover:bg-white/10">Learn more</a>
           </div>
-          <div class="mt-8 lg:mt-0 lg:w-1/2 flex justify-center">
-            <div class="relative w-64 h-96 bg-gray-700 rounded-3xl shadow-2xl overflow-hidden border-4 border-gray-600">
-              <div class="absolute top-0 left-0 right-0 h-8 bg-gray-800 flex items-center justify-center">
-                <div class="w-20 h-1 bg-gray-600 rounded-full"></div>
-              </div>
-              <div class="pt-10 p-4 space-y-3">
-                <div class="h-3 w-3/4 bg-gray-500 rounded"></div>
-                <div class="h-3 w-1/2 bg-gray-500 rounded"></div>
-                <div class="h-20 bg-brand-600/30 rounded-lg mt-4"></div>
-                <div class="h-20 bg-brand-600/30 rounded-lg"></div>
-                <div class="h-20 bg-brand-600/30 rounded-lg"></div>
-              </div>
-              <div class="absolute bottom-0 left-0 right-0 p-3 text-center text-xs text-gray-400">
-                Your daily trust dashboard
-              </div>
-            </div>
-          </div>
+        </div>
+        <!-- PESAPAD MOCKUP IMAGE (replace with real screenshot) -->
+        <div class="mt-8 lg:mt-0 lg:w-1/2 flex justify-center">
+          <img src="images/home_page.jpg" alt="Pesapad app dashboard"
+               class="w-fit h-96 object-contain rounded-3xl shadow-2xl border-4 border-gray-600 bg-gray-700" />
         </div>
       </div>
     </section>
@@ -166,17 +127,17 @@
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
             </svg>
           </div>
-          <h3 class="mt-4 text-lg font-semibold">1. Browse trusted picks</h3>
-          <p class="mt-2 text-sm text-gray-600">We’ve researched and curated only the most reliable bulk items for your shop.</p>
+          <h3 class="mt-4 text-lg font-semibold">1. Browse curated picks</h3>
+          <p class="mt-2 text-sm text-gray-600">We find, test, and list only the best – for your shop, home, or hustle.</p>
         </div>
         <div class="text-center">
           <div class="w-12 h-12 bg-brand-100 rounded-full flex items-center justify-center mx-auto">
             <svg class="w-6 h-6 text-brand-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 100 4 2 2 0 000-4z"/>
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4z"/>
             </svg>
           </div>
-          <h3 class="mt-4 text-lg font-semibold">2. Pick your supplier</h3>
-          <p class="mt-2 text-sm text-gray-600">Choose from Amazon, AliExpress, Jumia, Kilimall – whatever delivers to you.</p>
+          <h3 class="mt-4 text-lg font-semibold">2. Choose your source</h3>
+          <p class="mt-2 text-sm text-gray-600">Click “Buy Options” to see Amazon, AliExpress, Jumia, and more – all with your links.</p>
         </div>
         <div class="text-center">
           <div class="w-12 h-12 bg-brand-100 rounded-full flex items-center justify-center mx-auto">
@@ -184,14 +145,14 @@
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
             </svg>
           </div>
-          <h3 class="mt-4 text-lg font-semibold">3. Restock & repeat</h3>
-          <p class="mt-2 text-sm text-gray-600">Come back whenever you need more. We’ll keep the best deals updated.</p>
+          <h3 class="mt-4 text-lg font-semibold">3. Buy and restock</h3>
+          <p class="mt-2 text-sm text-gray-600">You go straight to the seller. We might earn a small commission – at no extra cost to you.</p>
         </div>
       </div>
     </section>
   </main>
 
-  <!-- Footer with proper Amazon disclosure -->
+  <!-- Footer -->
   <footer id="footer" class="bg-white border-t border-gray-200">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 text-center text-sm text-gray-500 space-y-2">
       <p>&copy; <span id="current-year"></span> Wigachu. We got you.</p>
@@ -203,6 +164,17 @@
       <p class="italic text-xs">As an Amazon Associate we earn from qualifying purchases.</p>
     </div>
   </footer>
+
+  <!-- Buy Options Modal (centered) -->
+  <div id="buy-modal" class="fixed inset-0 z-50 hidden items-center justify-center bg-black/50 backdrop-blur-sm">
+    <div class="bg-white rounded-2xl shadow-xl max-w-md w-full mx-4 max-h-[90vh] overflow-y-auto p-6 relative">
+      <button id="close-modal" class="absolute top-4 right-4 text-gray-400 hover:text-gray-600 text-2xl leading-none">&times;</button>
+      <h3 id="modal-title" class="text-lg font-bold text-navy-900 mb-1"></h3>
+      <p id="modal-desc" class="text-sm text-gray-500 mb-4"></p>
+      <div id="modal-links" class="space-y-3"></div>
+      <p class="text-xs text-gray-400 mt-4 border-t pt-3">Clicking will open the seller’s site in a new tab. A cookie may be set for tracking.</p>
+    </div>
+  </div>
 
   <script src="main.js"></script>
 </body>
