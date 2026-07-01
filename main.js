@@ -496,7 +496,7 @@ function renderProducts() {
   });
 }
 
-// Modal functions (unchanged)
+// Modal functions
 function openBuyModal(productId) {
   const product = products.find(p => p.id === productId);
   if (!product) return;
@@ -535,9 +535,13 @@ function openBuyModal(productId) {
   }
 
   buyModal.classList.remove('hidden');
+  buyModal.classList.add('flex');
 }
 
-closeModal.addEventListener('click', () => buyModal.classList.add('hidden'));
+closeModal.addEventListener('click', () => {
+  buyModal.classList.add('hidden');
+  buyModal.classList.remove('flex');
+});   
 window.addEventListener('click', (e) => {
   if (e.target === buyModal) buyModal.classList.add('hidden');
 });
