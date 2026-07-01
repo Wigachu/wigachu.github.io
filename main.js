@@ -1,164 +1,426 @@
-// Product catalogue with new categories (Wheels & Motors, Luxury Vault)
+// Product catalogue – 40 products from the Gold list
 const products = [
-  // ---- Shop Essentials ----
+  // ---- Gear & Gadgets ----
   {
     id: 1,
-    title: "100pcs Clear Nylon Sachet Bags",
-    category: "Shop Essentials",
-    image: "https://placehold.co/400x300/e2e8f0/64748b?text=Sachet+Bags",
-    description: "Perfect for repackaging sugar, groundnuts, or tea. Strong and resealable.",
+    title: "PulsePro 30 – Deep Tissue Massage Gun",
+    category: "Gear & Gadgets",
+    image: "https://placehold.co/400x300/e2e8f0/64748b?text=PulsePro+30",
+    description: "High-torque 60W motor with deep penetration, quiet operation, and rapid vibration speed for muscle recovery.",
     badge: "Best seller",
-    links: [
-      { platform: "Amazon", url: "https://www.amazon.com/dp/EXAMPLE?tag=wigachu-20", type: "standard" },
-      { platform: "AliExpress", url: "https://s.click.aliexpress.com/e/_yourlink", type: "standard" },
-      { platform: "AliExpress", url: "https://s.click.aliexpress.com/e/_bulklink", type: "bulk", note: "500pcs lot" }
-    ]
-  },
-  {
-    id: 2,
-    title: "50pcs Universal USB Cables",
-    category: "Shop Essentials",
-    image: "https://placehold.co/400x300/e2e8f0/64748b?text=USB+Cables",
-    description: "Micro USB & Type‑C, essential for phone repair kiosks.",
-    links: [
-      { platform: "Amazon", url: "https://www.amazon.com/dp/EXAMPLE?tag=wigachu-20", type: "standard" },
-      { platform: "eBay", url: "https://ebay.us/yourlink", type: "standard" }
-    ]
-  },
-  // ---- Viral Vault ----
-  {
-    id: 3,
-    title: "Mini LED Night Projector",
-    category: "Viral Vault",
-    image: "https://placehold.co/400x300/e2e8f0/64748b?text=LED+Projector",
-    description: "TikTok famous galaxy projector – turns any room into a starry sky. So satisfying.",
-    badge: "Trending",
-    links: [
-      { platform: "Amazon", url: "https://www.amazon.com/dp/EXAMPLE?tag=wigachu-20", type: "standard" },
-      { platform: "AliExpress", url: "https://s.click.aliexpress.com/e/_virallink", type: "standard" }
-    ]
-  },
-  {
-    id: 4,
-    title: "Magic Cleaning Paste (KYD Gold Pick)",
-    category: "Viral Vault",
-    image: "https://placehold.co/400x300/e2e8f0/64748b?text=Cleaning+Paste",
-    description: "Removes stains instantly. From the KYD Gold list – tested and proven.",
-    links: [
-      { platform: "Amazon", url: "https://www.amazon.com/dp/EXAMPLE?tag=wigachu-20", type: "standard" },
-      { platform: "AliExpress", url: "https://s.click.aliexpress.com/e/_cleanlink", type: "standard", note: "Single jar" },
-      { platform: "AliExpress", url: "https://s.click.aliexpress.com/e/_cleanbulk", type: "bulk", note: "12 jars" }
-    ]
-  },
-  // ---- Bulk Deals ----
-  {
-    id: 5,
-    title: "100 Rolls POS Thermal Paper",
-    category: "Bulk Deals",
-    image: "https://placehold.co/400x300/e2e8f0/64748b?text=POS+Paper",
-    description: "Case of 100 rolls, fits most printers. Perfect for busy shops.",
-    links: [
-      { platform: "Amazon", url: "https://www.amazon.com/dp/EXAMPLE?tag=wigachu-20", type: "standard" },
-      { platform: "eBay", url: "https://ebay.us/yourlink", type: "standard" }
-    ]
-  },
-  // ---- Work & Hustle ----
-  {
-    id: 6,
-    title: "Kiosk Daily Sales Tracker (PDF)",
-    category: "Work & Hustle",
-    image: "https://placehold.co/400x300/e2e8f0/64748b?text=Sales+Tracker",
-    description: "Printable ledger. Manage sales & stock without an app.",
-    links: [
-      { platform: "Payhip", url: "https://payhip.com/yourproduct", type: "standard" }
-    ]
-  },
-  // ---- Fun & Home ----
-  {
-    id: 7,
-    title: "Satisfying Kinetic Desk Toy",
-    category: "Fun & Home",
-    image: "https://placehold.co/400x300/e2e8f0/64748b?text=Kinetic+Toy",
-    description: "Flip, spin, relax. A viral TikTok desk accessory.",
     links: [
       { platform: "Amazon", url: "https://www.amazon.com/dp/EXAMPLE?tag=wigachu-20", type: "standard" }
     ]
   },
-  // ---- Gear & Gadgets ----
   {
-    id: 8,
-    title: "Wireless Earbuds (Bulk 10pcs)",
+    id: 2,
+    title: "NeoFlow Dynamic RGB Interior Light Kit",
     category: "Gear & Gadgets",
-    image: "https://placehold.co/400x300/e2e8f0/64748b?text=Earbuds",
-    description: "Decent quality, perfect for resale or giveaway.",
+    image: "https://placehold.co/400x300/e2e8f0/64748b?text=NeoFlow+RGB",
+    description: "Dynamic RGB lighting for cars, gaming setups, or home – app‑controlled with music sync.",
     links: [
-      { platform: "AliExpress", url: "https://s.click.aliexpress.com/e/_earbuds", type: "standard", note: "1pc" },
-      { platform: "AliExpress", url: "https://s.click.aliexpress.com/e/_earbudsbulk", type: "bulk", note: "10pcs lot" }
+      { platform: "Amazon", url: "https://www.amazon.com/dp/EXAMPLE?tag=wigachu-20", type: "standard" }
     ]
   },
-  // ---- Wheels & Motors ----
+  {
+    id: 3,
+    title: "SonicDrop Dock – No-Pair Magic Speaker & Charging Stand",
+    category: "Gear & Gadgets",
+    image: "https://placehold.co/400x300/e2e8f0/64748b?text=SonicDrop+Dock",
+    description: "Speaker and charging stand in one – auto‑connects without pairing. Great for desk or bedside.",
+    links: [
+      { platform: "Amazon", url: "https://www.amazon.com/dp/EXAMPLE?tag=wigachu-20", type: "standard" }
+    ]
+  },
+  {
+    id: 4,
+    title: "AirCore S1 – Smart Portable Tire Inflator",
+    category: "Gear & Gadgets",
+    image: "https://placehold.co/400x300/e2e8f0/64748b?text=AirCore+S1",
+    description: "Wireless + wired tire inflator with built‑in power bank. Digital pressure gauge and auto‑stop.",
+    links: [
+      { platform: "Amazon", url: "https://www.amazon.com/dp/EXAMPLE?tag=wigachu-20", type: "standard" }
+    ]
+  },
+  {
+    id: 5,
+    title: "GlowSync™ HD – Smart LED TV Backlight Strip",
+    category: "Gear & Gadgets",
+    image: "https://placehold.co/400x300/e2e8f0/64748b?text=GlowSync+HD",
+    description: "Real‑time screen‑sync LED backlight for immersive TV and gaming experiences.",
+    links: [
+      { platform: "Amazon", url: "https://www.amazon.com/dp/EXAMPLE?tag=wigachu-20", type: "standard" }
+    ]
+  },
+  {
+    id: 6,
+    title: "Loona Petbot",
+    category: "Gear & Gadgets",
+    image: "https://placehold.co/400x300/e2e8f0/64748b?text=Loona+Petbot",
+    description: "Interactive robot pet with AI, facial recognition, and playful movements – perfect companion.",
+    links: [
+      { platform: "Amazon", url: "https://www.amazon.com/dp/EXAMPLE?tag=wigachu-20", type: "standard" }
+    ]
+  },
+  {
+    id: 7,
+    title: "DriveSync 7 – Wireless CarPlay & Android Auto Screen",
+    category: "Gear & Gadgets",
+    image: "https://placehold.co/400x300/e2e8f0/64748b?text=DriveSync+7",
+    description: "7‑inch HD touchscreen with wireless Apple CarPlay & Android Auto – plug into cigarette lighter.",
+    links: [
+      { platform: "Amazon", url: "https://www.amazon.com/dp/EXAMPLE?tag=wigachu-20", type: "standard" }
+    ]
+  },
+  {
+    id: 8,
+    title: "SnapPro 3-in-1 Creator Stick – Tripod, Selfie, Grip",
+    category: "Gear & Gadgets",
+    image: "https://placehold.co/400x300/e2e8f0/64748b?text=SnapPro+3-in-1",
+    description: "Versatile vlogging tool: handheld grip, selfie stick, and tripod – lightweight and portable.",
+    links: [
+      { platform: "Amazon", url: "https://www.amazon.com/dp/EXAMPLE?tag=wigachu-20", type: "standard" }
+    ]
+  },
   {
     id: 9,
-    title: "Affordable Delivery Van (Toyota Probox)",
-    category: "Wheels & Motors",
-    image: "https://placehold.co/400x300/e2e8f0/64748b?text=Toyota+Probox",
-    description: "Popular for small business deliveries. Check local listings & import options.",
+    title: "MagGrip 360 Stand – Snap-On Grip, Stand & Mirror",
+    category: "Gear & Gadgets",
+    image: "https://placehold.co/400x300/e2e8f0/64748b?text=MagGrip+360",
+    description: "Magnetic phone grip, stand, and mirror all in one – sleek and functional.",
     links: [
-      { platform: "Jiji Kenya", url: "https://jiji.co.ke/affiliate-link", type: "standard" },
-      { platform: "Cheki Kenya", url: "https://cheki.co.ke/affiliate", type: "standard" },
-      { platform: "CarMax (import)", url: "https://www.carmax.com/affiliate", type: "standard" }
+      { platform: "Amazon", url: "https://www.amazon.com/dp/EXAMPLE?tag=wigachu-20", type: "standard" }
     ]
   },
   {
     id: 10,
-    title: "Electric Scooter (Bulk for Delivery)",
-    category: "Wheels & Motors",
-    image: "https://placehold.co/400x300/e2e8f0/64748b?text=E-Scooter",
-    description: "Fast, cheap urban delivery. Supplier offers wholesale pricing.",
+    title: "Gen.2 Mini Retro Keychain Camera",
+    category: "Gear & Gadgets",
+    image: "https://placehold.co/400x300/e2e8f0/64748b?text=Retro+Keychain+Cam",
+    description: "Ultra‑mini 28g camera with 1080p video, 8MP photos, and vintage filter – clips to keys.",
     links: [
-      { platform: "AliExpress", url: "https://s.click.aliexpress.com/e/_scooter", type: "standard" },
-      { platform: "AliExpress", url: "https://s.click.aliexpress.com/e/_scooterbulk", type: "bulk", note: "5 units" }
+      { platform: "Amazon", url: "https://www.amazon.com/dp/EXAMPLE?tag=wigachu-20", type: "standard" }
     ]
   },
-  // ---- Luxury Vault ----
   {
     id: 11,
-    title: "1 Carat Diamond Engagement Ring",
-    category: "Luxury Vault",
-    image: "https://placehold.co/400x300/e2e8f0/64748b?text=Diamond+Ring",
-    description: "Ethically sourced, GIA certified. From trusted online jewelers.",
+    title: "Snanlen 360° Magnetic Suction Phone Mount",
+    category: "Gear & Gadgets",
+    image: "https://placehold.co/400x300/e2e8f0/64748b?text=Snanlen+Mount",
+    description: "Strong magnetic suction mount for car dashboards – 360° rotation for perfect viewing angle.",
     links: [
-      { platform: "Blue Nile", url: "https://www.bluenile.com/affiliate-link", type: "standard" },
-      { platform: "James Allen", url: "https://www.jamesallen.com/affiliate", type: "standard" },
-      { platform: "Brilliant Earth", url: "https://www.brilliantearth.com/aff", type: "standard" }
+      { platform: "Amazon", url: "https://www.amazon.com/dp/EXAMPLE?tag=wigachu-20", type: "standard" }
     ]
   },
   {
     id: 12,
-    title: "1 oz Gold Bar (Investment Grade)",
-    category: "Luxury Vault",
-    image: "https://placehold.co/400x300/e2e8f0/64748b?text=Gold+Bar",
-    description: "Pure 24K gold bar from APMEX. Secure delivery, insured.",
+    title: "PixelCharge 3-in-1 Bluetooth Speaker & Charging Station",
+    category: "Gear & Gadgets",
+    image: "https://placehold.co/400x300/e2e8f0/64748b?text=PixelCharge",
+    description: "Combines Bluetooth speaker, wireless charger, and power bank – all in one.",
     links: [
-      { platform: "APMEX", url: "https://www.apmex.com/affiliate-link", type: "standard" },
-      { platform: "JM Bullion", url: "https://www.jmbullion.com/aff", type: "standard" }
+      { platform: "Amazon", url: "https://www.amazon.com/dp/EXAMPLE?tag=wigachu-20", type: "standard" }
+    ]
+  },
+  {
+    id: 13,
+    title: "WavePro 230° Ultra-Light Motion-Sensing Headlamp",
+    category: "Gear & Gadgets",
+    image: "https://placehold.co/400x300/e2e8f0/64748b?text=WavePro+Headlamp",
+    description: "230° wide beam headlamp with motion sensor – ultra‑light for running, camping, or repairs.",
+    links: [
+      { platform: "Amazon", url: "https://www.amazon.com/dp/EXAMPLE?tag=wigachu-20", type: "standard" }
+    ]
+  },
+  {
+    id: 14,
+    title: "RetroSnap 44 Digital Camera for Kids and Adults",
+    category: "Gear & Gadgets",
+    image: "https://placehold.co/400x300/e2e8f0/64748b?text=RetroSnap+44",
+    description: "Compact retro camera with vintage filters, 0.35 lb – perfect for creative vlogging.",
+    links: [
+      { platform: "Amazon", url: "https://www.amazon.com/dp/EXAMPLE?tag=wigachu-20", type: "standard" }
+    ]
+  },
+  {
+    id: 15,
+    title: "DualView Dash Cam 1080P",
+    category: "Gear & Gadgets",
+    image: "https://placehold.co/400x300/e2e8f0/64748b?text=DualView+Dash+Cam",
+    description: "Front and interior 1080P recording – affordable peace of mind for every driver.",
+    links: [
+      { platform: "Amazon", url: "https://www.amazon.com/dp/EXAMPLE?tag=wigachu-20", type: "standard" }
+    ]
+  },
+  {
+    id: 16,
+    title: "Mini Bluetooth Thermal Printer – Fun & Easy Wireless Printing",
+    category: "Gear & Gadgets",
+    image: "https://placehold.co/400x300/e2e8f0/64748b?text=Thermal+Printer",
+    description: "Wireless thermal printer for stickers, to‑do lists, and pet photos – connects via Bluetooth.",
+    links: [
+      { platform: "Amazon", url: "https://www.amazon.com/dp/EXAMPLE?tag=wigachu-20", type: "standard" }
+    ]
+  },
+  {
+    id: 17,
+    title: "PocketBeam Smart 180° Projector",
+    category: "Gear & Gadgets",
+    image: "https://placehold.co/400x300/e2e8f0/64748b?text=PocketBeam",
+    description: "Portable smart projector with 180° rotation – big screen entertainment anywhere.",
+    links: [
+      { platform: "Amazon", url: "https://www.amazon.com/dp/EXAMPLE?tag=wigachu-20", type: "standard" }
+    ]
+  },
+  {
+    id: 18,
+    title: "LumiLink Mini Torch",
+    category: "Gear & Gadgets",
+    image: "https://placehold.co/400x300/e2e8f0/64748b?text=LumiLink+Torch",
+    description: "Pocket‑sized 1200‑lumen flashlight with dual carabiner – weighs just 70g.",
+    links: [
+      { platform: "Amazon", url: "https://www.amazon.com/dp/EXAMPLE?tag=wigachu-20", type: "standard" }
+    ]
+  },
+  {
+    id: 19,
+    title: "MagVibe™ SoundPillar",
+    category: "Gear & Gadgets",
+    image: "https://placehold.co/400x300/e2e8f0/64748b?text=MagVibe",
+    description: "Compact magnetic Hi‑Fi speaker with powerful bass – 40mm driver and passive radiator.",
+    links: [
+      { platform: "Amazon", url: "https://www.amazon.com/dp/EXAMPLE?tag=wigachu-20", type: "standard" }
+    ]
+  },
+  {
+    id: 20,
+    title: "TorchMaster X9 Multi-Mode Tactical Flashlight",
+    category: "Gear & Gadgets",
+    image: "https://placehold.co/400x300/e2e8f0/64748b?text=TorchMaster+X9",
+    description: "White laser LED with zoom – long‑distance and wide‑area illumination, multi‑mode.",
+    links: [
+      { platform: "Amazon", url: "https://www.amazon.com/dp/EXAMPLE?tag=wigachu-20", type: "standard" }
+    ]
+  },
+  {
+    id: 21,
+    title: "SwiftVox Smart Glasses",
+    category: "Gear & Gadgets",
+    image: "https://placehold.co/400x300/e2e8f0/64748b?text=SwiftVox+Glasses",
+    description: "Audio‑enabled smart glasses for calls, music, and camera control – tap to interact.",
+    links: [
+      { platform: "Amazon", url: "https://www.amazon.com/dp/EXAMPLE?tag=wigachu-20", type: "standard" }
+    ]
+  },
+  {
+    id: 22,
+    title: "Tiny Nostalgia Cam",
+    category: "Gear & Gadgets",
+    image: "https://placehold.co/400x300/e2e8f0/64748b?text=Tiny+Nostalgia+Cam",
+    description: "World’s smallest keychain camera with 8 retro filters – capture vintage moments.",
+    links: [
+      { platform: "Amazon", url: "https://www.amazon.com/dp/EXAMPLE?tag=wigachu-20", type: "standard" }
+    ]
+  },
+  {
+    id: 23,
+    title: "AquaVibe Swim-Proof Bone Conduction Headphones",
+    category: "Gear & Gadgets",
+    image: "https://placehold.co/400x300/e2e8f0/64748b?text=AquaVibe",
+    description: "IPX8 waterproof bone conduction headphones – keep ears open for underwater music.",
+    links: [
+      { platform: "Amazon", url: "https://www.amazon.com/dp/EXAMPLE?tag=wigachu-20", type: "standard" }
+    ]
+  },
+
+  // ---- Fun & Home ----
+  {
+    id: 24,
+    title: "GlowCanvas Tee – Light-Activated Drawing T-Shirt",
+    category: "Fun & Home",
+    image: "https://placehold.co/400x300/e2e8f0/64748b?text=GlowCanvas+Tee",
+    description: "Light‑activated drawing T‑shirt – glow in the dark and customizable with light pens.",
+    links: [
+      { platform: "Amazon", url: "https://www.amazon.com/dp/EXAMPLE?tag=wigachu-20", type: "standard" }
+    ]
+  },
+  {
+    id: 25,
+    title: "Drift Dash Mini – Dynamic Drifting Car Model",
+    category: "Fun & Home",
+    image: "https://placehold.co/400x300/e2e8f0/64748b?text=Drift+Dash+Mini",
+    description: "Mini drifting car model with realistic action – fun desk toy or collectible.",
+    links: [
+      { platform: "Amazon", url: "https://www.amazon.com/dp/EXAMPLE?tag=wigachu-20", type: "standard" }
+    ]
+  },
+  {
+    id: 26,
+    title: "Gen.2 BottleGlow™ RGB Touch Lamp",
+    category: "Fun & Home",
+    image: "https://placehold.co/400x300/e2e8f0/64748b?text=BottleGlow",
+    description: "Touch‑sensitive RGB lamp in a bottle shape – creates ambient lighting for any room.",
+    links: [
+      { platform: "Amazon", url: "https://www.amazon.com/dp/EXAMPLE?tag=wigachu-20", type: "standard" }
+    ]
+  },
+  {
+    id: 27,
+    title: "SheetSecure Lock - Keep Your Bed Tidy & Comfortable",
+    category: "Fun & Home",
+    image: "https://placehold.co/400x300/e2e8f0/64748b?text=SheetSecure+Lock",
+    description: "Bed sheet fasteners that keep sheets snug and wrinkle‑free – easy to install.",
+    links: [
+      { platform: "Amazon", url: "https://www.amazon.com/dp/EXAMPLE?tag=wigachu-20", type: "standard" }
+    ]
+  },
+  {
+    id: 28,
+    title: "BlinkBuddy 1:18 Pro Drift RC Car",
+    category: "Fun & Home",
+    image: "https://placehold.co/400x300/e2e8f0/64748b?text=BlinkBuddy+RC",
+    description: "1:18 scale RC drift car with blinking headlights – high‑speed fun for all ages.",
+    links: [
+      { platform: "Amazon", url: "https://www.amazon.com/dp/EXAMPLE?tag=wigachu-20", type: "standard" }
+    ]
+  },
+  {
+    id: 29,
+    title: "GlowBoard - LED Light-Up Writing & Drawing Board",
+    category: "Fun & Home",
+    image: "https://placehold.co/400x300/e2e8f0/64748b?text=GlowBoard",
+    description: "LED writing board with vibrant colors – great for kids’ doodles, notes, or displays.",
+    links: [
+      { platform: "Amazon", url: "https://www.amazon.com/dp/EXAMPLE?tag=wigachu-20", type: "standard" }
+    ]
+  },
+  {
+    id: 30,
+    title: "KaraParty Mini",
+    category: "Fun & Home",
+    image: "https://placehold.co/400x300/e2e8f0/64748b?text=KaraParty+Mini",
+    description: "Palm‑sized karaoke speaker with dual speakers – portable party fun.",
+    links: [
+      { platform: "Amazon", url: "https://www.amazon.com/dp/EXAMPLE?tag=wigachu-20", type: "standard" }
+    ]
+  },
+  {
+    id: 31,
+    title: "FlashSpin Mini Racer",
+    category: "Fun & Home",
+    image: "https://placehold.co/400x300/e2e8f0/64748b?text=FlashSpin+Racer",
+    description: "Tiny car that spins inside a transparent ball – defies gravity with high speed.",
+    links: [
+      { platform: "Amazon", url: "https://www.amazon.com/dp/EXAMPLE?tag=wigachu-20", type: "standard" }
+    ]
+  },
+  {
+    id: 32,
+    title: "Retro Drift Master RC",
+    category: "Fun & Home",
+    image: "https://placehold.co/400x300/e2e8f0/64748b?text=Retro+Drift+Master",
+    description: "Retro‑styled RC drift car with liquid metal finish – nostalgic and affordable.",
+    links: [
+      { platform: "Amazon", url: "https://www.amazon.com/dp/EXAMPLE?tag=wigachu-20", type: "standard" }
+    ]
+  },
+  {
+    id: 33,
+    title: "CannonMist™ Aromatherapy Humidifier",
+    category: "Fun & Home",
+    image: "https://placehold.co/400x300/e2e8f0/64748b?text=CannonMist",
+    description: "Mini cannon‑shaped humidifier with smoke ring mode – stylish and calming.",
+    links: [
+      { platform: "Amazon", url: "https://www.amazon.com/dp/EXAMPLE?tag=wigachu-20", type: "standard" }
+    ]
+  },
+  {
+    id: 34,
+    title: "IllusioLight 3D Ambient Lamp",
+    category: "Fun & Home",
+    image: "https://placehold.co/400x300/e2e8f0/64748b?text=IllusioLight",
+    description: "3D optical illusion lamp with triangular design – wall‑mountable or tabletop.",
+    links: [
+      { platform: "Amazon", url: "https://www.amazon.com/dp/EXAMPLE?tag=wigachu-20", type: "standard" }
+    ]
+  },
+  {
+    id: 35,
+    title: "SpellGlow Floating Candles",
+    category: "Fun & Home",
+    image: "https://placehold.co/400x300/e2e8f0/64748b?text=SpellGlow+Candles",
+    description: "Magic floating candles with wand remote – cast a spell to light them up.",
+    links: [
+      { platform: "Amazon", url: "https://www.amazon.com/dp/EXAMPLE?tag=wigachu-20", type: "standard" }
+    ]
+  },
+
+  // ---- Shop Essentials ----
+  {
+    id: 36,
+    title: "Heated Neck, Shoulder, and Back Massager",
+    category: "Shop Essentials",
+    image: "https://placehold.co/400x300/e2e8f0/64748b?text=Heated+Massager",
+    description: "Versatile heated massager for neck, shoulders, back – lightweight and portable.",
+    links: [
+      { platform: "Amazon", url: "https://www.amazon.com/dp/EXAMPLE?tag=wigachu-20", type: "standard" }
+    ]
+  },
+  {
+    id: 37,
+    title: "ClearView Pro Ear Cleaner Kit",
+    category: "Shop Essentials",
+    image: "https://placehold.co/400x300/e2e8f0/64748b?text=Ear+Cleaner",
+    description: "Smart ear cleaner with 8MP HD camera and illumination – safe, real‑time view.",
+    links: [
+      { platform: "Amazon", url: "https://www.amazon.com/dp/EXAMPLE?tag=wigachu-20", type: "standard" }
+    ]
+  },
+  {
+    id: 38,
+    title: "JuicePro Max",
+    category: "Shop Essentials",
+    image: "https://placehold.co/400x300/e2e8f0/64748b?text=JuicePro+Max",
+    description: "Portable juicer with 18,000 RPM motor and 12 blades – blends tough fruits easily.",
+    links: [
+      { platform: "Amazon", url: "https://www.amazon.com/dp/EXAMPLE?tag=wigachu-20", type: "standard" }
+    ]
+  },
+  {
+    id: 39,
+    title: "StirMate Magnetic Auto Stirring Cup",
+    category: "Shop Essentials",
+    image: "https://placehold.co/400x300/e2e8f0/64748b?text=StirMate+Cup",
+    description: "Magnetic self‑stirring cup – press button for high‑speed mixing, perfect for drinks.",
+    links: [
+      { platform: "Amazon", url: "https://www.amazon.com/dp/EXAMPLE?tag=wigachu-20", type: "standard" }
+    ]
+  },
+
+  // ---- Trending (formerly Viral Vault) ----
+  {
+    id: 40,
+    title: "CosmoGlow Astronaut Galaxy Projector",
+    category: "Trending",
+    image: "https://placehold.co/400x300/e2e8f0/64748b?text=CosmoGlow",
+    description: "Astronaut‑shaped projector that beams vibrant nebula clouds and twinkling stars.",
+    badge: "Trending",
+    links: [
+      { platform: "Amazon", url: "https://www.amazon.com/dp/EXAMPLE?tag=wigachu-20", type: "standard" }
     ]
   }
 ];
 
-// Categories array (order of display, "All" first)
+// Categories – only those with products, "All" first
 const categories = [
   "All",
-  "Viral Vault",
-  "Shop Essentials",
-  "Bulk Deals",
-  "Work & Hustle",
-  "Fun & Home",
   "Gear & Gadgets",
-  "Wheels & Motors",
-  "Luxury Vault"
+  "Fun & Home",
+  "Shop Essentials",
+  "Trending"
 ];
 
+// ---------- DO NOT EDIT BELOW (app logic) ----------
 let activeCategory = "All";
 let searchQuery = "";
 
@@ -226,7 +488,6 @@ function renderProducts() {
     productGrid.appendChild(card);
   });
 
-  // Attach modal openers
   document.querySelectorAll('.buy-options-btn').forEach(btn => {
     btn.addEventListener('click', (e) => {
       const productId = parseInt(btn.getAttribute('data-product-id'));
@@ -235,7 +496,7 @@ function renderProducts() {
   });
 }
 
-// Modal functions
+// Modal functions (unchanged)
 function openBuyModal(productId) {
   const product = products.find(p => p.id === productId);
   if (!product) return;
@@ -243,7 +504,6 @@ function openBuyModal(productId) {
   modalDesc.textContent = product.description;
   modalLinks.innerHTML = '';
 
-  // Group links by platform
   const platformMap = new Map();
   product.links.forEach(link => {
     if (!platformMap.has(link.platform)) platformMap.set(link.platform, []);
@@ -282,20 +542,16 @@ window.addEventListener('click', (e) => {
   if (e.target === buyModal) buyModal.classList.add('hidden');
 });
 
-// Search
 searchInput.addEventListener('input', (e) => {
   searchQuery = e.target.value.toLowerCase().trim();
   renderProducts();
 });
 
-// Mobile menu
 mobileMenuBtn.addEventListener('click', () => mobileMenu.classList.toggle('hidden'));
 document.querySelectorAll('#mobile-menu a').forEach(link => link.addEventListener('click', () => mobileMenu.classList.add('hidden')));
 
-// Footer year
 yearSpan.textContent = new Date().getFullYear();
 
-// Init
 document.addEventListener('DOMContentLoaded', () => {
   renderFilters();
   renderProducts();

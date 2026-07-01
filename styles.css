@@ -18,8 +18,19 @@ html { scroll-behavior: smooth; }
 
 /* Modal */
 #buy-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 50;
   display: none;
+  align-items: center;
+  justify-content: center;
+  background-color: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(4px);
+  width: 100vw;
+  height: 100vh;
 }
+
+/* When visible, force flex display */
 #buy-modal:not(.hidden) {
-  display: flex;
+  display: flex !important;
 }
