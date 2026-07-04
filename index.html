@@ -5,9 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta
       name="description"
-      content="Wigachu – Viral picks, bulk deals, shop essentials, cars & luxury. We got you."
+      content="Wigachu – Smart picks, real reviews, trusted sources. Curated gadgets and essentials that actually work."
     />
-    <title>Wigachu – Discover & Restock Smart</title>
+    <title>Wigachu – Smart Picks, Real Reviews</title>
 
     <script src="https://cdn.tailwindcss.com"></script>
     <link
@@ -15,11 +15,7 @@
       rel="stylesheet"
     />
     <link rel="stylesheet" href="style.css" />
-    <link
-      rel="icon"
-      type="image/png"
-      href="images/wigachu_logo_white.png"
-    />
+    <link rel="icon" type="image/png" href="images/wigachu_logo_white.png" />
 
     <script>
       tailwind.config = {
@@ -119,14 +115,13 @@
         <h1
           class="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-navy-900 leading-tight"
         >
-          Discover products that work,<br /><span class="text-brand-600"
-            >we got you.</span
+          Smart picks.<br /><span class="text-brand-600"
+            >Real reviews. Trusted sources.</span
           >
         </h1>
         <p class="mt-6 max-w-2xl mx-auto text-lg text-gray-600">
-          From viral TikTok gadgets to bulk shop supplies, cars, and luxury
-          jewelry – we curate only the best, with honest descriptions and direct
-          links to trusted sellers.
+          We curate only the most useful, top‑rated products from trusted
+          sellers – so you don’t have to dig through the noise.
         </p>
         <div class="mt-8 flex flex-col sm:flex-row justify-center gap-4">
           <a
@@ -138,6 +133,28 @@
             href="#pesapad"
             class="inline-flex items-center px-8 py-3 border border-brand-500 text-base font-medium rounded-md text-brand-700 bg-white hover:bg-brand-50"
             >Discover Pesapad</a
+          >
+        </div>
+      </section>
+
+      <!-- Heatwave Banner -->
+      <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 -mt-8 mb-8">
+        <div
+          class="bg-gradient-to-r from-orange-500 to-red-500 rounded-2xl p-6 text-white shadow-lg flex flex-col sm:flex-row items-center justify-between gap-4"
+        >
+          <div class="flex items-center gap-3">
+            <span class="text-4xl">🔥</span>
+            <div>
+              <h3 class="text-xl font-bold">Beat the European Heatwave!</h3>
+              <p class="text-sm opacity-90">
+                Stay cool with our top‑rated portable fans and outdoor gear.
+              </p>
+            </div>
+          </div>
+          <a
+            href="#products"
+            class="bg-white text-orange-600 px-6 py-2 rounded-full font-semibold text-sm hover:bg-gray-100 transition"
+            >Shop Cooling Picks →</a
           >
         </div>
       </section>
@@ -343,7 +360,7 @@
       </div>
     </footer>
 
-    <!-- Buy Options Modal (centered) -->
+    <!-- Buy Options Modal -->
     <div
       id="buy-modal"
       class="fixed inset-0 z-50 hidden items-center justify-center bg-black/50 backdrop-blur-sm"
@@ -358,13 +375,36 @@
           &times;
         </button>
         <h3 id="modal-title" class="text-lg font-bold text-navy-900 mb-1"></h3>
-        <p id="modal-desc" class="text-sm text-gray-500 mb-4"></p>
+        <p id="modal-desc" class="text-sm text-gray-500 mb-2"></p>
+        <p id="modal-price" class="text-sm text-gray-600 mb-4 font-medium"></p>
         <div id="modal-links" class="space-y-3"></div>
         <p class="text-xs text-gray-400 mt-4 border-t pt-3">
           Clicking will open the seller’s site in a new tab. A cookie may be set
-          for tracking.
+          for tracking. Prices may change – please check the seller for the
+          current price.
         </p>
       </div>
+    </div>
+
+    <!-- Bookmark Toast (initially hidden) -->
+    <div
+      id="bookmark-toast"
+      class="fixed bottom-6 left-1/2 -translate-x-1/2 z-50 bg-navy-900 text-white px-6 py-4 rounded-2xl shadow-2xl flex items-center gap-4 transition-all duration-500 opacity-0 translate-y-10 pointer-events-none"
+      style="max-width: 90vw"
+    >
+      <span class="text-2xl">👋</span>
+      <div>
+        <p class="font-semibold text-sm">Enjoying our picks?</p>
+        <p class="text-xs text-gray-300">
+          Bookmark Wigachu so you never lose us!
+        </p>
+      </div>
+      <button
+        id="dismiss-bookmark"
+        class="bg-white/20 hover:bg-white/30 px-4 py-2 rounded-full text-xs font-medium transition"
+      >
+        Got it
+      </button>
     </div>
 
     <script src="main.js"></script>
