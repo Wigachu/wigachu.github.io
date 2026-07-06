@@ -21,6 +21,12 @@
     />
     <link rel="icon" type="image/png" href="images/wigachu_logo_white.png" />
 
+    <!-- Swiper CSS -->
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"
+    />
+
     <script>
       tailwind.config = {
         theme: {
@@ -48,7 +54,7 @@
   </head>
 
   <body class="bg-gray-50 text-gray-900 antialiased">
-    <!-- Sticky navigation -->
+    <!-- Sticky navigation (unchanged) -->
     <header
       class="sticky top-0 z-50 bg-white/80 backdrop-blur-md border-b border-gray-200"
     >
@@ -130,21 +136,21 @@
     </header>
 
     <main>
-      <!-- Hero -->
+      <!-- Hero Section with Carousel -->
       <section
-        class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-20 pb-16 text-center"
+        class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-12 pb-8 text-center"
       >
         <h1
           class="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-navy-900 leading-tight"
         >
-          Handpicked<br /><span class="text-brand-600"
-            >so you don’t have to</span
-          >
+          Handpicked<br />
+          <span class="text-brand-600">so you don’t have to.</span>
         </h1>
-        <p class="mt-6 max-w-2xl mx-auto text-lg text-gray-600">
-          We test, we check, and we only show you what actually delivers – no wasted time, just the stuff that makes life easier.
+        <p class="mt-4 max-w-2xl mx-auto text-lg text-gray-600">
+          We test, we check, and we only show you what actually delivers – no
+          wasted time, just the stuff that makes life easier.
         </p>
-        <div class="mt-8 flex flex-col sm:flex-row justify-center gap-4">
+        <div class="mt-6 flex flex-col sm:flex-row justify-center gap-4">
           <a
             href="#products"
             class="inline-flex items-center px-8 py-3 border border-transparent text-base font-medium rounded-md text-white bg-brand-600 hover:bg-brand-700 shadow-sm"
@@ -158,29 +164,7 @@
         </div>
       </section>
 
-      <!-- Heatwave Banner -->
-      <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 -mt-8 mb-8">
-        <div
-          class="bg-gradient-to-r from-orange-500 to-red-500 rounded-2xl p-6 text-white shadow-lg flex flex-col sm:flex-row items-center justify-between gap-4"
-        >
-          <div class="flex items-center gap-3">
-            <span class="text-4xl">🔥</span>
-            <div>
-              <h3 class="text-xl font-bold">Beat the European Heatwave!</h3>
-              <p class="text-sm opacity-90">
-                Stay cool with our top‑rated portable fans and outdoor gear.
-              </p>
-            </div>
-          </div>
-          <a
-            href="#products"
-            class="bg-white text-orange-600 px-6 py-2 rounded-full font-semibold text-sm hover:bg-gray-100 transition"
-            >Shop Cooling Picks →</a
-          >
-        </div>
-      </section>
-
-      <!-- About -->
+      <!-- About (unchanged) -->
       <section
         class="max-w-4xl mx-auto px-4 py-8 text-center border-t border-gray-200"
       >
@@ -191,7 +175,7 @@
         </p>
       </section>
 
-      <!-- Search & Filter -->
+      <!-- Search & Filter (unchanged) -->
       <section
         id="products"
         class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12"
@@ -229,7 +213,7 @@
         ></div>
       </section>
 
-      <!-- Pesapad -->
+      <!-- Pesapad (unchanged) -->
       <section id="pesapad" class="bg-navy-900 text-white">
         <div
           class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 lg:flex lg:items-center lg:justify-between gap-12"
@@ -271,7 +255,7 @@
         </div>
       </section>
 
-      <!-- How it works -->
+      <!-- How it works (unchanged) -->
       <section
         id="how-it-works"
         class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16"
@@ -356,7 +340,7 @@
       </section>
     </main>
 
-    <!-- Footer -->
+    <!-- Footer (unchanged) -->
     <footer id="footer" class="bg-white border-t border-gray-200">
       <div
         class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 text-center text-sm text-gray-500 space-y-2"
@@ -379,7 +363,7 @@
       </div>
     </footer>
 
-    <!-- Buy Options Modal -->
+    <!-- Buy Options Modal (unchanged) -->
     <div
       id="buy-modal"
       class="fixed inset-0 z-50 hidden items-center justify-center bg-black/50 backdrop-blur-sm"
@@ -417,7 +401,7 @@
       </div>
     </div>
 
-    <!-- Support Modal -->
+    <!-- Support Modal (unchanged) -->
     <div id="supportModal" class="support-modal-overlay">
       <div class="support-modal">
         <button
@@ -539,7 +523,7 @@
       </div>
     </div>
 
-    <!-- Bookmark Toast -->
+    <!-- Bookmark Toast (unchanged) -->
     <div
       id="bookmark-toast"
       class="fixed bottom-6 left-4 right-4 z-50 bg-navy-900 text-white px-5 py-4 rounded-2xl shadow-2xl flex items-center gap-3 transition-all duration-500 opacity-0 translate-y-10 pointer-events-none"
@@ -560,7 +544,7 @@
       </button>
     </div>
 
-    <!-- Floating Support FAB -->
+    <!-- Floating Support FAB (unchanged) -->
     <button
       id="fab-support"
       class="fixed bottom-6 left-6 z-40 w-14 h-14 rounded-full shadow-xl shadow-brand-500/40 flex items-center justify-center text-white transition-all duration-300 hover:scale-110 hover:shadow-brand-400/60"
@@ -571,6 +555,8 @@
       <i class="fas fa-heart text-xl"></i>
     </button>
 
+    <!-- Swiper JS -->
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
     <script src="main.js"></script>
   </body>
 </html>

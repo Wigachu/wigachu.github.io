@@ -3,7 +3,9 @@ html {
 }
 
 .product-card {
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
   animation: fadeInUp 0.4s ease-out forwards;
 }
 .product-card:hover {
@@ -60,7 +62,7 @@ html {
 }
 
 .support-modal {
-  background: #ffffff;               /* white background */
+  background: #ffffff; /* white background */
   border-radius: 1.5rem;
   max-width: 600px;
   width: 100%;
@@ -69,7 +71,7 @@ html {
   padding: 2rem;
   border: 1px solid rgba(0, 0, 0, 0.08);
   box-shadow: 0 25px 60px rgba(0, 0, 0, 0.15);
-  color: #0f172a;                   /* navy-900 */
+  color: #0f172a; /* navy-900 */
 }
 .support-modal::-webkit-scrollbar {
   width: 4px;
@@ -78,24 +80,24 @@ html {
   background: transparent;
 }
 .support-modal::-webkit-scrollbar-thumb {
-  background: #16a34a;              /* brand-600 */
+  background: #16a34a; /* brand-600 */
   border-radius: 2px;
 }
 
 /* Modal heading & text */
 .support-modal h2 {
-  color: #0f172a;                   /* navy-900 */
+  color: #0f172a; /* navy-900 */
 }
 .support-modal .text-purple-300 {
-  color: #475569;                   /* gray-600 instead of purple */
+  color: #475569; /* gray-600 instead of purple */
 }
 .support-modal .text-purple-400 {
-  color: #64748b;                   /* gray-500 */
+  color: #64748b; /* gray-500 */
 }
 
 /* Close button */
 .support-modal .float-right {
-  color: #1e293b;                   /* navy-800 */
+  color: #1e293b; /* navy-800 */
 }
 .support-modal .float-right:hover {
   color: #0f172a;
@@ -103,7 +105,7 @@ html {
 
 /* Donation cards – keep payment method colors, but match site theme */
 .donation-card {
-  background: #f8fafc;               /* light gray */
+  background: #f8fafc; /* light gray */
   border: 1px solid #e2e8f0;
   border-radius: 1rem;
   padding: 1rem;
@@ -115,7 +117,7 @@ html {
 }
 .donation-card:hover {
   transform: translateY(-3px);
-  background: #f0fdf4;               /* brand-50 (light green) */
+  background: #f0fdf4; /* brand-50 (light green) */
   border-color: #bbf7d0;
 }
 .donation-card i {
@@ -183,7 +185,7 @@ html {
   border-left: 4px solid transparent;
 }
 .crypto-card .text-white {
-  color: #0f172a;                  /* override white text to navy */
+  color: #0f172a; /* override white text to navy */
 }
 .crypto-btc {
   border-left-color: #f7931a;
@@ -203,7 +205,7 @@ html {
   align-items: center;
   justify-content: space-between;
   gap: 0.5rem;
-  background: #f1f5f9;             /* light slate */
+  background: #f1f5f9; /* light slate */
   border-radius: 0.5rem;
   padding: 0.5rem;
 }
@@ -215,7 +217,7 @@ html {
   color: #0f172a;
 }
 .copy-btn {
-  background: #16a34a;             /* brand-600 */
+  background: #16a34a; /* brand-600 */
   border: none;
   color: white;
   font-size: 0.65rem;
@@ -226,7 +228,7 @@ html {
   transition: 0.2s;
 }
 .copy-btn:hover {
-  background: #15803d;             /* brand-700 */
+  background: #15803d; /* brand-700 */
 }
 
 /* FAB */
@@ -247,4 +249,50 @@ html {
   opacity: 1 !important;
   transform: translateY(0) !important;
   pointer-events: auto !important;
+}
+
+/* Hero Carousel Styles */
+.swiper {
+  width: 100%;
+  height: auto;
+  padding-bottom: 2.5rem; /* space for pagination */
+}
+
+.swiper-button-next,
+.swiper-button-prev {
+  color: white !important;
+  background: rgba(0, 0, 0, 0.3);
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  transition: background 0.3s ease;
+}
+
+.swiper-button-next:hover,
+.swiper-button-prev:hover {
+  background: rgba(0, 0, 0, 0.6);
+}
+
+.swiper-button-next::after,
+.swiper-button-prev::after {
+  font-size: 18px !important;
+  font-weight: bold;
+}
+
+.swiper-pagination-bullet {
+  background: white !important;
+  opacity: 0.6;
+}
+
+.swiper-pagination-bullet-active {
+  background: white !important;
+  opacity: 1;
+}
+
+/* Adjust for mobile */
+@media (max-width: 640px) {
+  .swiper-button-next,
+  .swiper-button-prev {
+    display: none !important; /* Hide arrows on small screens, dots remain */
+  }
 }
