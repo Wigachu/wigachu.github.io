@@ -740,7 +740,8 @@ document.addEventListener("DOMContentLoaded", function () {
     "Stay cool with our summer survival kit.",
 
     // Viral & Trust
-    "Viral TikTok hits – we test them so you trust them.",
+    "Viral Tiktok hit products, handpicked for quality.",
+    "We dig through reviews so you get the best ones.",
     "Discover the gear that actually delivers.",
 
     // Specific Product Hooks (Explore the catalogue)
