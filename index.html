@@ -5,9 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta
       name="description"
-      content="Wigachu – Handpicked so you don’t have to. Just the stuff that makes life easier."
+      content="Wigachu – Handpicked so you don’t have to scroll. Just the stuff that makes life easier."
     />
-    <title>Wigachu – Handpicked so you don’t have to</title>
+    <title>Wigachu – Handpicked so you don’t have to scroll</title>
 
     <script src="https://cdn.tailwindcss.com"></script>
     <link
@@ -54,7 +54,7 @@
   </head>
 
   <body class="bg-gray-50 text-gray-900 antialiased">
-    <!-- Sticky navigation (unchanged) -->
+    <!-- Sticky navigation -->
     <header
       class="sticky top-0 z-50 bg-white/80 backdrop-blur-md border-b border-gray-200"
     >
@@ -136,46 +136,223 @@
     </header>
 
     <main>
-      <!-- Hero Section with Carousel -->
-      <section
-        class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-12 pb-8 text-center"
-      >
-        <h1
-          class="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-navy-900 leading-tight"
-        >
-          Handpicked<br />
-          <span class="text-brand-600">so you don’t have to.</span>
-        </h1>
-        <p class="mt-4 max-w-2xl mx-auto text-lg text-gray-600">
-          We test, we check, and we only show you what actually delivers – no
-          wasted time, just the stuff that makes life easier.
-        </p>
-        <div class="mt-6 flex flex-col sm:flex-row justify-center gap-4">
-          <a
-            href="#products"
-            class="inline-flex items-center px-8 py-3 border border-transparent text-base font-medium rounded-md text-white bg-brand-600 hover:bg-brand-700 shadow-sm"
-            >Browse Products</a
+      <!-- ======== HERO + CAROUSEL======== -->
+      <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-12 pb-6">
+        <!-- Hero: single column, centered -->
+        <div class="text-center max-w-3xl mx-auto mb-10">
+          <h1 class="text-3xl sm:text-4xl lg:text-5xl font-extrabold ...">
+            Handpicked<br />
+            <span class="text-brand-600">so you don’t have to.</span>
+          </h1>
+          <!-- Typewriter subtitle -->
+          <div
+            id="typewriter-container"
+            class="mt-4 text-xl sm:text-2xl text-gray-600 min-h-[3.2rem] flex items-center justify-center"
           >
-          <a
-            href="#pesapad"
-            class="inline-flex items-center px-8 py-3 border border-brand-500 text-base font-medium rounded-md text-brand-700 bg-white hover:bg-brand-50"
-            >Discover Pesapad</a
-          >
+            <span id="typewriter-text"></span>
+            <span id="typewriter-cursor"></span>
+          </div>
+          <div class="mt-6 flex flex-col sm:flex-row gap-4 justify-center">
+            <a
+              href="#products"
+              class="inline-flex items-center justify-center px-8 py-3 border border-transparent text-base font-medium rounded-md text-white bg-brand-600 hover:bg-brand-700 shadow-sm"
+              >Browse Products</a
+            >
+            <a
+              href="#pesapad"
+              class="inline-flex items-center justify-center px-8 py-3 border border-brand-500 text-base font-medium rounded-md text-brand-700 bg-white hover:bg-brand-50"
+              >Discover Pesapad</a
+            >
+          </div>
+        </div>
+
+        <!-- Hero Carousel: two columns per slide -->
+        <div class="swiper mySwiper pt-2 pb-10">
+          <div class="swiper-wrapper">
+            <!-- Slide 1: Solar Fan Hat -->
+            <div class="swiper-slide">
+              <div class="slide-grid">
+                <div class="order-2 order-md-1">
+                  <div
+                    class="inline-block px-3 py-0.5 rounded-full text-xs font-semibold bg-brand-100 text-brand-700 uppercase tracking-wide"
+                  >
+                    Beat the Heat
+                  </div>
+                  <h3 class="slide-title mt-2">Solar Fan Hat</h3>
+                  <p class="slide-desc">
+                    USB rechargeable with breathable fabric and sun protection.
+                    Stays cool during outdoor work, fishing, or hiking.
+                  </p>
+                  <button
+                    onclick="openBuyModal(1)"
+                    class="slide-cta"
+                    type="button"
+                  >
+                    Shop Now <i class="fas fa-arrow-right"></i>
+                  </button>
+                </div>
+                <div class="order-1 order-md-2 flex justify-center">
+                  <div class="slide-img-wrap">
+                    <span class="slide-badge">Solar</span>
+                    <img
+                      src="https://ae-pic-a1.aliexpress-media.com/kf/S12993c177d104a9eb738a3d27258e16dF.jpg_960x960q75.jpg_.avif"
+                      alt="Solar Fan Hat"
+                      class="slide-img"
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Slide 2: Semiconductor Cooling Fan -->
+            <div class="swiper-slide">
+              <div class="slide-grid">
+                <div class="order-2 order-md-1">
+                  <div
+                    class="inline-block px-3 py-0.5 rounded-full text-xs font-semibold bg-brand-100 text-brand-700 uppercase tracking-wide"
+                  >
+                    Cold Air
+                  </div>
+                  <h3 class="slide-title mt-2">Semiconductor Cooling Fan</h3>
+                  <p class="slide-desc">
+                    Blows genuinely cold air—not just a breeze. 3000mAh,
+                    rechargeable, and ultra‑portable.
+                  </p>
+                  <button
+                    onclick="openBuyModal(3)"
+                    class="slide-cta"
+                    type="button"
+                  >
+                    Shop Now <i class="fas fa-arrow-right"></i>
+                  </button>
+                </div>
+                <div class="order-1 order-md-2 flex justify-center">
+                  <div class="slide-img-wrap">
+                    <span class="slide-badge">Turbo</span>
+                    <img
+                      src="https://ae-pic-a1.aliexpress-media.com/kf/Sfba35ba7ba75419ca26192c5b19d6515j.jpg_960x960q75.jpg_.avif"
+                      alt="Semiconductor Cooling Fan"
+                      class="slide-img"
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Slide 3: Solar Power Bank -->
+            <div class="swiper-slide">
+              <div class="slide-grid">
+                <div class="order-2 order-md-1">
+                  <div
+                    class="inline-block px-3 py-0.5 rounded-full text-xs font-semibold bg-brand-100 text-brand-700 uppercase tracking-wide"
+                  >
+                    Off‑Grid
+                  </div>
+                  <h3 class="slide-title mt-2">Solar Power Bank</h3>
+                  <p class="slide-desc">
+                    Waterproof outdoor charger with built‑in camping light.
+                    Perfect for hiking, travel, and emergencies.
+                  </p>
+                  <button
+                    onclick="openBuyModal(10)"
+                    class="slide-cta"
+                    type="button"
+                  >
+                    Shop Now <i class="fas fa-arrow-right"></i>
+                  </button>
+                </div>
+                <div class="order-1 order-md-2 flex justify-center">
+                  <div class="slide-img-wrap">
+                    <span class="slide-badge">☀️ Solar</span>
+                    <img
+                      src="https://ae-pic-a1.aliexpress-media.com/kf/S6d4734469f664ff29acc8ca02009856c4.jpg?has_lang=1&ver=2_960x960q75.jpg_.avif"
+                      alt="Solar Power Bank"
+                      class="slide-img"
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Slide 4: Mini Bluetooth Thermal Printer -->
+            <div class="swiper-slide">
+              <div class="slide-grid">
+                <div class="order-2 order-md-1">
+                  <div
+                    class="inline-block px-3 py-0.5 rounded-full text-xs font-semibold bg-brand-100 text-brand-700 uppercase tracking-wide"
+                  >
+                    Back‑to‑School
+                  </div>
+                  <h3 class="slide-title mt-2">Mini Bluetooth Printer</h3>
+                  <p class="slide-desc">
+                    Wireless pocket printer for labels, stickers, and notes.
+                    Perfect for organising, journaling, and school.
+                  </p>
+                  <button
+                    onclick="openBuyModal(8)"
+                    class="slide-cta"
+                    type="button"
+                  >
+                    Shop Now <i class="fas fa-arrow-right"></i>
+                  </button>
+                </div>
+                <div class="order-1 order-md-2 flex justify-center">
+                  <div class="slide-img-wrap">
+                    <span class="slide-badge">Bluetooth</span>
+                    <img
+                      src="https://ae-pic-a1.aliexpress-media.com/kf/Sf3789a144725432fb6c83644f3db82d9b.jpg?has_lang=1&ver=2_960x960q75.jpg_.avif"
+                      alt="Mini Bluetooth Thermal Printer"
+                      class="slide-img"
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Slide 5: HY300 Portable 4K Projector -->
+            <div class="swiper-slide">
+              <div class="slide-grid">
+                <div class="order-2 order-md-1">
+                  <div
+                    class="inline-block px-3 py-0.5 rounded-full text-xs font-semibold bg-brand-100 text-brand-700 uppercase tracking-wide"
+                  >
+                    Cinema
+                  </div>
+                  <h3 class="slide-title mt-2">4K Portable Projector</h3>
+                  <p class="slide-desc">
+                    Android 11, WiFi6, 290 ANSI lumens – a portable cinema for
+                    movie nights, gaming, or presentations.
+                  </p>
+                  <button
+                    onclick="openBuyModal(6)"
+                    class="slide-cta"
+                    type="button"
+                  >
+                    Shop Now <i class="fas fa-arrow-right"></i>
+                  </button>
+                </div>
+                <div class="order-1 order-md-2 flex justify-center">
+                  <div class="slide-img-wrap">
+                    <span class="slide-badge">4K Ready</span>
+                    <img
+                      src="https://ae-pic-a1.aliexpress-media.com/kf/Sc0eef3ea56974199bbf6f0c9690e86d7o.jpg_960x960q75.jpg_.avif"
+                      alt="HY300 Portable 4K Projector"
+                      class="slide-img"
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Swiper navigation -->
+          <div class="swiper-button-next"></div>
+          <div class="swiper-button-prev"></div>
+          <div class="swiper-pagination"></div>
         </div>
       </section>
 
-      <!-- About (unchanged) -->
-      <section
-        class="max-w-4xl mx-auto px-4 py-8 text-center border-t border-gray-200"
-      >
-        <h2 class="text-xl font-semibold text-navy-900">Why Wigachu?</h2>
-        <p class="mt-2 text-gray-600 max-w-2xl mx-auto">
-          We track down the products that everyone’s talking about – but we only
-          keep the ones that work. Save your time and your wallet. We got you.
-        </p>
-      </section>
-
-      <!-- Search & Filter (unchanged) -->
+      <!-- ======== SEARCH & FILTER ======== -->
       <section
         id="products"
         class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12"
@@ -213,7 +390,7 @@
         ></div>
       </section>
 
-      <!-- Pesapad (unchanged) -->
+      <!-- ======== PESAPAD ======== -->
       <section id="pesapad" class="bg-navy-900 text-white">
         <div
           class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 lg:flex lg:items-center lg:justify-between gap-12"
@@ -255,7 +432,7 @@
         </div>
       </section>
 
-      <!-- How it works (unchanged) -->
+      <!-- ======== HOW IT WORKS ======== -->
       <section
         id="how-it-works"
         class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16"
@@ -282,7 +459,7 @@
                 />
               </svg>
             </div>
-            <h3 class="mt-4 text-lg font-semibold">1. Browse curated picks</h3>
+            <h3 class="mt-4 text-lg font-semibold">1. Browse our picks</h3>
             <p class="mt-2 text-sm text-gray-600">
               We find, test, and list only the best – for your shop, home, or
               hustle.
@@ -340,7 +517,7 @@
       </section>
     </main>
 
-    <!-- Footer (unchanged) -->
+    <!-- ======== FOOTER ======== -->
     <footer id="footer" class="bg-white border-t border-gray-200">
       <div
         class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 text-center text-sm text-gray-500 space-y-2"
@@ -363,7 +540,7 @@
       </div>
     </footer>
 
-    <!-- Buy Options Modal (unchanged) -->
+    <!-- ======== BUY MODAL ======== -->
     <div
       id="buy-modal"
       class="fixed inset-0 z-50 hidden items-center justify-center bg-black/50 backdrop-blur-sm"
@@ -381,7 +558,6 @@
         <p id="modal-desc" class="text-sm text-gray-500 mb-2"></p>
         <p id="modal-price" class="text-sm text-gray-600 mb-4 font-medium"></p>
         <div id="modal-links" class="space-y-3"></div>
-        <!-- Bulk Order Request Button -->
         <div class="mt-4 pt-4 border-t border-gray-200">
           <button
             id="bulk-order-btn"
@@ -401,7 +577,7 @@
       </div>
     </div>
 
-    <!-- Support Modal (unchanged) -->
+    <!-- ======== SUPPORT MODAL ======== -->
     <div id="supportModal" class="support-modal-overlay">
       <div class="support-modal">
         <button
@@ -523,7 +699,7 @@
       </div>
     </div>
 
-    <!-- Bookmark Toast (unchanged) -->
+    <!-- ======== BOOKMARK TOAST ======== -->
     <div
       id="bookmark-toast"
       class="fixed bottom-6 left-4 right-4 z-50 bg-navy-900 text-white px-5 py-4 rounded-2xl shadow-2xl flex items-center gap-3 transition-all duration-500 opacity-0 translate-y-10 pointer-events-none"
@@ -544,7 +720,7 @@
       </button>
     </div>
 
-    <!-- Floating Support FAB (unchanged) -->
+    <!-- ======== FLOATING SUPPORT FAB ======== -->
     <button
       id="fab-support"
       class="fixed bottom-6 left-6 z-40 w-14 h-14 rounded-full shadow-xl shadow-brand-500/40 flex items-center justify-center text-white transition-all duration-300 hover:scale-110 hover:shadow-brand-400/60"

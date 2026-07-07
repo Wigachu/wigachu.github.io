@@ -1,6 +1,6 @@
 // Product catalogue – curated from the KYD's Choice gold list + new additions
 const products = [
-  // ---- 🔥 Beat the Heat (featured first) ----
+  // ---- Beat the Heat (featured first) ----
   {
     id: 1,
     title: "Solar Fan Hat (Breathable)",
@@ -9,7 +9,7 @@ const products = [
       "https://ae-pic-a1.aliexpress-media.com/kf/S12993c177d104a9eb738a3d27258e16dF.jpg_960x960q75.jpg_.avif",
     description:
       "USB rechargeable solar fan hat with breathable fabric and sun protection – stays cool during outdoor work, fishing, or hiking.",
-    badge: "🔥 Beat the Heat",
+    badge: "Beat the Heat",
     price: 8.05,
     links: [
       {
@@ -27,7 +27,7 @@ const products = [
       "https://ae-pic-a1.aliexpress-media.com/kf/S0e1dd06a6b5b4495a31b031138b5c4b9i.jpg?has_lang=1&ver=1_960x960q75.jpg_.avif",
     description:
       "Anti-UV, dual solar fans, wide brim – keeps you cool during mountain climbing, fishing, and camping. Powered by sunlight.",
-    badge: "🔥 Beat the Heat",
+    badge: "Beat the Heat",
     price: 10.78,
     links: [
       {
@@ -45,7 +45,7 @@ const products = [
       "https://ae-pic-a1.aliexpress-media.com/kf/Sfba35ba7ba75419ca26192c5b19d6515j.jpg_960x960q75.jpg_.avif",
     description:
       "High-speed handheld fan with semiconductor cooling plate – blows genuinely cold air, not just a breeze. 3000mAh, rechargeable, portable.",
-    badge: "🔥 Beat the Heat",
+    badge: "Beat the Heat",
     price: 18.58,
     links: [
       {
@@ -505,12 +505,12 @@ function requestBulkOrder(product) {
   })
     .then(() => {
       alert(
-        "✅ Bulk order logged! We'll check it and find the best deal for you.",
+        "Bulk order logged! We'll check it and find the best deal for you.",
       );
     })
     .catch(() => {
       alert(
-        "❌ Could not log request. Please try again or contact us directly.",
+        "Something happened. Please try again later or contact us directly.",
       );
     });
 }
@@ -601,7 +601,7 @@ function openBuyModal(productId) {
   modalTitle.textContent = product.title;
   modalDesc.textContent = product.description;
   modalPrice.textContent = product.price
-    ? `💰 Reference price: $${product.price.toFixed(2)}`
+    ? `Reference price: $${product.price.toFixed(2)}`
     : "";
   modalLinks.innerHTML = "";
 
@@ -730,4 +730,63 @@ document.addEventListener("DOMContentLoaded", function () {
       },
     },
   });
+});
+
+// ---------- NEW: Typewriter effect ----------
+document.addEventListener("DOMContentLoaded", function () {
+  const phrases = [
+    // Beat the Heat
+    "Beat the heat with solar fans & ice-cold tech.",
+    "Stay cool with our summer survival kit.",
+
+    // Viral & Trust
+    "Viral TikTok hits – we test them so you trust them.",
+    "Discover the gear that actually delivers.",
+
+    // Specific Product Hooks (Explore the catalogue)
+    "Turn any room into a cinema with our mini projector.",
+    "Relax with neck massagers and galaxy star lights.",
+    "Inflate tires & film underwater with our travel gear.",
+
+    // Pesapad
+    "Track debts & trust with Pesapad – it's 100% free.",
+
+    // Brand Promise
+    "Just the stuff that makes life easier.",
+  ];
+  let phraseIndex = 0;
+  let charIndex = 0;
+  let isDeleting = false;
+  const typewriterEl = document.getElementById("typewriter-text");
+
+  if (!typewriterEl) return;
+
+  function typeEffect() {
+    const currentPhrase = phrases[phraseIndex];
+    if (!isDeleting) {
+      // typing
+      typewriterEl.textContent = currentPhrase.slice(0, charIndex + 1);
+      charIndex++;
+      if (charIndex === currentPhrase.length) {
+        isDeleting = true;
+        setTimeout(typeEffect, 2800);
+        return;
+      }
+      setTimeout(typeEffect, 40);
+    } else {
+      // deleting
+      typewriterEl.textContent = currentPhrase.slice(0, charIndex);
+      charIndex--;
+      if (charIndex < 0) {
+        isDeleting = false;
+        phraseIndex = (phraseIndex + 1) % phrases.length;
+        setTimeout(typeEffect, 300);
+        return;
+      }
+      setTimeout(typeEffect, 20);
+    }
+  }
+
+  // start after a small delay
+  setTimeout(typeEffect, 600);
 });

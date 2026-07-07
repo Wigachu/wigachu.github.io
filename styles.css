@@ -63,7 +63,7 @@ html {
 
 .support-modal {
   background: #ffffff; /* white background */
-  border-radius: 1.5rem;
+  border-radius: .5rem;
   max-width: 600px;
   width: 100%;
   max-height: 90vh;
@@ -264,7 +264,7 @@ html {
   background: rgba(0, 0, 0, 0.3);
   width: 40px;
   height: 40px;
-  border-radius: 50%;
+  border-radius: 10%;
   transition: background 0.3s ease;
 }
 
@@ -294,5 +294,123 @@ html {
   .swiper-button-next,
   .swiper-button-prev {
     display: none !important; /* Hide arrows on small screens, dots remain */
+  }
+}
+
+/* ── Two‑column carousel slide styles ── */
+.slide-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2rem;
+  align-items: center;
+}
+
+@media (max-width: 768px) {
+  .slide-grid {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+    text-align: center;
+  }
+  .slide-grid .order-md-2 {
+    order: -1;
+  }
+}
+
+.slide-img {
+  border-radius: 1.25rem;
+  box-shadow: 0 20px 40px -12px rgba(0, 0, 0, 0.25);
+  width: 100%;
+  height: auto;
+  max-height: 300px;
+  object-fit: cover;
+  background: #f1f5f9;
+  transition: transform 0.3s ease;
+}
+
+.swiper-slide:hover .slide-img {
+  transform: scale(1.02);
+}
+
+.slide-img-wrap {
+  position: relative;
+  display: inline-block;
+  width: 100%;
+}
+
+.slide-badge {
+  position: absolute;
+  top: 0.75rem;
+  left: 0.75rem;
+  background: #16a34a;
+  color: #fff;
+  font-size: 0.7rem;
+  font-weight: 700;
+  padding: 0.2rem 0.8rem;
+  border-radius: 2rem;
+  letter-spacing: 0.02em;
+  z-index: 2;
+  box-shadow: 0 4px 12px rgba(22, 163, 74, 0.3);
+}
+
+.slide-title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #0f172a;
+  line-height: 1.2;
+}
+
+.slide-desc {
+  font-size: 0.95rem;
+  color: #475569;
+  margin-top: 0.5rem;
+}
+
+.slide-cta {
+  margin-top: 1.25rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: #16a34a;
+  color: #fff;
+  font-weight: 600;
+  padding: 0.6rem 1.5rem;
+  border-radius: 2rem;
+  font-size: 0.9rem;
+  transition:
+    background 0.2s,
+    transform 0.2s;
+  text-decoration: none;
+  border: none;
+  cursor: pointer;
+  font-family: inherit;
+}
+
+.slide-cta:hover {
+  background: #15803d;
+  transform: translateY(-2px);
+}
+
+.slide-cta i {
+  font-size: 0.8rem;
+}
+
+/* Typewriter cursor */
+#typewriter-cursor {
+  display: inline-block;
+  width: 2px;
+  height: 1.1em;
+  background-color: #16a34a;
+  margin-left: 2px;
+  vertical-align: text-bottom;
+  animation: blink 0.8s step-end infinite;
+}
+
+@keyframes blink {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0;
   }
 }
