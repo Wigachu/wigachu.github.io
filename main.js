@@ -1,6 +1,15 @@
-// Product catalogue – curated from the KYD's Choice gold list + new additions
-const products = [
-  // ---- Beat the Heat (featured first) ----
+// ======================== SUPABASE SETUP ========================
+const SUPABASE_URL = "https://qzwpyvpprgpqzibzgzcz.supabase.co";
+const SUPABASE_PUBLISHABLE_KEY = "sb_publishable_MpVET6kJ_-a7HrfBl5t2Iw_V_83g-wV";
+
+const supabaseClient = window.supabase.createClient(
+  SUPABASE_URL,
+  SUPABASE_PUBLISHABLE_KEY,
+);
+
+// ======================== FALLBACK PRODUCTS ========================
+// Used only if Supabase is unreachable or returns an error
+const fallbackProducts = [
   {
     id: 1,
     title: "Solar Fan Hat (Breathable)",
@@ -15,25 +24,6 @@ const products = [
       {
         platform: "AliExpress",
         url: "https://s.click.aliexpress.com/e/_EIxEgmI",
-        type: "standard",
-      },
-    ],
-  },
-  {
-    id: 2,
-    title: "Wide-Brim Dual-Fan Hat",
-    category: "Tech & Gadgets",
-    image:
-      "https://ae-pic-a1.aliexpress-media.com/kf/S0e1dd06a6b5b4495a31b031138b5c4b9i.jpg?has_lang=1&ver=1_960x960q75.jpg_.avif",
-    description:
-      "Anti-UV, dual solar fans, wide brim – keeps you cool during mountain climbing, fishing, and camping. Powered by sunlight.",
-    badge: "Beat the Heat",
-    price: 10.78,
-    links: [
-      {
-        platform: "AliExpress",
-        url: "https://s.click.aliexpress.com/e/_EuPphCO",
-        type: "standard",
       },
     ],
   },
@@ -51,44 +41,6 @@ const products = [
       {
         platform: "AliExpress",
         url: "https://s.click.aliexpress.com/e/_EIk5COe",
-        type: "standard",
-      },
-    ],
-  },
-
-  // ---- Tech & Gadgets ----
-  {
-    id: 4,
-    title: "Bone Conduction Swim Earphones",
-    category: "Tech & Gadgets",
-    image:
-      "https://ae-pic-a1.aliexpress-media.com/kf/Sc62170aa368e434ab72f3958cc46833b6.png_960x960.png_.avif",
-    description:
-      "IPX8 waterproof, 32GB storage, open-ear design. Perfect for swimming, running, cycling – stay aware of your surroundings.",
-    badge: "Best seller",
-    price: 23.6,
-    links: [
-      {
-        platform: "AliExpress",
-        url: "https://s.click.aliexpress.com/e/_EIf7wx0",
-        type: "standard",
-      },
-    ],
-  },
-  {
-    id: 5,
-    title: "Smart Heating Jacket (8-Zone)",
-    category: "Tech & Gadgets",
-    image:
-      "https://ae-pic-a1.aliexpress-media.com/kf/S41fef1b34f064ce7b567e199943b6dd9B.jpg?has_lang=1&ver=2_960x960q75.jpg_.avif",
-    description:
-      "Intelligent electric heating coat with 8 heating zones. Fleece lining, unisex design – keeps you warm in winter without bulk.",
-    price: 49.58,
-    links: [
-      {
-        platform: "AliExpress",
-        url: "https://s.click.aliexpress.com/e/_EuMIdCW",
-        type: "standard",
       },
     ],
   },
@@ -106,133 +58,9 @@ const products = [
       {
         platform: "AliExpress",
         url: "https://s.click.aliexpress.com/e/_EHlor5Y",
-        type: "standard",
       },
     ],
   },
-  {
-    id: 7,
-    title: "AI Smart Translation Glasses",
-    category: "Tech & Gadgets",
-    image:
-      "https://ae-pic-a1.aliexpress-media.com/kf/S2383936699964d2594108c0d7fc42291J.jpg_960x960q75.jpg_.avif",
-    description:
-      "800W camera, color-changing lenses, real-time translation, photo/video recording, waterproof, and Bluetooth calling – futuristic eyewear.",
-    price: 52.46,
-    links: [
-      {
-        platform: "AliExpress",
-        url: "https://s.click.aliexpress.com/e/_EI8lubY",
-        type: "standard",
-      },
-    ],
-  },
-  {
-    id: 8,
-    title: "Mini Bluetooth Thermal Printer",
-    category: "Tech & Gadgets",
-    image:
-      "https://ae-pic-a1.aliexpress-media.com/kf/Sf3789a144725432fb6c83644f3db82d9b.jpg?has_lang=1&ver=2_960x960q75.jpg_.avif",
-    description:
-      "Wireless pocket printer, 58mm paper, prints photos, stickers, labels. Compatible with iOS and Android – fun for journaling and organising.",
-    price: 0.99,
-    links: [
-      {
-        platform: "AliExpress",
-        url: "https://s.click.aliexpress.com/e/_Ex0oXX8",
-        type: "standard",
-      },
-    ],
-  },
-  {
-    id: 9,
-    title: "SOFIRN SC13 Tactical Flashlight",
-    category: "Tech & Gadgets",
-    image:
-      "https://ae-pic-a1.aliexpress-media.com/kf/S42b8dbecd5f44addaa602a5e255d8ef15.png_960x960.png_.avif",
-    description:
-      "1300 lumens, rechargeable 18350 battery, keychain size, emergency mini torch with multiple modes – a must-have EDC tool.",
-    price: 17.69,
-    links: [
-      {
-        platform: "AliExpress",
-        url: "https://s.click.aliexpress.com/e/_EyzUQmA",
-        type: "standard",
-      },
-    ],
-  },
-  {
-    id: 10,
-    title: "Solar Power Bank with Camping Light",
-    category: "Tech & Gadgets",
-    image:
-      "https://ae-pic-a1.aliexpress-media.com/kf/S6d4734469f664ff29acc8ca02009856c4.jpg?has_lang=1&ver=2_960x960q75.jpg_.avif",
-    description:
-      "Waterproof outdoor solar charger with built-in camping light. Perfect for hiking, travel, and emergency power when off-grid.",
-    price: 21.39,
-    links: [
-      {
-        platform: "AliExpress",
-        url: "https://s.click.aliexpress.com/e/_EJLqu2W",
-        type: "standard",
-      },
-    ],
-  },
-
-  // ---- Home & Life ----
-  {
-    id: 11,
-    title: "Volcanic Crack Humidifier",
-    category: "Home & Life",
-    image:
-      "https://ae-pic-a1.aliexpress-media.com/kf/S357910d548a34868862667105d98260eA.jpg_960x960q75.jpg_.avif",
-    description:
-      "Aroma humidifier with smoke-ring cannon mode. Creates a volcanic mist effect – stylish and calming for any room.",
-    price: 21.12,
-    links: [
-      {
-        platform: "AliExpress",
-        url: "https://s.click.aliexpress.com/e/_EHxtecS",
-        type: "standard",
-      },
-    ],
-  },
-  {
-    id: 12,
-    title: "Floating Candles with Magic Wand",
-    category: "Home & Life",
-    image:
-      "https://ae-pic-a1.aliexpress-media.com/kf/S3bf0304efb554217a86635205b28765dh.png?has_lang=1&ver=2_960x960.png_.avif",
-    description:
-      "Halloween themed, remote controlled floating candles. Battery operated, warm light, perfect for parties and spooky décor.",
-    price: 13.4,
-    links: [
-      {
-        platform: "AliExpress",
-        url: "https://s.click.aliexpress.com/e/_EQUXkly",
-        type: "standard",
-      },
-    ],
-  },
-  {
-    id: 13,
-    title: "Arcade Basketball Game Set",
-    category: "Home & Life",
-    image:
-      "https://ae-pic-a1.aliexpress-media.com/kf/S201267d3c3184155a754ff51a07292c0k.jpg_960x960q75.jpg_.avif",
-    description:
-      "Indoor/outdoor basketball game, easy setup with pump and balls. Ideal gift for kids and adults – fun for family gatherings.",
-    price: 64.75,
-    links: [
-      {
-        platform: "AliExpress",
-        url: "https://s.click.aliexpress.com/e/_EuNpUjC",
-        type: "standard",
-      },
-    ],
-  },
-
-  // ---- Health & Wellness ----
   {
     id: 14,
     title: "Neck & Shoulder Massager",
@@ -247,147 +75,43 @@ const products = [
       {
         platform: "AliExpress",
         url: "https://s.click.aliexpress.com/e/_Exod9IS",
-        type: "standard",
-      },
-    ],
-  },
-  {
-    id: 15,
-    title: "Inflatable Neck Stretcher",
-    category: "Health & Wellness",
-    image:
-      "https://ae-pic-a1.aliexpress-media.com/kf/Sffc52a25543041c5897da1f4eb4ec0b5T.jpg_960x960q75.jpg_.avif",
-    description:
-      "Cervical traction device for neck pain relief. Inflatable, portable, drug-free – gently decompresses the spine. No electricity needed.",
-    price: 6.23,
-    links: [
-      {
-        platform: "AliExpress",
-        url: "https://s.click.aliexpress.com/e/_EHHusPo",
-        type: "standard",
-      },
-    ],
-  },
-  {
-    id: 16,
-    title: "Portable Fabric Shaver",
-    category: "Home & Life",
-    image:
-      "https://ae-pic-a1.aliexpress-media.com/kf/Sb834267b918149baa4f571b68e24b17c0.jpg?has_lang=1&ver=2_960x960q75.jpg_.avif",
-    description:
-      "Rechargeable lint remover with LED display. Removes fuzz and pills from clothes – extends the life of your favourite garments.",
-    price: 9.68,
-    links: [
-      {
-        platform: "AliExpress",
-        url: "https://s.click.aliexpress.com/e/_EQCpxNs",
-        type: "standard",
-      },
-    ],
-  },
-
-  // ---- Car & Travel ----
-  {
-    id: 17,
-    title: "Portable Car Tire Inflator",
-    category: "Car & Travel",
-    image:
-      "https://ae-pic-a1.aliexpress-media.com/kf/S6051cf7e243243fd8e548536a68d5d26j.png_960x960.png_.avif",
-    description:
-      "Wireless, quick charging, digital pressure gauge, auto-stop. Inflates car, motorcycle, bike tires – emergency essential.",
-    price: 39.96,
-    links: [
-      {
-        platform: "AliExpress",
-        url: "https://s.click.aliexpress.com/e/_ExJgOzG",
-        type: "standard",
-      },
-    ],
-  },
-
-  // ---- Entertainment ----
-  {
-    id: 18,
-    title: "Astronaut Galaxy Projector",
-    category: "Entertainment",
-    image:
-      "https://ae-pic-a1.aliexpress-media.com/kf/S85ba8ad1296942329faee6addf0fe7323.jpg?has_lang=1&ver=2_960x960q75.jpg_.avif",
-    description:
-      "LED star projector with Bluetooth speaker, creates a mesmerizing starry sky. Perfect for bedrooms, kids' rooms, or relaxation.",
-    badge: "Trending",
-    price: 12.39,
-    links: [
-      {
-        platform: "AliExpress",
-        url: "https://s.click.aliexpress.com/e/_EvHgTfU",
-        type: "standard",
-      },
-    ],
-  },
-  {
-    id: 19,
-    title: "4K Underwater Camera (33FT)",
-    category: "Entertainment",
-    image:
-      "https://ae-pic-a1.aliexpress-media.com/kf/S5226ff45675f4951a1cea114e4a7c2bfb.jpg_960x960q75.jpg_.avif",
-    description:
-      "64MP, dual-screen, waterproof to 33ft, dustproof, floatable. Captures stunning snorkeling and underwater photos.",
-    price: 64.26,
-    links: [
-      {
-        platform: "AliExpress",
-        url: "https://s.click.aliexpress.com/e/_Ev0gJaa",
-        type: "standard",
-      },
-    ],
-  },
-  {
-    id: 20,
-    title: "Mini Keychain Camera (8MP)",
-    category: "Entertainment",
-    image:
-      "https://ae-pic-a1.aliexpress-media.com/kf/Sd97d3368c60d405899b5ea3298eb428aG.jpg_960x960q75.jpg_.avif",
-    description:
-      "Tiny body cam, 8MP, SD card support, with screen. Great for vlogging, kids, or capturing spontaneous moments.",
-    price: 9.45,
-    links: [
-      {
-        platform: "AliExpress",
-        url: "https://s.click.aliexpress.com/e/_EwGCeow",
-        type: "standard",
-      },
-    ],
-  },
-  {
-    id: 21,
-    title: "Karaoke Bluetooth Speaker (K12)",
-    category: "Entertainment",
-    image:
-      "https://ae-pic-a1.aliexpress-media.com/kf/Se0f366a5e7ce4cc89caa1116ba39872c1.jpg_960x960q75.jpg_.avif",
-    description:
-      "Portable wireless speaker with microphone, cute design, perfect for family karaoke nights, parties, and outdoor fun.",
-    price: 12.92,
-    links: [
-      {
-        platform: "AliExpress",
-        url: "https://s.click.aliexpress.com/e/_EQtETxc",
-        type: "standard",
       },
     ],
   },
 ];
 
-// Categories – only those with products, "All" first
-const categories = [
-  "All",
-  "Tech & Gadgets",
-  "Home & Life",
-  "Car & Travel",
-  "Entertainment",
-  "Health & Wellness",
-];
+// ======================== PRODUCT CATALOGUE ========================
+let products = []; // will be filled from Supabase
 
-// ---------- APP LOGIC ----------
+async function loadProducts() {
+  try {
+    const { data, error } = await supabaseClient
+      .from("wigachu_products")
+      .select("*")
+      .eq("is_active", true)
+      .order("display_order", { ascending: true });
+
+    if (error) throw error;
+
+    // Map Supabase columns to the structure used by the frontend
+    return data.map((p) => ({
+      id: p.id,
+      title: p.title,
+      category: p.category,
+      image: p.image_url,
+      description: p.description,
+      badge: p.badge,
+      price: p.price,
+      links: p.links,
+    }));
+  } catch (e) {
+    console.error("Failed to load products from Supabase:", e);
+    return fallbackProducts;
+  }
+}
+
+// ======================== EXISTING APP LOGIC ========================
+
 let activeCategory = "All";
 let searchQuery = "";
 let currentBulkProduct = null;
@@ -427,19 +151,14 @@ if (dismissBtn) {
 
 // ---------- SUPPORT MODAL ----------
 window.openSupportModal = function () {
-  console.log("openSupportModal called");
   const modal = document.getElementById("supportModal");
   if (modal) {
     modal.classList.add("open");
     document.body.style.overflow = "hidden";
-    console.log("Modal opened");
-  } else {
-    console.error("supportModal element not found!");
   }
 };
 
 window.closeSupportModal = function () {
-  console.log("closeSupportModal called");
   const modal = document.getElementById("supportModal");
   if (modal) {
     modal.classList.remove("open");
@@ -485,16 +204,14 @@ window.copyToClipboard = function (elementId) {
     });
 };
 
-// ---------- BULK ORDER (One‑click log to Google Form) ----------
+// ---------- BULK ORDER ----------
 function requestBulkOrder(product) {
-  // Replace with your deployed Apps Script URL (see step 2)
   const webAppURL =
     "https://script.google.com/macros/s/AKfycbxWM3S9xIsOityBaE1z-oRF7xCCfBo4FRaoYLbdfrvVgzYbKW5FiWEWhR2uzRi9TFw8/exec";
 
-  // Send product details – no user prompts
   fetch(webAppURL, {
     method: "POST",
-    mode: "no-cors", // Prevents CORS errors; we don't need a response body
+    mode: "no-cors",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({
       title: product.title,
@@ -504,20 +221,18 @@ function requestBulkOrder(product) {
     }),
   })
     .then(() => {
-      alert(
-        "Bulk order logged! We'll check it and find the best deal for you.",
-      );
+      alert("Bulk order logged! We'll find the best deal for you.");
     })
     .catch(() => {
-      alert(
-        "Something happened. Please try again later or contact us directly.",
-      );
+      alert("Something went wrong. Please try again later.");
     });
 }
 
 // ---------- RENDER FILTERS ----------
 function renderFilters() {
+  if (!filterContainer) return;
   filterContainer.innerHTML = "";
+  const categories = ["All", ...new Set(products.map((p) => p.category))];
   categories.forEach((cat) => {
     const btn = document.createElement("button");
     btn.className = `px-4 py-2 rounded-full text-sm font-medium transition ${
@@ -537,6 +252,7 @@ function renderFilters() {
 
 // ---------- RENDER PRODUCTS ----------
 function renderProducts() {
+  if (!productGrid) return;
   const filtered = products.filter((p) => {
     const catMatch = activeCategory === "All" || p.category === activeCategory;
     const searchMatch =
@@ -639,7 +355,6 @@ function openBuyModal(productId) {
     modalLinks.appendChild(platformDiv);
   }
 
-  // Update bulk order button with product data
   if (bulkOrderBtn) {
     bulkOrderBtn.onclick = () => {
       if (currentBulkProduct) requestBulkOrder(currentBulkProduct);
@@ -691,68 +406,43 @@ if (yearSpan) {
   yearSpan.textContent = new Date().getFullYear();
 }
 
-// ---------- INIT ----------
-document.addEventListener("DOMContentLoaded", () => {
-  renderFilters();
-  renderProducts();
-});
-
 // ---------- HERO CAROUSEL (Swiper) ----------
 document.addEventListener("DOMContentLoaded", function () {
-  const swiper = new Swiper(".mySwiper", {
-    // Optional parameters
-    loop: true,
-    autoplay: {
-      delay: 5000, // 5 seconds between slides
-      disableOnInteraction: false,
-    },
-    // Navigation arrows
-    navigation: {
-      nextEl: ".swiper-button-next",
-      prevEl: ".swiper-button-prev",
-    },
-    // Pagination dots
-    pagination: {
-      el: ".swiper-pagination",
-      clickable: true,
-    },
-    // Responsive breakpoints
-    breakpoints: {
-      // when window width is >= 320px
-      320: {
-        slidesPerView: 1,
-        spaceBetween: 20,
+  if (typeof Swiper !== "undefined") {
+    new Swiper(".mySwiper", {
+      loop: true,
+      autoplay: {
+        delay: 5000,
+        disableOnInteraction: false,
       },
-      // when window width is >= 768px
-      768: {
-        slidesPerView: 1,
-        spaceBetween: 30,
+      navigation: {
+        nextEl: ".swiper-button-next",
+        prevEl: ".swiper-button-prev",
       },
-    },
-  });
+      pagination: {
+        el: ".swiper-pagination",
+        clickable: true,
+      },
+      breakpoints: {
+        320: { slidesPerView: 1, spaceBetween: 20 },
+        768: { slidesPerView: 1, spaceBetween: 30 },
+      },
+    });
+  }
 });
 
-// ---------- NEW: Typewriter effect ----------
+// ---------- TYPEWRITER ----------
 document.addEventListener("DOMContentLoaded", function () {
   const phrases = [
-    // Beat the Heat
     "Beat the heat with solar fans & ice-cold tech.",
     "Stay cool with our summer survival kit.",
-
-    // Viral & Trust
     "Viral Tiktok hit products, handpicked for quality.",
     "We dig through reviews so you get the best ones.",
     "Discover the gear that actually delivers.",
-
-    // Specific Product Hooks (Explore the catalogue)
     "Turn any room into a cinema with our mini projector.",
     "Relax with neck massagers and galaxy star lights.",
     "Inflate tires & film underwater with our travel gear.",
-
-    // Pesapad
     "Track debts & trust with Pesapad – it's 100% free.",
-
-    // Brand Promise
     "Just the stuff that makes life easier.",
   ];
   let phraseIndex = 0;
@@ -765,7 +455,6 @@ document.addEventListener("DOMContentLoaded", function () {
   function typeEffect() {
     const currentPhrase = phrases[phraseIndex];
     if (!isDeleting) {
-      // typing
       typewriterEl.textContent = currentPhrase.slice(0, charIndex + 1);
       charIndex++;
       if (charIndex === currentPhrase.length) {
@@ -775,7 +464,6 @@ document.addEventListener("DOMContentLoaded", function () {
       }
       setTimeout(typeEffect, 40);
     } else {
-      // deleting
       typewriterEl.textContent = currentPhrase.slice(0, charIndex);
       charIndex--;
       if (charIndex < 0) {
@@ -788,6 +476,13 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   }
 
-  // start after a small delay
   setTimeout(typeEffect, 600);
+});
+
+// ======================== INITIALISE ========================
+document.addEventListener("DOMContentLoaded", async () => {
+  // Load products from Supabase (fallback if fails)
+  products = await loadProducts();
+  renderFilters();
+  renderProducts();
 });
