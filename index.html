@@ -406,7 +406,7 @@
               Manage customer debts & trust. Offline, no fees.
             </h2>
             <p class="mt-4 text-lg text-gray-300 max-w-xl">
-              Pesapad helps you track who owes you, who you owe, and see trust
+              Pesapad helps you track who borrowed from you, who you borrowed from, and see trust
               scores – even without internet.
             </p>
             <div class="mt-6 flex flex-col sm:flex-row gap-4">
@@ -418,7 +418,7 @@
                 >Get Pesapad Free</a
               >
               <a
-                href="#"
+                href=""https://pesapad.github.io/#features"
                 class="inline-flex items-center px-6 py-3 border border-white/30 text-base font-medium rounded-md hover:bg-white/10"
                 >Learn more</a
               >
@@ -591,7 +591,7 @@
         <h2 class="text-2xl font-bold mb-2 text-white">Keep Wigachu Free</h2>
         <p class="text-purple-300 text-sm mb-6">
           Your voluntary support helps us keep the site running and find more
-          useful products.
+          useful products. PayPal donations go to our email address.
         </p>
 
         <div class="grid grid-cols-2 gap-3 mb-6">
@@ -613,15 +613,12 @@
             <h3>Ko-fi</h3>
             <p>0% fees</p>
           </a>
-          <a
-            href="https://paypal.me/pesapad"
-            target="_blank"
-            class="donation-card donation-paypal"
-          >
+          <button onclick="copyPayPalEmail()" class="donation-card donation-paypal" style="width:100%; text-align:center; border:none; background:#f8fafc; cursor:pointer;">
             <i class="fab fa-paypal"></i>
             <h3>PayPal</h3>
-            <p>@pesapad</p>
-          </a>
+            <p>pesapad.app@gmail.com</p>
+            <span style="font-size:0.7rem; color:#0070ba;">Tap to copy email</span>
+          </button>
           <a
             href="https://github.com/sponsors/pesapad"
             target="_blank"

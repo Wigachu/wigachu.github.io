@@ -206,27 +206,50 @@ window.copyToClipboard = function (elementId) {
 };
 
 // ---------- BULK ORDER ----------
-function requestBulkOrder(product) {
-  const webAppURL =
-    "https://script.google.com/macros/s/AKfycbxWM3S9xIsOityBaE1z-oRF7xCCfBo4FRaoYLbdfrvVgzYbKW5FiWEWhR2uzRi9TFw8/exec";
+async function requestBulkOrder(product) {
+  if (isBulkLoading) return; // prevent multiple clicks
+  isBulkLoading = true;
 
-  fetch(webAppURL, {
-    method: "POST",
-    mode: "no-cors",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({
-      title: product.title,
-      image: product.image,
-      description: product.description,
-      price: product.price,
-    }),
-  })
-    .then(() => {
-      alert("Bulk order logged! We'll find the best deal for you.");
-    })
-    .catch(() => {
-      alert("Something went wrong. Please try again later.");
-    });
+  // Find the button that was clicked
+  const buttons = document.querySelectorAll(".bulk-request-btn");
+  let targetBtn = null;
+  for (const btn of buttons) {
+    if (parseInt(btn.getAttribute("data-product-id")) === product.id) {
+      targetBtn = btn;
+      break;
+    }
+  }
+
+  // Show spinner and disable the button
+  if (targetBtn) {
+    targetBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i>';
+    targetBtn.disabled = true;
+  }
+
+  try {
+    const { data, error } = await supabaseClient
+      .from("bulk_orders")
+      .insert([
+        {
+          product_title: product.title,
+          product_image: product.image,
+          product_description: product.description,
+          product_price: product.price,
+        },
+      ]);
+
+    if (error) throw error;
+    alert("Bulk order logged! We'll find the best deal for you.");
+  } catch (err) {
+    alert("Something went wrong. Please try again later.");
+  } finally {
+    // Restore button to original state
+    isBulkLoading = false;
+    if (targetBtn) {
+      targetBtn.innerHTML = '<i class="fas fa-boxes"></i>';
+      targetBtn.disabled = false;
+    }
+  }
 }
 
 // ---------- RENDER FILTERS ----------
@@ -381,6 +404,29 @@ window.addEventListener("click", (e) => {
   }
 });
 
+function copyPayPalEmail() {
+  const email = "pesapad.app@gmail.com";
+  navigator.clipboard
+    .writeText(email)
+    .then(() => {
+      alert("PayPal email copied to clipboard!");
+    })
+    .catch(() => {
+      // Fallback for older browsers
+      const textArea = document.createElement("textarea");
+      textArea.value = email;
+      document.body.appendChild(textArea);
+      textArea.select();
+      try {
+        document.execCommand("copy");
+        alert("PayPal email copied to clipboard!");
+      } catch (err) {
+        alert("Could not copy. Please copy manually: " + email);
+      }
+      document.body.removeChild(textArea);
+    });
+}
+
 // ---------- SEARCH ----------
 if (searchInput) {
   searchInput.addEventListener("input", (e) => {
@@ -439,7 +485,7 @@ document.addEventListener("DOMContentLoaded", function () {
     "Stay cool with our summer survival kit.",
     "Viral Tiktok hit products, handpicked for quality.",
     "We dig through reviews so you get the best ones.",
-    "Discover the gear that actually delivers.",
+    "Discover the gear that actually works.",
     "Turn any room into a cinema with our mini projector.",
     "Relax with neck massagers and galaxy star lights.",
     "Inflate tires & film underwater with our travel gear.",
