@@ -205,6 +205,8 @@ window.copyToClipboard = function (elementId) {
     });
 };
 
+let isBulkLoading = false;
+
 // ---------- BULK ORDER ----------
 async function requestBulkOrder(product) {
   if (isBulkLoading) return; // prevent multiple clicks
@@ -227,16 +229,14 @@ async function requestBulkOrder(product) {
   }
 
   try {
-    const { data, error } = await supabaseClient
-      .from("bulk_orders")
-      .insert([
-        {
-          product_title: product.title,
-          product_image: product.image,
-          product_description: product.description,
-          product_price: product.price,
-        },
-      ]);
+    const { data, error } = await supabaseClient.from("bulk_orders").insert([
+      {
+        product_title: product.title,
+        product_image: product.image,
+        product_description: product.description,
+        product_price: product.price,
+      },
+    ]);
 
     if (error) throw error;
     alert("Bulk order logged! We'll find the best deal for you.");
