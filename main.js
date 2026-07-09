@@ -8,6 +8,8 @@ const supabaseClient = window.supabase.createClient(
   SUPABASE_PUBLISHABLE_KEY,
 );
 
+let isBulkLoading = false;
+
 // ======================== FALLBACK PRODUCTS ========================
 // Used only if Supabase is unreachable or returns an error
 const fallbackProducts = [
@@ -204,8 +206,6 @@ window.copyToClipboard = function (elementId) {
       document.body.removeChild(textArea);
     });
 };
-
-let isBulkLoading = false;
 
 // ---------- BULK ORDER ----------
 async function requestBulkOrder(product) {
