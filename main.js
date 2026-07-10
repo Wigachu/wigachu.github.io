@@ -209,23 +209,34 @@ window.copyToClipboard = function (elementId) {
 
 // ---------- BULK ORDER ----------
 async function requestBulkOrder(product) {
-  if (isBulkLoading) return; // prevent multiple clicks
+  if (isBulkLoading) return;
   isBulkLoading = true;
 
-  // Find the button that was clicked
-  const buttons = document.querySelectorAll(".bulk-request-btn");
-  let targetBtn = null;
-  for (const btn of buttons) {
+  // Find the small product grid button (the box icon)
+  const gridBtns = document.querySelectorAll(".bulk-request-btn");
+  let gridBtn = null;
+  for (const btn of gridBtns) {
     if (parseInt(btn.getAttribute("data-product-id")) === product.id) {
-      targetBtn = btn;
+      gridBtn = btn;
       break;
     }
   }
 
-  // Show spinner and disable the button
-  if (targetBtn) {
-    targetBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i>';
-    targetBtn.disabled = true;
+  // Find the modal button (the one in the buy modal)
+  const modalBtn = document.getElementById("bulk-order-btn");
+
+  // Save original HTML to restore later
+  const originalGridHtml = gridBtn ? gridBtn.innerHTML : null;
+  const originalModalHtml = modalBtn ? modalBtn.innerHTML : null;
+
+  // Show spinner on both buttons
+  if (gridBtn) {
+    gridBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i>';
+    gridBtn.disabled = true;
+  }
+  if (modalBtn) {
+    modalBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Requesting...';
+    modalBtn.disabled = true;
   }
 
   try {
@@ -241,13 +252,19 @@ async function requestBulkOrder(product) {
     if (error) throw error;
     alert("Bulk order logged! We'll find the best deal for you.");
   } catch (err) {
+    console.error("Bulk order failed:", err);
     alert("Something went wrong. Please try again later.");
   } finally {
-    // Restore button to original state
     isBulkLoading = false;
-    if (targetBtn) {
-      targetBtn.innerHTML = '<i class="fas fa-boxes"></i>';
-      targetBtn.disabled = false;
+
+    // Restore both buttons
+    if (gridBtn) {
+      gridBtn.innerHTML = originalGridHtml || '<i class="fas fa-boxes"></i>';
+      gridBtn.disabled = false;
+    }
+    if (modalBtn) {
+      modalBtn.innerHTML = originalModalHtml || "Request Bulk Order";
+      modalBtn.disabled = false;
     }
   }
 }
