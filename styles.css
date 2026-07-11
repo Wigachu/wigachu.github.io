@@ -422,3 +422,10 @@ html {
   0% { transform: rotate(0deg); }
   100% { transform: rotate(360deg); }
 }
+
+.bulk-link-btn {
+  background-color: #f97316;
+}
+.bulk-link-btn:hover {
+  background-color: #ea580c;
+}

@@ -106,6 +106,7 @@ async function loadProducts() {
       badge: p.badge,
       price: p.price,
       links: p.links,
+      bulkLinks: p.bulk_links || [],
     }));
   } catch (e) {
     console.error("Failed to load products from Supabase:", e);
@@ -362,48 +363,83 @@ function openBuyModal(productId) {
     : "";
   modalLinks.innerHTML = "";
 
-  const platformMap = new Map();
-  product.links.forEach((link) => {
-    if (!platformMap.has(link.platform)) platformMap.set(link.platform, []);
-    platformMap.get(link.platform).push(link);
-  });
+  // Retail links
+  if (product.links && product.links.length > 0) {
+    const retailHeading = document.createElement("div");
+    retailHeading.className = "text-sm font-bold text-navy-800 mt-2 mb-1";
+    retailHeading.textContent = "Buy Now";
+    modalLinks.appendChild(retailHeading);
 
-  for (const [platform, links] of platformMap) {
-    const platformDiv = document.createElement("div");
-    platformDiv.className = "flex items-center justify-between border-b pb-2";
-    platformDiv.innerHTML = `<span class="font-medium text-sm">${platform}</span>`;
-    const btnsDiv = document.createElement("div");
-    btnsDiv.className = "flex gap-2";
-
-    links.forEach((link) => {
-      const a = document.createElement("a");
-      const isBulk = link.type === "bulk";
-      a.href = link.url;
-      a.target = "_blank";
-      a.rel = "noopener";
-      a.className = `px-3 py-1 text-xs font-medium rounded-full transition ${
-        isBulk
-          ? "bg-brand-100 text-brand-700 hover:bg-brand-200"
-          : "bg-gray-100 text-gray-700 hover:bg-gray-200"
-      }`;
-      a.textContent = isBulk
-        ? `Buy Bulk${link.note ? " (" + link.note + ")" : ""}`
-        : "Buy";
-      btnsDiv.appendChild(a);
+    product.links.forEach((link) => {
+      const btn = document.createElement("a");
+      btn.href = link.url;
+      btn.target = "_blank";
+      btn.rel = "noopener";
+      btn.className =
+        "block w-full py-2 px-4 mb-2 bg-brand-600 hover:bg-brand-700 text-white text-sm font-medium rounded-lg transition text-center";
+      btn.textContent = link.platform;
+      modalLinks.appendChild(btn);
     });
-
-    platformDiv.appendChild(btnsDiv);
-    modalLinks.appendChild(platformDiv);
   }
 
-  if (bulkOrderBtn) {
-    bulkOrderBtn.onclick = () => {
-      if (currentBulkProduct) requestBulkOrder(currentBulkProduct);
-    };
+  // Bulk links
+  if (product.bulkLinks && product.bulkLinks.length > 0) {
+    const bulkHeading = document.createElement("div");
+    bulkHeading.className = "text-sm font-bold text-orange-600 mt-4 mb-1";
+    bulkHeading.textContent = "Bulk / Wholesale";
+    modalLinks.appendChild(bulkHeading);
+
+    product.bulkLinks.forEach((link) => {
+      const btn = document.createElement("a");
+      btn.href = link.url;
+      btn.target = "_blank";
+      btn.rel = "noopener";
+      btn.className =
+        "block w-full py-2 px-4 mb-2 bg-orange-500 hover:bg-orange-600 text-white text-sm font-medium rounded-lg transition text-center";
+      btn.textContent = link.platform + " (Wholesale)";
+      modalLinks.appendChild(btn);
+    });
   }
+
+  // Conditionally hide "Request Bulk Order" button if bulk links exist
+  const bulkOrderBtn = document.getElementById("bulk-order-btn");
+  if (product.bulkLinks && product.bulkLinks.length > 0) {
+    bulkOrderBtn.style.display = "none";
+  } else {
+    bulkOrderBtn.style.display = "block";
+    // Re-attach click handler
+    bulkOrderBtn.onclick = () => requestBulkOrder(product);
+  }
+
+  // Add "Report broken link" button
+  const reportBtn = document.createElement("button");
+  reportBtn.className = "mt-4 text-sm text-red-500 hover:underline";
+  reportBtn.textContent = "Report broken link";
+  reportBtn.onclick = () => reportBrokenLink(product);
+  modalLinks.appendChild(reportBtn);
 
   buyModal.classList.remove("hidden");
   buyModal.classList.add("flex");
+}
+
+// New function: report broken link
+async function reportBrokenLink(product) {
+  // For simplicity, report the first retail link
+  const link =
+    product.links && product.links.length > 0 ? product.links[0].url : "";
+  const platform =
+    product.links && product.links.length > 0
+      ? product.links[0].platform
+      : "Unknown";
+  try {
+    const { error } = await supabaseClient
+      .from("broken_link_reports")
+      .insert([{ product_id: product.id, link_url: link, platform }]);
+    if (error) throw error;
+    alert("Thank you! We'll check the link.");
+  } catch (e) {
+    alert("Could not report. Please try again later.");
+  }
 }
 
 // ---------- CLOSE MODAL ----------
