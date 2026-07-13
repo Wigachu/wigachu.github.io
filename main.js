@@ -121,11 +121,8 @@ function renderHeroSlides(products) {
   // Filter products that have a badge (featured)
   const featured = products.filter((p) => p.badge && p.badge.length > 0);
 
-  // If no featured products, use the first 3
-  let slides = featured.length > 0 ? featured : products.slice(0, 3);
-
-  // Limit to 5 slides max
-  if (slides.length > 5) slides = slides.slice(0, 5);
+  // If no featured products, use the first 10 as fallback
+  let slides = featured.length > 0 ? featured : products.slice(0, 10);
 
   // Build HTML
   let html = "";
@@ -168,10 +165,13 @@ function renderHeroSlides(products) {
     window.heroSwiper = null;
   }
 
+  // Enable loop only if there are at least 2 slides
+  const enableLoop = slides.length > 1;
+
   setTimeout(() => {
     if (typeof Swiper !== "undefined") {
       window.heroSwiper = new Swiper(".mySwiper", {
-        loop: true,
+        loop: enableLoop, // now conditional
         autoplay: { delay: 5000, disableOnInteraction: false },
         navigation: {
           nextEl: ".swiper-button-next",
