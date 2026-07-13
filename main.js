@@ -619,7 +619,6 @@ const phrases = [
     "Cozy cave: Cat bed that pets love to burrow.",
     "LED dog collar: Safe night walks for your pup.",
     "Discover the gear that actually works.",
-    "Handpicked so you don't have to scroll.",
     "We dig through reviews so you get the best ones.",
     "Just the stuff that makes life easier.",
     "Track debts & trust with Pesapad – it's 100% free.",
