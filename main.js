@@ -606,17 +606,23 @@ document.addEventListener("DOMContentLoaded", function () {
 
 // ---------- TYPEWRITER ----------
 document.addEventListener("DOMContentLoaded", function () {
-  const phrases = [
-    "Beat the heat with solar fans & ice-cold tech.",
-    "Stay cool with our summer survival kit.",
-    "Viral Tiktok hit products, handpicked for quality.",
-    "We dig through reviews so you get the best ones.",
+const phrases = [
+    "Best seller: Inflatable sofa – your new camping BFF.",
+    "Best seller: Neck massager for instant relief.",
+    "Beat the Heat: Solar fan hats and cooling gadgets.",
+    "Beat the Heat: Portable cooling fan that actually works.",
+    "Trending: 3D hologram fan for epic displays.",
+    "Trending: Galaxy night light – a magical gift.",
+    "Gardening: Seed starter kit with LED grow lights.",
+    "Upgrade your pets: Cooling mats and LED collars.",
+    "Grip strengthener: Build hand strength anywhere.",
+    "Cozy cave: Cat bed that pets love to burrow.",
+    "LED dog collar: Safe night walks for your pup.",
     "Discover the gear that actually works.",
-    "Turn any room into a cinema with our mini projector.",
-    "Relax with neck massagers and galaxy star lights.",
-    "Inflate tires & film underwater with our travel gear.",
-    "Track debts & trust with Pesapad – it's 100% free.",
+    "Handpicked so you don't have to scroll.",
+    "We dig through reviews so you get the best ones.",
     "Just the stuff that makes life easier.",
+    "Track debts & trust with Pesapad – it's 100% free.",
   ];
   let phraseIndex = 0;
   let charIndex = 0;
