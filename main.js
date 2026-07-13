@@ -96,7 +96,6 @@ async function loadProducts() {
 
     if (error) throw error;
 
-    // Map Supabase columns to the structure used by the frontend
     return data.map((p) => ({
       id: p.id,
       title: p.title,
@@ -112,6 +111,80 @@ async function loadProducts() {
     console.error("Failed to load products from Supabase:", e);
     return fallbackProducts;
   }
+}
+
+// ======================== HERO CAROUSEL ========================
+function renderHeroSlides(products) {
+  const wrapper = document.getElementById("hero-slides");
+  if (!wrapper) return;
+
+  // Filter products that have a badge (featured)
+  const featured = products.filter((p) => p.badge && p.badge.length > 0);
+
+  // If no featured products, use the first 3
+  let slides = featured.length > 0 ? featured : products.slice(0, 3);
+
+  // Limit to 5 slides max
+  if (slides.length > 5) slides = slides.slice(0, 5);
+
+  // Build HTML
+  let html = "";
+  slides.forEach((product) => {
+    const badge = product.badge || "Featured";
+    const title = product.title;
+    const desc = product.description || "";
+    const price = product.price ? `$${product.price.toFixed(2)}` : "";
+    const image = product.image;
+
+    html += `
+      <div class="swiper-slide">
+        <div class="slide-grid">
+          <div class="order-2 order-md-1">
+            <div class="inline-block px-3 py-0.5 rounded-full text-xs font-semibold bg-brand-100 text-brand-700 uppercase tracking-wide">
+              ${badge}
+            </div>
+            <h3 class="slide-title mt-2">${title}</h3>
+            <p class="slide-desc">${desc}</p>
+            ${price ? `<p class="text-sm font-semibold text-brand-600 mt-1">${price}</p>` : ""}
+            <button onclick="openBuyModal(${product.id})" class="slide-cta" type="button">
+              Shop Now <i class="fas fa-arrow-right"></i>
+            </button>
+          </div>
+          <div class="order-1 order-md-2 flex justify-center">
+            <div class="slide-img-wrap">
+              <img src="${image}" alt="${title}" class="slide-img" />
+            </div>
+          </div>
+        </div>
+      </div>
+    `;
+  });
+
+  wrapper.innerHTML = html;
+
+  // Reinitialize Swiper (destroy existing first)
+  if (window.heroSwiper) {
+    window.heroSwiper.destroy(true, true);
+    window.heroSwiper = null;
+  }
+
+  setTimeout(() => {
+    if (typeof Swiper !== "undefined") {
+      window.heroSwiper = new Swiper(".mySwiper", {
+        loop: true,
+        autoplay: { delay: 5000, disableOnInteraction: false },
+        navigation: {
+          nextEl: ".swiper-button-next",
+          prevEl: ".swiper-button-prev",
+        },
+        pagination: { el: ".swiper-pagination", clickable: true },
+        breakpoints: {
+          320: { slidesPerView: 1, spaceBetween: 20 },
+          768: { slidesPerView: 1, spaceBetween: 30 },
+        },
+      });
+    }
+  }, 100);
 }
 
 // ======================== EXISTING APP LOGIC ========================
@@ -581,8 +654,8 @@ document.addEventListener("DOMContentLoaded", function () {
 
 // ======================== INITIALISE ========================
 document.addEventListener("DOMContentLoaded", async () => {
-  // Load products from Supabase (fallback if fails)
   products = await loadProducts();
   renderFilters();
   renderProducts();
+  renderHeroSlides(products);
 });
