@@ -1,576 +1,391 @@
 <!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta
-      name="description"
-      content="Wigachu – Handpicked so you don’t have to scroll. Just the stuff that makes life easier."
-    />
-    <meta name="awin-verification" content="Awin" />
-    <title>Wigachu – Handpicked so you don’t have to scroll</title>
 
-    <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Supabase JS client -->
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    <link
-      href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap"
-      rel="stylesheet"
-    />
-    <link rel="stylesheet" href="styles.css" />
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
-    />
-    <link rel="icon" type="image/png" href="images/wigachu_logo_white.png" />
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description"
+    content="Wigachu – Handpicked so you don’t have to scroll. Just the stuff that makes life easier." />
+  <meta name="awin-verification" content="Awin" />
+  <title>Wigachu – Handpicked so you don’t have to scroll</title>
 
-    <!-- Swiper CSS -->
-    <link
-      rel="stylesheet"
-      href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"
-    />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Supabase JS client -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap"
+    rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <link rel="icon" type="image/png" href="images/wigachu_logo_white.png" />
 
-    <script>
-      tailwind.config = {
-        theme: {
-          extend: {
-            colors: {
-              brand: {
-                50: "#f0fdf4",
-                100: "#dcfce7",
-                200: "#bbf7d0",
-                300: "#86efac",
-                400: "#4ade80",
-                500: "#22c55e",
-                600: "#16a34a",
-                700: "#15803d",
-                800: "#166534",
-                900: "#14532d",
-              },
-              navy: { 800: "#1e293b", 900: "#0f172a" },
+  <!-- Swiper CSS -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              50: "#f0fdf4",
+              100: "#dcfce7",
+              200: "#bbf7d0",
+              300: "#86efac",
+              400: "#4ade80",
+              500: "#22c55e",
+              600: "#16a34a",
+              700: "#15803d",
+              800: "#166534",
+              900: "#14532d",
             },
-            fontFamily: { sans: ["Poppins", "system-ui", "sans-serif"] },
+            navy: { 800: "#1e293b", 900: "#0f172a" },
           },
+          fontFamily: { sans: ["Poppins", "system-ui", "sans-serif"] },
         },
-      };
-    </script>
-  </head>
+      },
+    };
+  </script>
+</head>
 
-  <body class="bg-gray-50 text-gray-900 antialiased">
-    <!-- Sticky navigation -->
-    <header
-      class="sticky top-0 z-50 bg-white/80 backdrop-blur-md border-b border-gray-200"
-    >
-      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="flex justify-between items-center py-4">
-          <a
-            href="#"
-            class="text-2xl font-extrabold tracking-tight text-navy-900"
-            >Wigachu<span class="text-brand-500">.</span></a
-          >
-          <nav
-            class="hidden md:flex items-center space-x-8 text-sm font-medium"
-          >
-            <a href="#products" class="hover:text-brand-600">Products</a>
-            <a href="#pesapad" class="hover:text-brand-600">Pesapad</a>
-            <a href="#how-it-works" class="hover:text-brand-600"
-              >How It Works</a
-            >
-            <a href="#footer" class="hover:text-brand-600">Contact</a>
-            <button
-              onclick="openSupportModal()"
-              class="inline-flex items-center gap-2 px-4 py-2.5 text-white text-sm font-semibold rounded-xl transition-all duration-200 hover:opacity-80"
-              style="background-color: hotpink"
-            >
-              <i class="fas fa-heart"></i> Support
-            </button>
-          </nav>
-          <button
-            id="mobile-menu-btn"
-            class="md:hidden p-2 rounded-lg hover:bg-gray-100"
-            aria-label="Menu"
-          >
-            <svg
-              class="w-6 h-6"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                d="M4 6h16M4 12h16M4 18h16"
-              />
-            </svg>
+<body class="bg-gray-50 text-gray-900 antialiased">
+  <!-- Sticky navigation -->
+  <header class="sticky top-0 z-50 bg-white/80 backdrop-blur-md border-b border-gray-200">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex justify-between items-center py-4">
+        <a href="#" class="text-2xl font-extrabold tracking-tight text-navy-900">Wigachu<span
+            class="text-brand-500">.</span></a>
+        <nav class="hidden md:flex items-center space-x-8 text-sm font-medium">
+          <a href="#products" class="hover:text-brand-600">Products</a>
+          <a href="#pesapad" class="hover:text-brand-600">Pesapad</a>
+          <a href="#how-it-works" class="hover:text-brand-600">How It Works</a>
+          <a href="#footer" class="hover:text-brand-600">Contact</a>
+          <button onclick="openSupportModal()"
+            class="inline-flex items-center gap-2 px-4 py-2.5 text-white text-sm font-semibold rounded-xl transition-all duration-200 hover:opacity-80"
+            style="background-color: hotpink">
+            <i class="fas fa-heart"></i> Support
           </button>
-        </div>
-        <!-- Mobile menu -->
-        <div id="mobile-menu" class="md:hidden hidden pb-4 space-y-2">
-          <a
-            href="#products"
-            class="block py-2 text-sm font-medium hover:text-brand-600"
-            >Products</a
-          >
-          <a
-            href="#pesapad"
-            class="block py-2 text-sm font-medium hover:text-brand-600"
-            >Pesapad</a
-          >
-          <a
-            href="#how-it-works"
-            class="block py-2 text-sm font-medium hover:text-brand-600"
-            >How It Works</a
-          >
-          <a
-            href="#footer"
-            class="block py-2 text-sm font-medium hover:text-brand-600"
-            >Contact</a
-          >
-          <button
-            onclick="openSupportModal()"
-            class="block w-full text-left py-2 px-4 text-sm font-medium text-white rounded-lg transition-colors"
-            style="background-color: hotpink"
-          >
-            <i class="fas fa-heart mr-2"></i> Support
-          </button>
-        </div>
-      </div>
-    </header>
-
-    <main>
-      <!-- ======== HERO + CAROUSEL======== -->
-      <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-12 pb-6">
-        <!-- Hero: single column, centered -->
-        <div class="text-center max-w-3xl mx-auto mb-10">
-          <h1 class="text-3xl sm:text-4xl lg:text-5xl font-extrabold ...">
-            Handpicked<br />
-            <span class="text-brand-600">so you don’t have to scroll.</span>
-          </h1>
-          <!-- Typewriter subtitle -->
-          <div
-            id="typewriter-container"
-            class="mt-4 text-xl sm:text-2xl text-gray-600 min-h-[3.2rem] flex items-center justify-center"
-          >
-            <span id="typewriter-text"></span>
-            <span id="typewriter-cursor"></span>
-          </div>
-          <div class="mt-6 flex flex-col sm:flex-row gap-4 justify-center">
-            <a
-              href="#products"
-              class="inline-flex items-center justify-center px-8 py-3 border border-transparent text-base font-medium rounded-md text-white bg-brand-600 hover:bg-brand-700 shadow-sm"
-              >Browse Products</a
-            >
-            <a
-              href="#pesapad"
-              class="inline-flex items-center justify-center px-8 py-3 border border-brand-500 text-base font-medium rounded-md text-brand-700 bg-white hover:bg-brand-50"
-              >Discover Pesapad</a
-            >
-          </div>
-        </div>
-
-        <!-- Hero Carousel: two columns per slide -->
-        <div class="swiper mySwiper pt-2 pb-10">
-          <div class="swiper-wrapper" id="hero-slides"></div>
-
-          <!-- Swiper navigation -->
-          <div class="swiper-button-next"></div>
-          <div class="swiper-button-prev"></div>
-          <div class="swiper-pagination"></div>
-        </div>
-      </section>
-
-      <!-- ======== SEARCH & FILTER ======== -->
-      <section
-        id="products"
-        class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12"
-      >
-        <div
-          class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-8"
-        >
-          <h2 class="text-2xl font-bold text-navy-900">Top picks right now</h2>
-          <div class="relative w-full sm:w-64">
-            <input
-              type="text"
-              id="search-input"
-              placeholder="Search products..."
-              class="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-full text-sm focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-transparent"
-            />
-            <svg
-              class="absolute left-3 top-2.5 w-4 h-4 text-gray-400"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
-              />
-            </svg>
-          </div>
-        </div>
-        <div class="flex flex-wrap gap-2 mb-8" id="filter-buttons"></div>
-        <div
-          id="product-grid"
-          class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6"
-        ></div>
-      </section>
-
-      <!-- ======== PESAPAD ======== -->
-      <section id="pesapad" class="bg-navy-900 text-white">
-        <div
-          class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 lg:flex lg:items-center lg:justify-between gap-12"
-        >
-          <div class="lg:w-1/2">
-            <span
-              class="inline-block px-3 py-1 rounded-full text-xs font-semibold bg-brand-400 text-navy-900 uppercase"
-              >Free App</span
-            >
-            <h2 class="mt-4 text-3xl font-extrabold tracking-tight sm:text-4xl">
-              Know your numbers.</br> Offline, no fees.
-            </h2>
-            <p class="mt-4 text-lg text-gray-300 max-w-xl">
-              Pesapad helps you track who borrowed from you, who you borrowed
-              from, and see trust scores – even without internet.
-            </p>
-            <div class="mt-6 flex flex-col sm:flex-row gap-4">
-              <a
-                href="https://pesapad.github.io"
-                target="_blank"
-                rel="noopener"
-                class="inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-md text-navy-900 bg-brand-400 hover:bg-brand-300"
-                >Get Pesapad Free</a
-              >
-              <a
-                href="https://pesapad.github.io/#features"
-                target="_blank"
-                class="inline-flex items-center px-6 py-3 border border-white/30 text-base font-medium rounded-md hover:bg-white/10"
-                >Learn more</a
-              >
-            </div>
-          </div>
-          <div class="mt-8 lg:mt-0 lg:w-1/2 flex justify-center">
-            <img
-              src="images/home_page.jpg"
-              alt="Pesapad app dashboard"
-              class="w-fit h-96 object-contain rounded-3xl shadow-2xl border-4 border-gray-600 bg-gray-700"
-            />
-          </div>
-        </div>
-      </section>
-
-      <!-- ======== HOW IT WORKS ======== -->
-      <section
-        id="how-it-works"
-        class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16"
-      >
-        <h2 class="text-2xl font-bold text-navy-900 text-center">
-          How Wigachu works
-        </h2>
-        <div class="mt-10 grid grid-cols-1 md:grid-cols-3 gap-8">
-          <div class="text-center">
-            <div
-              class="w-12 h-12 bg-brand-100 rounded-full flex items-center justify-center mx-auto"
-            >
-              <svg
-                class="w-6 h-6 text-brand-700"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                  d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
-                />
-              </svg>
-            </div>
-            <h3 class="mt-4 text-lg font-semibold">1. Browse our picks</h3>
-            <p class="mt-2 text-sm text-gray-600">
-              We find, test, and list only the best – for your shop, home, or
-              hustle.
-            </p>
-          </div>
-          <div class="text-center">
-            <div
-              class="w-12 h-12 bg-brand-100 rounded-full flex items-center justify-center mx-auto"
-            >
-              <svg
-                class="w-6 h-6 text-brand-700"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                  d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4z"
-                />
-              </svg>
-            </div>
-            <h3 class="mt-4 text-lg font-semibold">2. Choose your source</h3>
-            <p class="mt-2 text-sm text-gray-600">
-              Click “Buy Options” to see Amazon, AliExpress and more –
-              all with your links.
-            </p>
-          </div>
-          <div class="text-center">
-            <div
-              class="w-12 h-12 bg-brand-100 rounded-full flex items-center justify-center mx-auto"
-            >
-              <svg
-                class="w-6 h-6 text-brand-700"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                  d="M5 13l4 4L19 7"
-                />
-              </svg>
-            </div>
-            <h3 class="mt-4 text-lg font-semibold">3. Buy and restock</h3>
-            <p class="mt-2 text-sm text-gray-600">
-              You go straight to the seller. We might earn a small commission –
-              at no extra cost to you.
-            </p>
-          </div>
-        </div>
-      </section>
-    </main>
-
-    <!-- ======== FOOTER ======== -->
-    <footer id="footer" class="bg-white border-t border-gray-200">
-      <div
-        class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 text-center text-sm text-gray-500 space-y-2"
-      >
-        <p>&copy; <span id="current-year"></span> Wigachu. We got you.</p>
-        <p>
-          <a href="disclosure.html" class="underline hover:text-brand-600"
-            >Affiliate Disclosure</a
-          >
-          &middot;
-          <a href="privacy.html" class="underline hover:text-brand-600"
-            >Privacy Policy</a
-          >
-          &middot;
-          <a href="#" class="underline hover:text-brand-600">Contact</a>
-        </p>
-        <p class="italic text-xs">
-          As an Amazon Associate and Awin partner we earn from qualifying purchases.
-        </p>
-      </div>
-    </footer>
-
-    <!-- ======== BUY MODAL ======== -->
-    <div
-      id="buy-modal"
-      class="fixed inset-0 z-50 hidden items-center justify-center bg-black/50 backdrop-blur-sm"
-    >
-      <div
-        class="bg-white rounded-2xl shadow-xl max-w-md w-full mx-4 max-h-[90vh] overflow-y-auto p-6 relative"
-      >
-        <button
-          id="close-modal"
-          class="absolute top-4 right-4 text-gray-400 hover:text-gray-600 text-2xl leading-none"
-        >
-          &times;
+        </nav>
+        <button id="mobile-menu-btn" class="md:hidden p-2 rounded-lg hover:bg-gray-100" aria-label="Menu">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+          </svg>
         </button>
-        <h3 id="modal-title" class="text-lg font-bold text-navy-900 mb-1"></h3>
-        <p id="modal-desc" class="text-sm text-gray-500 mb-2"></p>
-        <p id="modal-price" class="text-sm text-gray-600 mb-4 font-medium"></p>
-        <div id="modal-links" class="space-y-3"></div>
-        <div class="mt-4 pt-4 border-t border-gray-200">
-          <button
-            id="bulk-order-btn"
-            class="w-full py-2.5 px-4 bg-navy-900 hover:bg-navy-800 text-white text-sm font-medium rounded-lg transition flex items-center justify-center gap-2"
-          >
-            <i class="fas fa-boxes"></i> Request Bulk Order
-          </button>
-          <p class="text-xs text-gray-400 mt-2 text-center">
-            We'll find the best bulk deal and send you the link within 5 hours.
-          </p>
-        </div>
-        <p class="text-xs text-gray-400 mt-4 border-t pt-3">
-          Clicking will open the seller's site in a new tab. A cookie may be set
-          for tracking. Prices may change – please check the seller for the
-          current price.
-        </p>
+      </div>
+      <!-- Mobile menu -->
+      <div id="mobile-menu" class="md:hidden hidden pb-4 space-y-2">
+        <a href="#products" class="block py-2 text-sm font-medium hover:text-brand-600">Products</a>
+        <a href="#pesapad" class="block py-2 text-sm font-medium hover:text-brand-600">Pesapad</a>
+        <a href="#how-it-works" class="block py-2 text-sm font-medium hover:text-brand-600">How It Works</a>
+        <a href="#footer" class="block py-2 text-sm font-medium hover:text-brand-600">Contact</a>
+        <button onclick="openSupportModal()"
+          class="block w-full text-left py-2 px-4 text-sm font-medium text-white rounded-lg transition-colors"
+          style="background-color: hotpink">
+          <i class="fas fa-heart mr-2"></i> Support
+        </button>
       </div>
     </div>
+  </header>
 
-    <!-- ======== SUPPORT MODAL ======== -->
-    <div id="supportModal" class="support-modal-overlay">
-      <div class="support-modal">
-        <button
-          onclick="closeSupportModal()"
-          class="float-right text-purple-300 hover:text-white transition-colors"
-        >
-          <i class="fas fa-times text-xl"></i>
+  <main>
+    <!-- ======== HERO + CAROUSEL======== -->
+    <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-12 pb-6">
+      <!-- Hero: single column, centered -->
+      <div class="text-center max-w-3xl mx-auto mb-10">
+        <h1 class="text-3xl sm:text-4xl lg:text-5xl font-extrabold ...">
+          Handpicked<br />
+          <span class="text-brand-600">so you don’t have to scroll.</span>
+        </h1>
+        <!-- Typewriter subtitle -->
+        <div id="typewriter-container"
+          class="mt-4 text-xl sm:text-2xl text-gray-600 min-h-[3.2rem] flex items-center justify-center">
+          <span id="typewriter-text"></span>
+          <span id="typewriter-cursor"></span>
+        </div>
+        <div class="mt-6 flex flex-col sm:flex-row gap-4 justify-center">
+          <a href="#products"
+            class="inline-flex items-center justify-center px-8 py-3 border border-transparent text-base font-medium rounded-md text-white bg-brand-600 hover:bg-brand-700 shadow-sm">Browse
+            Products</a>
+          <a href="#pesapad"
+            class="inline-flex items-center justify-center px-8 py-3 border border-brand-500 text-base font-medium rounded-md text-brand-700 bg-white hover:bg-brand-50">Discover
+            Pesapad</a>
+        </div>
+      </div>
+
+      <!-- Hero Carousel: two columns per slide -->
+      <div class="swiper mySwiper pt-2 pb-10">
+        <div class="swiper-wrapper" id="hero-slides"></div>
+
+        <!-- Swiper navigation -->
+        <div class="swiper-button-next"></div>
+        <div class="swiper-button-prev"></div>
+        <div class="swiper-pagination"></div>
+      </div>
+    </section>
+
+    <!-- ======== SEARCH & FILTER ======== -->
+    <section id="products" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+      <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-8">
+        <h2 class="text-2xl font-bold text-navy-900">Top picks right now</h2>
+        <div class="relative w-full sm:w-64">
+          <input type="text" id="search-input" placeholder="Search products..."
+            class="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-full text-sm focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-transparent" />
+          <svg class="absolute left-3 top-2.5 w-4 h-4 text-gray-400" fill="none" stroke="currentColor"
+            viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+              d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+          </svg>
+        </div>
+      </div>
+      <div class="flex flex-wrap gap-2 mb-8" id="filter-buttons"></div>
+      <div id="product-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6"></div>
+    </section>
+
+    <!-- ======== PESAPAD ======== -->
+    <section id="pesapad" class="bg-navy-900 text-white">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 lg:flex lg:items-center lg:justify-between gap-12">
+        <div class="lg:w-1/2">
+          <span
+            class="inline-block px-3 py-1 rounded-full text-xs font-semibold bg-brand-400 text-navy-900 uppercase">Free
+            App</span>
+          <h2 class="mt-4 text-3xl font-extrabold tracking-tight sm:text-4xl">
+            Know your numbers.</br> Offline, no fees.
+          </h2>
+          <p class="mt-4 text-lg text-gray-300 max-w-xl">
+            Pesapad helps you track who you gave money to, who you took money from, and see their trust scores – even
+            without internet.
+          </p>
+          <div class="mt-6 flex flex-col sm:flex-row gap-4">
+            <a href="https://pesapad.github.io" target="_blank" rel="noopener"
+              class="inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-md text-navy-900 bg-brand-400 hover:bg-brand-300">Get
+              Pesapad Free</a>
+            <a href="https://pesapad.github.io/#features" target="_blank"
+              class="inline-flex items-center px-6 py-3 border border-white/30 text-base font-medium rounded-md hover:bg-white/10">Learn
+              more</a>
+          </div>
+        </div>
+        <div class="mt-8 lg:mt-0 lg:w-1/2 flex justify-center">
+          <img src="images/home_page.jpg" alt="Pesapad app dashboard"
+            class="w-fit h-96 object-contain rounded-3xl shadow-2xl border-4 border-gray-600 bg-gray-700" />
+        </div>
+      </div>
+    </section>
+
+    <!-- ======== HOW IT WORKS ======== -->
+    <section id="how-it-works" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+      <h2 class="text-2xl font-bold text-navy-900 text-center">
+        How Wigachu works
+      </h2>
+      <div class="mt-10 grid grid-cols-1 md:grid-cols-3 gap-8">
+        <div class="text-center">
+          <div class="w-12 h-12 bg-brand-100 rounded-full flex items-center justify-center mx-auto">
+            <svg class="w-6 h-6 text-brand-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+            </svg>
+          </div>
+          <h3 class="mt-4 text-lg font-semibold">1. Browse our picks</h3>
+          <p class="mt-2 text-sm text-gray-600">
+            We find, test, and list only the best – for your shop, home, or
+            hustle.
+          </p>
+        </div>
+        <div class="text-center">
+          <div class="w-12 h-12 bg-brand-100 rounded-full flex items-center justify-center mx-auto">
+            <svg class="w-6 h-6 text-brand-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4z" />
+            </svg>
+          </div>
+          <h3 class="mt-4 text-lg font-semibold">2. Choose your source</h3>
+          <p class="mt-2 text-sm text-gray-600">
+            Click “Buy Options” to see Amazon, AliExpress and more –
+            all with your links.
+          </p>
+        </div>
+        <div class="text-center">
+          <div class="w-12 h-12 bg-brand-100 rounded-full flex items-center justify-center mx-auto">
+            <svg class="w-6 h-6 text-brand-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+            </svg>
+          </div>
+          <h3 class="mt-4 text-lg font-semibold">3. Buy and restock</h3>
+          <p class="mt-2 text-sm text-gray-600">
+            You go straight to the seller. We might earn a small commission –
+            at no extra cost to you.
+          </p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- ======== FOOTER ======== -->
+  <footer id="footer" class="bg-white border-t border-gray-200">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 text-center text-sm text-gray-500 space-y-2">
+      <p>&copy; <span id="current-year"></span> Wigachu. We got you.</p>
+      <p>
+        <a href="disclosure.html" class="underline hover:text-brand-600">Affiliate Disclosure</a>
+        &middot;
+        <a href="privacy.html" class="underline hover:text-brand-600">Privacy Policy</a>
+        &middot;
+        <a href="#" class="underline hover:text-brand-600">Contact</a>
+      </p>
+      <p class="italic text-xs">
+        As an Amazon Associate and Awin partner we earn from qualifying purchases.
+      </p>
+    </div>
+  </footer>
+
+  <!-- ======== BUY MODAL ======== -->
+  <div id="buy-modal" class="fixed inset-0 z-50 hidden items-center justify-center bg-black/50 backdrop-blur-sm">
+    <div class="bg-white rounded-2xl shadow-xl max-w-md w-full mx-4 max-h-[90vh] overflow-y-auto p-6 relative">
+      <button id="close-modal" class="absolute top-4 right-4 text-gray-400 hover:text-gray-600 text-2xl leading-none">
+        &times;
+      </button>
+      <h3 id="modal-title" class="text-lg font-bold text-navy-900 mb-1"></h3>
+      <p id="modal-desc" class="text-sm text-gray-500 mb-2"></p>
+      <p id="modal-price" class="text-sm text-gray-600 mb-4 font-medium"></p>
+      <div id="modal-links" class="space-y-3"></div>
+      <div class="mt-4 pt-4 border-t border-gray-200">
+        <button id="bulk-order-btn"
+          class="w-full py-2.5 px-4 bg-navy-900 hover:bg-navy-800 text-white text-sm font-medium rounded-lg transition flex items-center justify-center gap-2">
+          <i class="fas fa-boxes"></i> Request Bulk Order
         </button>
-        <h2 class="text-2xl font-bold mb-2 text-white">Keep Wigachu Free</h2>
-        <p class="text-purple-300 text-sm mb-6">
-          Your voluntary support helps us keep the site running and find more
-          useful products. PayPal donations go to our email address.
+        <p class="text-xs text-gray-400 mt-2 text-center">
+          We'll find the best bulk deal and send you the link within 5 hours.
         </p>
+      </div>
+      <p class="text-xs text-gray-400 mt-4 border-t pt-3">
+        Clicking will open the seller's site in a new tab. A cookie may be set
+        for tracking. Prices may change – please check the seller for the
+        current price.
+      </p>
+    </div>
+  </div>
 
-        <div class="grid grid-cols-2 gap-3 mb-6">
-          <a
-            href="https://buymeacoffee.com/pesapad"
-            target="_blank"
-            class="donation-card donation-bmc"
-          >
-            <i class="fas fa-coffee"></i>
-            <h3>Buy Me a Coffee</h3>
-            <p>One‑time or monthly</p>
-          </a>
-          <a
-            href="https://ko-fi.com/pesapad"
-            target="_blank"
-            class="donation-card donation-kofi"
-          >
-            <i class="fab fa-kickstarter-k"></i>
-            <h3>Ko-fi</h3>
-            <p>0% fees</p>
-          </a>
-          <button
-            onclick="copyPayPalEmail()"
-            class="donation-card donation-paypal"
-            style="
+  <!-- ======== SUPPORT MODAL ======== -->
+  <div id="supportModal" class="support-modal-overlay">
+    <div class="support-modal">
+      <button onclick="closeSupportModal()" class="float-right text-purple-300 hover:text-white transition-colors">
+        <i class="fas fa-times text-xl"></i>
+      </button>
+      <h2 class="text-2xl font-bold mb-2 text-white">Keep Wigachu Free</h2>
+      <p class="text-purple-300 text-sm mb-6">
+        Your voluntary support helps us keep the site running and find more
+        useful products. PayPal donations go to our email address.
+      </p>
+
+      <div class="grid grid-cols-2 gap-3 mb-6">
+        <a href="https://buymeacoffee.com/pesapad" target="_blank" class="donation-card donation-bmc">
+          <i class="fas fa-coffee"></i>
+          <h3>Buy Me a Coffee</h3>
+          <p>One‑time or monthly</p>
+        </a>
+        <a href="https://ko-fi.com/pesapad" target="_blank" class="donation-card donation-kofi">
+          <i class="fab fa-kickstarter-k"></i>
+          <h3>Ko-fi</h3>
+          <p>0% fees</p>
+        </a>
+        <button onclick="copyPayPalEmail()" class="donation-card donation-paypal" style="
               width: 100%;
               text-align: center;
               border: none;
               background: #f8fafc;
               cursor: pointer;
-            "
-          >
-            <i class="fab fa-paypal"></i>
-            <h3>PayPal</h3>
-            <p>pesapad.app@gmail.com</p>
-            <span style="font-size: 0.7rem; color: #0070ba"
-              >Tap to copy email</span
-            >
-          </button>
-          <a
-            href="https://github.com/sponsors/pesapad"
-            target="_blank"
-            class="donation-card donation-github"
-          >
-            <i class="fab fa-github"></i>
-            <h3>GitHub Sponsors</h3>
-            <p>Open‑source</p>
-          </a>
-        </div>
+            ">
+          <i class="fab fa-paypal"></i>
+          <h3>PayPal</h3>
+          <p>pesapad.app@gmail.com</p>
+          <span style="font-size: 0.7rem; color: #0070ba">Tap to copy email</span>
+        </button>
+        <a href="https://github.com/sponsors/pesapad" target="_blank" class="donation-card donation-github">
+          <i class="fab fa-github"></i>
+          <h3>GitHub Sponsors</h3>
+          <p>Open‑source</p>
+        </a>
+      </div>
 
-        <h3
-          class="text-sm font-semibold text-purple-300 uppercase tracking-wider mb-3"
-        >
-          Cryptocurrency
-        </h3>
-        <div class="space-y-2">
-          <div class="crypto-card crypto-btc">
-            <div class="flex items-center gap-2 mb-1">
-              <span class="text-sm font-medium text-white">Bitcoin (BTC)</span>
-            </div>
-            <div class="address-row">
-              <code id="btc-address"
-                >bc1q2v229l0pj0auskul9yf78vq5p2tmlv75x89j8s</code
-              >
-              <button onclick="copyToClipboard('btc-address')" class="copy-btn">
-                Copy
-              </button>
-            </div>
+      <h3 class="text-sm font-semibold text-purple-300 uppercase tracking-wider mb-3">
+        Cryptocurrency
+      </h3>
+      <div class="space-y-2">
+        <div class="crypto-card crypto-btc">
+          <div class="flex items-center gap-2 mb-1">
+            <span class="text-sm font-medium text-white">Bitcoin (BTC)</span>
           </div>
-          <div class="crypto-card crypto-eth">
-            <div class="flex items-center gap-2 mb-1">
-              <span class="text-sm font-medium text-white">Ethereum (ETH)</span>
-            </div>
-            <div class="address-row">
-              <code id="eth-address"
-                >0x7d7433768c74e742ea6c5118ff38b5caa945fb29</code
-              >
-              <button onclick="copyToClipboard('eth-address')" class="copy-btn">
-                Copy
-              </button>
-            </div>
-          </div>
-          <div class="crypto-card crypto-sol">
-            <div class="flex items-center gap-2 mb-1">
-              <span class="text-sm font-medium text-white">Solana (SOL)</span>
-            </div>
-            <div class="address-row">
-              <code id="sol-address"
-                >Z2UnnWt9oaM1AqDwksi5WrYwMgJxwfBcDpMWY8Sh5HJ</code
-              >
-              <button onclick="copyToClipboard('sol-address')" class="copy-btn">
-                Copy
-              </button>
-            </div>
-          </div>
-          <div class="crypto-card crypto-doge">
-            <div class="flex items-center gap-2 mb-1">
-              <span class="text-sm font-medium text-white"
-                >Dogecoin (DOGE)</span
-              >
-            </div>
-            <div class="address-row">
-              <code id="doge-address">DRVoAYndbsXi9kY2L2Hc9tmCuJ8eG1hFJE</code>
-              <button
-                onclick="copyToClipboard('doge-address')"
-                class="copy-btn"
-              >
-                Copy
-              </button>
-            </div>
+          <div class="address-row">
+            <code id="btc-address">bc1q2v229l0pj0auskul9yf78vq5p2tmlv75x89j8s</code>
+            <button onclick="copyToClipboard('btc-address')" class="copy-btn">
+              Copy
+            </button>
           </div>
         </div>
-        <p class="text-xs text-purple-400 mt-3 text-center">
-          Only send the respective cryptocurrency to each address.
-        </p>
+        <div class="crypto-card crypto-eth">
+          <div class="flex items-center gap-2 mb-1">
+            <span class="text-sm font-medium text-white">Ethereum (ETH)</span>
+          </div>
+          <div class="address-row">
+            <code id="eth-address">0x7d7433768c74e742ea6c5118ff38b5caa945fb29</code>
+            <button onclick="copyToClipboard('eth-address')" class="copy-btn">
+              Copy
+            </button>
+          </div>
+        </div>
+        <div class="crypto-card crypto-sol">
+          <div class="flex items-center gap-2 mb-1">
+            <span class="text-sm font-medium text-white">Solana (SOL)</span>
+          </div>
+          <div class="address-row">
+            <code id="sol-address">Z2UnnWt9oaM1AqDwksi5WrYwMgJxwfBcDpMWY8Sh5HJ</code>
+            <button onclick="copyToClipboard('sol-address')" class="copy-btn">
+              Copy
+            </button>
+          </div>
+        </div>
+        <div class="crypto-card crypto-doge">
+          <div class="flex items-center gap-2 mb-1">
+            <span class="text-sm font-medium text-white">Dogecoin (DOGE)</span>
+          </div>
+          <div class="address-row">
+            <code id="doge-address">DRVoAYndbsXi9kY2L2Hc9tmCuJ8eG1hFJE</code>
+            <button onclick="copyToClipboard('doge-address')" class="copy-btn">
+              Copy
+            </button>
+          </div>
+        </div>
       </div>
+      <p class="text-xs text-purple-400 mt-3 text-center">
+        Only send the respective cryptocurrency to each address.
+      </p>
     </div>
+  </div>
 
-    <!-- ======== BOOKMARK TOAST ======== -->
-    <div
-      id="bookmark-toast"
-      class="fixed bottom-6 left-4 right-4 z-50 bg-navy-900 text-white px-5 py-4 rounded-2xl shadow-2xl flex items-center gap-3 transition-all duration-500 opacity-0 translate-y-10 pointer-events-none"
-      style="max-width: 500px; margin: 0 auto"
-    >
-      <span class="text-2xl flex-shrink-0">👋</span>
-      <div class="flex-1 min-w-0">
-        <p class="font-semibold text-sm">Enjoying our picks?</p>
-        <p class="text-xs text-gray-300 truncate">
-          Bookmark Wigachu so you never lose us!
-        </p>
-      </div>
-      <button
-        id="dismiss-bookmark"
-        class="flex-shrink-0 bg-white/20 hover:bg-white/30 px-4 py-2 rounded-full text-xs font-medium transition"
-      >
-        Got it
-      </button>
+  <!-- ======== BOOKMARK TOAST ======== -->
+  <div id="bookmark-toast"
+    class="fixed bottom-6 left-4 right-4 z-50 bg-navy-900 text-white px-5 py-4 rounded-2xl shadow-2xl flex items-center gap-3 transition-all duration-500 opacity-0 translate-y-10 pointer-events-none"
+    style="max-width: 500px; margin: 0 auto">
+    <span class="text-2xl flex-shrink-0">👋</span>
+    <div class="flex-1 min-w-0">
+      <p class="font-semibold text-sm">Enjoying our picks?</p>
+      <p class="text-xs text-gray-300 truncate">
+        Bookmark Wigachu so you never lose us!
+      </p>
     </div>
-
-    <!-- ======== FLOATING SUPPORT FAB ======== -->
-    <button
-      id="fab-support"
-      class="fixed bottom-6 left-6 z-40 w-14 h-14 rounded-full shadow-xl shadow-brand-500/40 flex items-center justify-center text-white transition-all duration-300 hover:scale-110 hover:shadow-brand-400/60"
-      style="background-color: hotpink"
-      aria-label="Support Wigachu"
-      onclick="openSupportModal()"
-    >
-      <i class="fas fa-heart text-xl"></i>
+    <button id="dismiss-bookmark"
+      class="flex-shrink-0 bg-white/20 hover:bg-white/30 px-4 py-2 rounded-full text-xs font-medium transition">
+      Got it
     </button>
+  </div>
 
-    <!-- Swiper JS -->
-    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
-    <script src="main.js"></script>
-  </body>
+  <!-- ======== FLOATING SUPPORT FAB ======== -->
+  <button id="fab-support"
+    class="fixed bottom-6 left-6 z-40 w-14 h-14 rounded-full shadow-xl shadow-brand-500/40 flex items-center justify-center text-white transition-all duration-300 hover:scale-110 hover:shadow-brand-400/60"
+    style="background-color: hotpink" aria-label="Support Wigachu" onclick="openSupportModal()">
+    <i class="fas fa-heart text-xl"></i>
+  </button>
+
+  <!-- Swiper JS -->
+  <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+  <script src="main.js"></script>
+</body>
+
 </html>
