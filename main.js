@@ -386,7 +386,7 @@ function renderProducts() {
 
     card.innerHTML = `
       <div class="relative aspect-[4/3] bg-gray-100 overflow-hidden">
-        <img src="${product.image}" alt="${product.title}" class="w-full h-full object-cover" loading="lazy" />
+        <img src="${product.image}" alt="${product.title}" class="w-full h-full object-cover" loading="lazy" referrerpolicy="no-referrer" />
         ${product.badge ? `<span class="absolute top-2 left-2 px-2 py-1 bg-brand-500 text-white text-xs font-semibold rounded-full">${product.badge}</span>` : ""}
       </div>
       <div class="p-4 flex flex-col flex-1">
@@ -579,32 +579,16 @@ if (yearSpan) {
   yearSpan.textContent = new Date().getFullYear();
 }
 
-// ---------- HERO CAROUSEL (Swiper) ----------
-document.addEventListener("DOMContentLoaded", function () {
-  if (typeof Swiper !== "undefined") {
-    new Swiper(".mySwiper", {
-      loop: true,
-      autoplay: {
-        delay: 5000,
-        disableOnInteraction: false,
-      },
-      navigation: {
-        nextEl: ".swiper-button-next",
-        prevEl: ".swiper-button-prev",
-      },
-      pagination: {
-        el: ".swiper-pagination",
-        clickable: true,
-      },
-      breakpoints: {
-        320: { slidesPerView: 1, spaceBetween: 20 },
-        768: { slidesPerView: 1, spaceBetween: 30 },
-      },
-    });
-  }
-});
-
 // ---------- TYPEWRITER ----------
+// Shuffle function for phrases
+function shuffleArray(arr) {
+  for (let i = arr.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [arr[i], arr[j]] = [arr[j], arr[i]];
+  }
+  return arr;
+}
+
 document.addEventListener("DOMContentLoaded", function () {
 const phrases = [
     "Best seller: Inflatable sofa – your new camping BFF.",
@@ -623,6 +607,10 @@ const phrases = [
     "Just the stuff that makes life easier.",
     "Track debts & trust with Pesapad – it's 100% free.",
   ];
+
+  // Shuffle the phrases so they appear in random order each time
+  shuffleArray(phrases);
+
   let phraseIndex = 0;
   let charIndex = 0;
   let isDeleting = false;
