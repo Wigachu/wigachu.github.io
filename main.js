@@ -177,7 +177,6 @@ function renderHeroSlides(products) {
           nextEl: ".swiper-button-next",
           prevEl: ".swiper-button-prev",
         },
-        pagination: { el: ".swiper-pagination", clickable: true },
         breakpoints: {
           320: { slidesPerView: 1, spaceBetween: 20 },
           768: { slidesPerView: 1, spaceBetween: 30 },
@@ -281,7 +280,7 @@ window.copyToClipboard = function (elementId) {
     });
 };
 
-// ---------- BULK ORDER ----------
+// ---------- Wholesale ----------
 async function requestBulkOrder(product) {
   if (isBulkLoading) return;
   isBulkLoading = true;
@@ -324,9 +323,9 @@ async function requestBulkOrder(product) {
     ]);
 
     if (error) throw error;
-    alert("Bulk order logged! We'll find the best deal for you.");
+    alert("Awesome! We'll find the best deal for you.");
   } catch (err) {
-    console.error("Bulk order failed:", err);
+    console.error("Wholesale failed:", err);
     alert("Something went wrong. Please try again later.");
   } finally {
     isBulkLoading = false;
@@ -337,7 +336,7 @@ async function requestBulkOrder(product) {
       gridBtn.disabled = false;
     }
     if (modalBtn) {
-      modalBtn.innerHTML = originalModalHtml || "Request Bulk Order";
+      modalBtn.innerHTML = originalModalHtml || "Request Wholesale";
       modalBtn.disabled = false;
     }
   }
@@ -397,7 +396,7 @@ function renderProducts() {
           <button class="flex-1 buy-options-btn py-2 px-4 bg-brand-600 hover:bg-brand-700 text-white text-sm font-medium rounded-lg transition" data-product-id="${product.id}">
             Buy Options
           </button>
-          <button class="bulk-request-btn py-2 px-3 bg-navy-900 hover:bg-navy-800 text-white text-sm font-medium rounded-lg transition" data-product-id="${product.id}" title="Request Bulk Order">
+          <button class="bulk-request-btn py-2 px-3 bg-navy-900 hover:bg-navy-800 text-white text-sm font-medium rounded-lg transition" data-product-id="${product.id}" title="Request Wholesale">
             <i class="fas fa-boxes"></i>
           </button>
         </div>
@@ -474,7 +473,7 @@ function openBuyModal(productId) {
     });
   }
 
-  // Conditionally hide "Request Bulk Order" button if bulk links exist
+  // Conditionally hide "Request Wholesale" button if bulk links exist
   const bulkOrderBtn = document.getElementById("bulk-order-btn");
   if (product.bulkLinks && product.bulkLinks.length > 0) {
     bulkOrderBtn.style.display = "none";
@@ -484,7 +483,7 @@ function openBuyModal(productId) {
     bulkOrderBtn.onclick = () => requestBulkOrder(product);
   }
 
-  // Add "Report broken link" button
+  // "Report broken link" button
   const reportBtn = document.createElement("button");
   reportBtn.className = "mt-4 text-sm text-red-500 hover:underline";
   reportBtn.textContent = "Report broken link";
@@ -493,9 +492,22 @@ function openBuyModal(productId) {
 
   buyModal.classList.remove("hidden");
   buyModal.classList.add("flex");
+
+  // Tiktok link
+  const tiktokBtn = document.createElement("button");
+  tiktokBtn.className =
+    "mt-2 text-sm text-[#000000] hover:text-[#FE2C55] flex items-center gap-2";
+  tiktokBtn.innerHTML = '<i class="fab fa-tiktok"></i> Find this on TikTok';
+  tiktokBtn.onclick = function (e) {
+    e.stopPropagation();
+    const searchTerm = product.title;
+    const url = `https://www.tiktok.com/search?q=${encodeURIComponent(searchTerm)}`;
+    window.open(url, "_blank");
+  };
+  modalLinks.appendChild(tiktokBtn);
 }
 
-// New function: report broken link
+// Report broken link
 async function reportBrokenLink(product) {
   // For simplicity, report the first retail link
   const link =
@@ -590,7 +602,7 @@ function shuffleArray(arr) {
 }
 
 document.addEventListener("DOMContentLoaded", function () {
-const phrases = [
+  const phrases = [
     "Best seller: Inflatable sofa – your new camping BFF.",
     "Best seller: Neck massager for instant relief.",
     "Beat the Heat: Solar fan hats and cooling gadgets.",
@@ -652,3 +664,107 @@ document.addEventListener("DOMContentLoaded", async () => {
   renderProducts();
   renderHeroSlides(products);
 });
+
+// ======== WELCOME POPUP ========
+(function initWelcomePopup() {
+  const popup = document.getElementById("welcome-popup");
+  const slides = document.querySelectorAll(".welcome-slide");
+  const dots = document.querySelectorAll(".welcome-dot");
+  const progress = document.getElementById("welcome-progress");
+  const closeBtn = document.getElementById("close-welcome-popup");
+
+  let currentSlide = 0;
+  let autoPlayInterval = null;
+  const totalSlides = slides.length;
+  const slideDuration = 5000; // 3 seconds per slide
+
+  // Check if user has already seen the popup
+  if (localStorage.getItem("wigachu_welcome_seen") === "true") {
+    return;
+  }
+
+  // Show popup after 1 second
+  setTimeout(() => {
+    popup.classList.remove("hidden");
+    popup.classList.add("flex");
+    startAutoPlay();
+  }, 1000);
+
+  function goToSlide(index) {
+    // Clamp index
+    if (index < 0) index = totalSlides - 1;
+    if (index >= totalSlides) index = 0;
+    currentSlide = index;
+
+    // Update slides
+    slides.forEach((slide, i) => {
+      slide.classList.toggle("active", i === currentSlide);
+    });
+
+    // Update dots
+    dots.forEach((dot, i) => {
+      dot.classList.toggle("active", i === currentSlide);
+    });
+
+    // Update progress bar
+    const progressPercent = ((currentSlide + 1) / totalSlides) * 100;
+    progress.style.width = progressPercent + "%";
+  }
+
+  function nextSlide() {
+    goToSlide(currentSlide + 1);
+  }
+
+  function startAutoPlay() {
+    if (autoPlayInterval) clearInterval(autoPlayInterval);
+    autoPlayInterval = setInterval(nextSlide, slideDuration);
+  }
+
+  function stopAutoPlay() {
+    if (autoPlayInterval) {
+      clearInterval(autoPlayInterval);
+      autoPlayInterval = null;
+    }
+  }
+
+  // Dot click handlers
+  dots.forEach((dot) => {
+    dot.addEventListener("click", function () {
+      const index = parseInt(this.dataset.index);
+      stopAutoPlay();
+      goToSlide(index);
+      startAutoPlay(); // Restart after manual click
+    });
+  });
+
+  // Close button
+  closeBtn.addEventListener("click", function () {
+    stopAutoPlay();
+    popup.classList.add("hidden");
+    popup.classList.remove("flex");
+    localStorage.setItem("wigachu_welcome_seen", "true");
+  });
+
+  // Click outside to close (optional)
+  popup.addEventListener("click", function (e) {
+    if (e.target === popup) {
+      stopAutoPlay();
+      popup.classList.add("hidden");
+      popup.classList.remove("flex");
+      localStorage.setItem("wigachu_welcome_seen", "true");
+    }
+  });
+
+  // Keyboard support (Escape to close)
+  document.addEventListener("keydown", function (e) {
+    if (e.key === "Escape" && !popup.classList.contains("hidden")) {
+      stopAutoPlay();
+      popup.classList.add("hidden");
+      popup.classList.remove("flex");
+      localStorage.setItem("wigachu_welcome_seen", "true");
+    }
+  });
+
+  // Start on slide 0
+  goToSlide(0);
+})();
