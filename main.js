@@ -601,55 +601,90 @@ function shuffleArray(arr) {
   return arr;
 }
 
+// ---------- TYPEWRITER ----------
 document.addEventListener("DOMContentLoaded", function () {
-  const phrases = [
-    "Best seller: Inflatable sofa – your new camping BFF.",
+  const rawPhrases = [
+    "4K Projector: Turn any wall into a cinema.",
     "Best seller: Neck massager for instant relief.",
-    "Beat the Heat: Solar fan hats and cooling gadgets.",
-    "Beat the Heat: Portable cooling fan that actually works.",
-    "Trending: 3D hologram fan for epic displays.",
-    "Trending: Galaxy night light – a magical gift.",
-    "Gardening: Seed starter kit with LED grow lights.",
-    "Upgrade your pets: Cooling mats and LED collars.",
-    "Grip strengthener: Build hand strength anywhere.",
-    "Cozy cave: Cat bed that pets love to burrow.",
-    "LED dog collar: Safe night walks for your pup.",
+    "Inflatable Sofa: Fits in a backpack – inflates in 10 seconds.",
+    "3D Hologram Fan: Upload your own 3D content.",
+    "Swim Earphones: Underwater audio – 32GB storage.",
+    "Tire Inflator: Never get stranded with a flat tire.",
+    "First Aid Kit: 379 pieces – be prepared for anything.",
+    "Handheld Steamer: Wrinkle-free clothes anywhere.",
+    "Galaxy Projector: Transform any room into a galaxy.",
+    "Solar Fan Hat: Stay cool and protected under the sun.",
     "Discover the gear that actually works.",
     "We dig through reviews so you get the best ones.",
     "Just the stuff that makes life easier.",
-    "Track debts & trust with Pesapad – it's 100% free.",
+    "Track debts & get trust scores with Pesapad – it's 100% free.",
   ];
 
-  // Shuffle the phrases so they appear in random order each time
-  shuffleArray(phrases);
+  function shuffleArray(arr) {
+    for (let i = arr.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [arr[i], arr[j]] = [arr[j], arr[i]];
+    }
+    return arr;
+  }
+  shuffleArray(rawPhrases);
 
   let phraseIndex = 0;
   let charIndex = 0;
   let isDeleting = false;
   const typewriterEl = document.getElementById("typewriter-text");
-
   if (!typewriterEl) return;
 
-  function typeEffect() {
-    const currentPhrase = phrases[phraseIndex];
-    if (!isDeleting) {
-      typewriterEl.textContent = currentPhrase.slice(0, charIndex + 1);
-      charIndex++;
-      if (charIndex === currentPhrase.length) {
-        isDeleting = true;
-        setTimeout(typeEffect, 2800);
-        return;
-      }
-      setTimeout(typeEffect, 40);
+  function splitPhrase(phrase) {
+    const colonIndex = phrase.indexOf(":");
+    if (colonIndex === -1) return { label: "", rest: phrase };
+    return {
+      label: phrase.substring(0, colonIndex + 1),
+      rest: phrase.substring(colonIndex + 1).trimStart(),
+    };
+  }
+
+  function getCurrentText() {
+    const phrase = rawPhrases[phraseIndex];
+    const { label, rest } = splitPhrase(phrase);
+    const typedRest = rest.slice(0, Math.max(0, charIndex));
+    if (label) {
+      return `<b>${label}</b> ${typedRest}`;
     } else {
-      typewriterEl.textContent = currentPhrase.slice(0, charIndex);
+      return typedRest;
+    }
+  }
+
+  function typeEffect() {
+    const phrase = rawPhrases[phraseIndex];
+    const { label, rest } = splitPhrase(phrase);
+
+    if (!isDeleting) {
+      // Typing phase
+      if (charIndex <= rest.length) {
+        typewriterEl.innerHTML = getCurrentText();
+        charIndex++;
+        if (charIndex > rest.length) {
+          isDeleting = true;
+          setTimeout(typeEffect, 2800);
+          return;
+        }
+        setTimeout(typeEffect, 40);
+      }
+    } else {
+      // Deleting phase
       charIndex--;
       if (charIndex < 0) {
+        // Move to next phrase
         isDeleting = false;
-        phraseIndex = (phraseIndex + 1) % phrases.length;
+        phraseIndex = (phraseIndex + 1) % rawPhrases.length;
+        // Reset charIndex to 0 and immediately set the new bold label (if any) to avoid flicker
+        charIndex = 0;
+        typewriterEl.innerHTML = getCurrentText();
         setTimeout(typeEffect, 300);
         return;
       }
+      typewriterEl.innerHTML = getCurrentText();
       setTimeout(typeEffect, 20);
     }
   }
