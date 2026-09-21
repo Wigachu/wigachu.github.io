@@ -45,7 +45,7 @@ html {
   display: flex !important;
 }
 
-/* ── SUPPORT MODAL ── (Updated to site theme) */
+/* ── SUPPORT MODAL ── */
 .support-modal-overlay {
   display: none !important;
   position: fixed;
@@ -62,7 +62,7 @@ html {
 }
 
 .support-modal {
-  background: #ffffff; /* white background */
+  background: #ffffff;
   border-radius: 0.5rem;
   max-width: 600px;
   width: 100%;
@@ -71,7 +71,7 @@ html {
   padding: 2rem;
   border: 1px solid rgba(0, 0, 0, 0.08);
   box-shadow: 0 25px 60px rgba(0, 0, 0, 0.15);
-  color: #0f172a; /* navy-900 */
+  color: #0f172a;
 }
 .support-modal::-webkit-scrollbar {
   width: 4px;
@@ -80,32 +80,29 @@ html {
   background: transparent;
 }
 .support-modal::-webkit-scrollbar-thumb {
-  background: #16a34a; /* brand-600 */
+  background: #16a34a;
   border-radius: 2px;
 }
 
-/* Modal heading & text */
 .support-modal h2 {
-  color: #0f172a; /* navy-900 */
+  color: #0f172a;
 }
 .support-modal .text-purple-300 {
-  color: #475569; /* gray-600 instead of purple */
+  color: #475569;
 }
 .support-modal .text-purple-400 {
-  color: #64748b; /* gray-500 */
+  color: #64748b;
 }
 
-/* Close button */
 .support-modal .float-right {
-  color: #1e293b; /* navy-800 */
+  color: #1e293b;
 }
 .support-modal .float-right:hover {
   color: #0f172a;
 }
 
-/* Donation cards – keep payment method colors, but match site theme */
 .donation-card {
-  background: #f8fafc; /* light gray */
+  background: #f8fafc;
   border: 1px solid #e2e8f0;
   border-radius: 1rem;
   padding: 1rem;
@@ -117,7 +114,7 @@ html {
 }
 .donation-card:hover {
   transform: translateY(-3px);
-  background: #f0fdf4; /* brand-50 (light green) */
+  background: #f0fdf4;
   border-color: #bbf7d0;
 }
 .donation-card i {
@@ -135,7 +132,6 @@ html {
   color: #475569;
 }
 
-/* Payment method specific left borders (unchanged) */
 .donation-bmc {
   border-left-color: #ffdd00;
 }
@@ -176,7 +172,6 @@ html {
   color: #6e5494;
 }
 
-/* Crypto cards – payment method colors kept */
 .crypto-card {
   background: #f8fafc;
   border: 1px solid #e2e8f0;
@@ -185,7 +180,7 @@ html {
   border-left: 4px solid transparent;
 }
 .crypto-card .text-white {
-  color: #0f172a; /* override white text to navy */
+  color: #0f172a;
 }
 .crypto-btc {
   border-left-color: #f7931a;
@@ -205,7 +200,7 @@ html {
   align-items: center;
   justify-content: space-between;
   gap: 0.5rem;
-  background: #f1f5f9; /* light slate */
+  background: #f1f5f9;
   border-radius: 0.5rem;
   padding: 0.5rem;
 }
@@ -217,7 +212,7 @@ html {
   color: #0f172a;
 }
 .copy-btn {
-  background: #16a34a; /* brand-600 */
+  background: #16a34a;
   border: none;
   color: white;
   font-size: 0.65rem;
@@ -228,10 +223,9 @@ html {
   transition: 0.2s;
 }
 .copy-btn:hover {
-  background: #15803d; /* brand-700 */
+  background: #15803d;
 }
 
-/* FAB */
 #fab-support {
   box-shadow: 0 8px 25px rgba(255, 105, 180, 0.5);
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
@@ -241,7 +235,6 @@ html {
   transform: scale(1.08);
 }
 
-/* Bookmark Toast */
 #bookmark-toast {
   transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
 }
@@ -251,11 +244,10 @@ html {
   pointer-events: auto !important;
 }
 
-/* Hero Carousel Styles */
 .swiper {
   width: 100%;
   height: auto;
-  padding-bottom: 2.5rem; /* space for pagination */
+  padding-bottom: 2.5rem;
 }
 
 .swiper-button-next,
@@ -279,25 +271,13 @@ html {
   font-weight: bold;
 }
 
-.swiper-pagination-bullet {
-  background: white !important;
-  opacity: 0.6;
-}
-
-.swiper-pagination-bullet-active {
-  background: white !important;
-  opacity: 1;
-}
-
-/* Adjust for mobile */
 @media (max-width: 640px) {
   .swiper-button-next,
   .swiper-button-prev {
-    display: none !important; /* Hide arrows on small screens, dots remain */
+    display: none !important;
   }
 }
 
-/* ── Two‑column carousel slide styles ── */
 .slide-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -379,7 +359,6 @@ html {
   font-size: 0.8rem;
 }
 
-/* Typewriter cursor */
 #typewriter-cursor {
   display: inline-block;
   width: 2px;
@@ -449,4 +428,31 @@ html {
 
 #welcome-popup {
   transition: opacity 0.3s ease;
+}
+
+/* ---- Copy Link Button (in Buy Modal) ---- */
+.copy-link-btn {
+  background: transparent;
+  border: 1px solid rgba(22, 163, 74, 0.25);
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.copy-link-btn:hover {
+  background: rgba(22, 163, 74, 0.08);
+}
+
+.copy-link-btn:active {
+  transform: scale(0.96);
+}
+
+/* ---- Full URL code snippet ---- */
+#modal-links code {
+  font-family: "SF Mono", Monaco, "Cascadia Code", "Roboto Mono", monospace;
+}
+
+/* ---- Modal price headline spacing ---- */
+#modal-price {
+  line-height: 1.3;
 }

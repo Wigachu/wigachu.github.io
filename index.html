@@ -50,7 +50,7 @@
     !function (f, b, e, v, n, t, s) {
       if (f.fbq) return; n = f.fbq = function () {
         n.callMethod ?
-        n.callMethod.apply(n, arguments) : n.queue.push(arguments)
+          n.callMethod.apply(n, arguments) : n.queue.push(arguments)
       };
       if (!f._fbq) f._fbq = n; n.push = n; n.loaded = !0; n.version = '2.0';
       n.queue = []; t = b.createElement(e); t.async = !0;
@@ -106,15 +106,13 @@
   </header>
 
   <main>
-    <!-- ======== HERO + CAROUSEL======== -->
+    <!-- ======== HERO + CAROUSEL ======== -->
     <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-12 pb-6">
-      <!-- Hero: single column, centered -->
       <div class="text-center max-w-3xl mx-auto mb-10">
         <h1 class="text-3xl sm:text-4xl lg:text-5xl font-extrabold ...">
           Handpicked<br />
           <span class="text-brand-600">so you don’t have to scroll.</span>
         </h1>
-        <!-- Typewriter subtitle -->
         <div id="typewriter-container"
           class="mt-4 text-xl sm:text-2xl text-gray-600 min-h-[3.2rem] flex items-center justify-center">
           <span id="typewriter-text"></span>
@@ -130,11 +128,8 @@
         </div>
       </div>
 
-      <!-- Hero Carousel: two columns per slide -->
       <div class="swiper mySwiper pt-2 lg:pb-10 pb-4">
         <div class="swiper-wrapper" id="hero-slides"></div>
-
-        <!-- Swiper navigation -->
         <div class="swiper-button-next"></div>
         <div class="swiper-button-prev"></div>
       </div>
@@ -255,13 +250,13 @@
 
   <!-- ======== BUY MODAL ======== -->
   <div id="buy-modal" class="fixed inset-0 z-50 hidden items-center justify-center bg-black/50 backdrop-blur-sm">
-    <div class="bg-white rounded-2xl shadow-xl max-w-md w-full mx-4 max-h-[90vh] overflow-y-auto p-6 relative">
+    <div class="bg-white rounded-2xl shadow-xl max-w-lg w-full mx-4 max-h-[90vh] overflow-y-auto p-6 relative">
       <button id="close-modal" class="absolute top-4 right-4 text-gray-400 hover:text-gray-600 text-2xl leading-none">
         &times;
       </button>
       <h3 id="modal-title" class="text-lg font-bold text-navy-900 mb-1"></h3>
       <p id="modal-desc" class="text-sm text-gray-500 mb-2"></p>
-      <p id="modal-price" class="text-sm text-gray-600 mb-4 font-medium"></p>
+      <div id="modal-price" class="mb-4"></div>
       <div id="modal-links" class="space-y-3"></div>
       <div class="mt-4 pt-4 border-t border-gray-200">
         <button id="bulk-order-btn"
@@ -400,20 +395,17 @@
     style="background-color: hotpink" aria-label="Support Wigachu" onclick="openSupportModal()">
     <i class="fas fa-heart text-xl"></i>
   </button>
+
   <!-- ======== WELCOME GREETING POPUP ======== -->
   <div id="welcome-popup"
     class="fixed inset-0 z-[9999] hidden items-center justify-center bg-black/50 backdrop-blur-sm transition-opacity duration-500">
     <div class="bg-white rounded-3xl shadow-2xl max-w-md w-full mx-4 p-6 relative animate-slide-up">
-      <!-- Close button -->
       <button id="close-welcome-popup"
         class="absolute top-3 right-4 text-gray-400 hover:text-gray-600 text-4xl leading-none transition-colors">
         &times;
       </button>
 
-      <!-- Carousel container -->
       <div id="welcome-carousel" class="relative overflow-hidden" style="height: 380px;">
-
-        <!-- Slide 1: Step 1 -->
         <div class="welcome-slide absolute inset-0 transition-opacity duration-500 ease-in-out opacity-0"
           data-index="0">
           <div class="flex flex-col items-center justify-center h-full text-center px-2">
@@ -424,7 +416,6 @@
           </div>
         </div>
 
-        <!-- Slide 2: Step 2 -->
         <div class="welcome-slide absolute inset-0 transition-opacity duration-500 ease-in-out opacity-0"
           data-index="1">
           <div class="flex flex-col items-center justify-center h-full text-center px-2">
@@ -435,7 +426,6 @@
           </div>
         </div>
 
-        <!-- Slide 3: Step 3 -->
         <div class="welcome-slide absolute inset-0 transition-opacity duration-500 ease-in-out opacity-0"
           data-index="2">
           <div class="flex flex-col items-center justify-center h-full text-center px-2">
@@ -446,7 +436,6 @@
           </div>
         </div>
 
-        <!-- Slide 4: Trust Close -->
         <div class="welcome-slide absolute inset-0 transition-opacity duration-500 ease-in-out opacity-0"
           data-index="3">
           <div class="flex flex-col items-center justify-center h-full text-center px-2">
@@ -459,7 +448,6 @@
         </div>
       </div>
 
-      <!-- Progress bar -->
       <div class="w-full bg-gray-200 rounded-full h-1.5 mt-4 overflow-hidden">
         <div id="welcome-progress" class="bg-brand-500 h-1.5 rounded-full transition-all duration-1000 ease-linear"
           style="width: 0%;"></div>
@@ -467,10 +455,8 @@
     </div>
   </div>
 
-  <!-- Swiper JS -->
   <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
   <script src="main.js"></script>
-
 </body>
 
 </html>

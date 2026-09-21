@@ -11,7 +11,6 @@ const supabaseClient = window.supabase.createClient(
 let isBulkLoading = false;
 
 // ======================== FALLBACK PRODUCTS ========================
-// Used only if Supabase is unreachable or returns an error
 const fallbackProducts = [
   {
     id: 1,
@@ -27,6 +26,8 @@ const fallbackProducts = [
       {
         platform: "AliExpress",
         url: "https://s.click.aliexpress.com/e/_EIxEgmI",
+        price: 8.05,
+        currency: "USD",
       },
     ],
   },
@@ -44,6 +45,8 @@ const fallbackProducts = [
       {
         platform: "AliExpress",
         url: "https://s.click.aliexpress.com/e/_EIk5COe",
+        price: 18.58,
+        currency: "USD",
       },
     ],
   },
@@ -61,6 +64,8 @@ const fallbackProducts = [
       {
         platform: "AliExpress",
         url: "https://s.click.aliexpress.com/e/_EHlor5Y",
+        price: 62.78,
+        currency: "USD",
       },
     ],
   },
@@ -78,13 +83,53 @@ const fallbackProducts = [
       {
         platform: "AliExpress",
         url: "https://s.click.aliexpress.com/e/_Exod9IS",
+        price: 13.1,
+        currency: "USD",
       },
     ],
   },
 ];
 
+// ======================== PRICE HELPERS ========================
+
+function getLowestPrice(product) {
+  if (!product.links || product.links.length === 0) {
+    return product.price || null;
+  }
+  const prices = product.links
+    .map((l) => parseFloat(l.price))
+    .filter((p) => !isNaN(p) && p > 0);
+  if (prices.length > 0) return Math.min(...prices);
+  return product.price || null;
+}
+
+function getHighestPrice(product) {
+  if (!product.links || product.links.length === 0) return null;
+  const prices = product.links
+    .map((l) => parseFloat(l.price))
+    .filter((p) => !isNaN(p) && p > 0);
+  return prices.length > 0 ? Math.max(...prices) : null;
+}
+
+function getMaxSavings(product) {
+  const low = getLowestPrice(product);
+  const high = getHighestPrice(product);
+  if (low === null || high === null || low === high) return null;
+  return high - low;
+}
+
+function formatPrice(price) {
+  if (price === null || price === undefined || isNaN(price)) return "";
+  return `$${parseFloat(price).toFixed(2)}`;
+}
+
+function getFullUrl(url) {
+  if (!url) return "";
+  return url.replace(/^https?:\/\//, "");
+}
+
 // ======================== PRODUCT CATALOGUE ========================
-let products = []; // will be filled from Supabase
+let products = [];
 
 async function loadProducts() {
   try {
@@ -104,7 +149,7 @@ async function loadProducts() {
       description: p.description,
       badge: p.badge,
       price: p.price,
-      links: p.links,
+      links: p.links || [],
       bulkLinks: p.bulk_links || [],
     }));
   } catch (e) {
@@ -118,20 +163,18 @@ function renderHeroSlides(products) {
   const wrapper = document.getElementById("hero-slides");
   if (!wrapper) return;
 
-  // Filter products that have a badge (featured)
   const featured = products.filter((p) => p.badge && p.badge.length > 0);
-
-  // If no featured products, use the first 10 as fallback
   let slides = featured.length > 0 ? featured : products.slice(0, 10);
 
-  // Build HTML
   let html = "";
   slides.forEach((product) => {
     const badge = product.badge || "Featured";
     const title = product.title;
     const desc = product.description || "";
-    const price = product.price ? `$${product.price.toFixed(2)}` : "";
     const image = product.image;
+
+    const lowest = getLowestPrice(product);
+    const priceDisplay = lowest ? `From ${formatPrice(lowest)}` : "";
 
     html += `
       <div class="swiper-slide">
@@ -142,7 +185,7 @@ function renderHeroSlides(products) {
             </div>
             <h3 class="slide-title mt-2">${title}</h3>
             <p class="slide-desc">${desc}</p>
-            ${price ? `<p class="text-sm font-semibold text-brand-600 mt-1">${price}</p>` : ""}
+            ${priceDisplay ? `<p class="text-sm font-semibold text-brand-600 mt-1">${priceDisplay}</p>` : ""}
             <button onclick="openBuyModal(${product.id})" class="slide-cta" type="button">
               Shop Now <i class="fas fa-arrow-right"></i>
             </button>
@@ -159,19 +202,17 @@ function renderHeroSlides(products) {
 
   wrapper.innerHTML = html;
 
-  // Reinitialize Swiper (destroy existing first)
   if (window.heroSwiper) {
     window.heroSwiper.destroy(true, true);
     window.heroSwiper = null;
   }
 
-  // Enable loop only if there are at least 2 slides
   const enableLoop = slides.length > 1;
 
   setTimeout(() => {
     if (typeof Swiper !== "undefined") {
       window.heroSwiper = new Swiper(".mySwiper", {
-        loop: enableLoop, // now conditional
+        loop: enableLoop,
         autoplay: { delay: 5000, disableOnInteraction: false },
         navigation: {
           nextEl: ".swiper-button-next",
@@ -186,13 +227,11 @@ function renderHeroSlides(products) {
   }, 100);
 }
 
-// ======================== EXISTING APP LOGIC ========================
-
+// ======================== APP STATE ========================
 let activeCategory = "All";
 let searchQuery = "";
 let currentBulkProduct = null;
 
-// DOM elements
 const filterContainer = document.getElementById("filter-buttons");
 const productGrid = document.getElementById("product-grid");
 const searchInput = document.getElementById("search-input");
@@ -207,7 +246,6 @@ const modalPrice = document.getElementById("modal-price");
 const modalLinks = document.getElementById("modal-links");
 const bulkOrderBtn = document.getElementById("bulk-order-btn");
 
-// Toast elements
 const bookmarkToast = document.getElementById("bookmark-toast");
 const dismissBtn = document.getElementById("dismiss-bookmark");
 
@@ -217,7 +255,6 @@ if (localStorage.getItem("wigachu_bookmark_dismissed") !== "true") {
     bookmarkToast.classList.add("visible");
   }, 5000);
 }
-
 if (dismissBtn) {
   dismissBtn.addEventListener("click", () => {
     bookmarkToast.classList.remove("visible");
@@ -233,7 +270,6 @@ window.openSupportModal = function () {
     document.body.style.overflow = "hidden";
   }
 };
-
 window.closeSupportModal = function () {
   const modal = document.getElementById("supportModal");
   if (modal) {
@@ -241,11 +277,9 @@ window.closeSupportModal = function () {
     document.body.style.overflow = "";
   }
 };
-
 document.addEventListener("keydown", (e) => {
   if (e.key === "Escape") window.closeSupportModal();
 });
-
 document.addEventListener("DOMContentLoaded", () => {
   const modal = document.getElementById("supportModal");
   if (modal) {
@@ -262,9 +296,7 @@ window.copyToClipboard = function (elementId) {
   const text = element.innerText;
   navigator.clipboard
     .writeText(text)
-    .then(() => {
-      alert("Address copied to clipboard!");
-    })
+    .then(() => alert("Address copied to clipboard!"))
     .catch(() => {
       const textArea = document.createElement("textarea");
       textArea.value = text;
@@ -280,12 +312,11 @@ window.copyToClipboard = function (elementId) {
     });
 };
 
-// ---------- Wholesale ----------
+// ---------- WHOLESALE REQUEST ----------
 async function requestBulkOrder(product) {
   if (isBulkLoading) return;
   isBulkLoading = true;
 
-  // Find the small product grid button (the box icon)
   const gridBtns = document.querySelectorAll(".bulk-request-btn");
   let gridBtn = null;
   for (const btn of gridBtns) {
@@ -294,15 +325,10 @@ async function requestBulkOrder(product) {
       break;
     }
   }
-
-  // Find the modal button (the one in the buy modal)
   const modalBtn = document.getElementById("bulk-order-btn");
-
-  // Save original HTML to restore later
   const originalGridHtml = gridBtn ? gridBtn.innerHTML : null;
   const originalModalHtml = modalBtn ? modalBtn.innerHTML : null;
 
-  // Show spinner on both buttons
   if (gridBtn) {
     gridBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i>';
     gridBtn.disabled = true;
@@ -321,7 +347,6 @@ async function requestBulkOrder(product) {
         product_price: product.price,
       },
     ]);
-
     if (error) throw error;
     alert("Awesome! We'll find the best deal for you.");
   } catch (err) {
@@ -329,8 +354,6 @@ async function requestBulkOrder(product) {
     alert("Something went wrong. Please try again later.");
   } finally {
     isBulkLoading = false;
-
-    // Restore both buttons
     if (gridBtn) {
       gridBtn.innerHTML = originalGridHtml || '<i class="fas fa-boxes"></i>';
       gridBtn.disabled = false;
@@ -378,6 +401,18 @@ function renderProducts() {
 
   productGrid.innerHTML = "";
   filtered.forEach((product, index) => {
+    const lowest = getLowestPrice(product);
+    const savings = getMaxSavings(product);
+
+    let priceHtml = "";
+    if (lowest !== null) {
+      priceHtml = `<p class="mt-2 text-base font-bold text-brand-600">From ${formatPrice(lowest)}`;
+      if (savings) {
+        priceHtml += `<span class="ml-2 text-xs font-normal text-gray-400">Save ${formatPrice(savings)}</span>`;
+      }
+      priceHtml += `</p>`;
+    }
+
     const card = document.createElement("div");
     card.className =
       "product-card bg-white rounded-xl shadow-sm overflow-hidden border border-gray-100 flex flex-col";
@@ -392,6 +427,7 @@ function renderProducts() {
         <span class="text-xs text-gray-500 uppercase tracking-wide">${product.category}</span>
         <h3 class="mt-1 text-sm font-semibold text-navy-900 line-clamp-2">${product.title}</h3>
         <p class="mt-1 text-xs text-gray-600 line-clamp-2">${product.description}</p>
+        ${priceHtml}
         <div class="mt-auto pt-4 flex gap-2">
           <button class="flex-1 buy-options-btn py-2 px-4 bg-brand-600 hover:bg-brand-700 text-white text-sm font-medium rounded-lg transition" data-product-id="${product.id}">
             Buy Options
@@ -405,17 +441,15 @@ function renderProducts() {
     productGrid.appendChild(card);
   });
 
-  // Buy Options buttons
   document.querySelectorAll(".buy-options-btn").forEach((btn) => {
-    btn.addEventListener("click", (e) => {
+    btn.addEventListener("click", () => {
       const productId = parseInt(btn.getAttribute("data-product-id"));
       openBuyModal(productId);
     });
   });
 
-  // Bulk Request buttons
   document.querySelectorAll(".bulk-request-btn").forEach((btn) => {
-    btn.addEventListener("click", (e) => {
+    btn.addEventListener("click", () => {
       const productId = parseInt(btn.getAttribute("data-product-id"));
       const product = products.find((p) => p.id === productId);
       if (product) requestBulkOrder(product);
@@ -423,77 +457,132 @@ function renderProducts() {
   });
 }
 
-// ---------- MODAL ----------
+// ---------- BUY MODAL ----------
 function openBuyModal(productId) {
   const product = products.find((p) => p.id === productId);
   if (!product) return;
   currentBulkProduct = product;
+
   modalTitle.textContent = product.title;
   modalDesc.textContent = product.description;
-  modalPrice.textContent = product.price
-    ? `Reference price: $${product.price.toFixed(2)}`
-    : "";
+
+  const lowest = getLowestPrice(product);
+  const highest = getHighestPrice(product);
+  const savings = getMaxSavings(product);
+
+  if (lowest !== null && highest !== null && savings !== null) {
+    modalPrice.innerHTML = `
+      <span class="text-2xl font-bold text-brand-600">From ${formatPrice(lowest)}</span>
+      <span class="ml-2 text-xs font-medium text-green-600 bg-green-50 px-2 py-0.5 rounded-full">Save up to ${formatPrice(savings)}</span>
+    `;
+  } else if (lowest !== null) {
+    modalPrice.innerHTML = `<span class="text-2xl font-bold text-brand-600">From ${formatPrice(lowest)}</span>`;
+  } else {
+    modalPrice.innerHTML = "";
+  }
+
   modalLinks.innerHTML = "";
 
-  // Retail links
+  // ---- RETAIL LINKS ----
   if (product.links && product.links.length > 0) {
     const retailHeading = document.createElement("div");
-    retailHeading.className = "text-sm font-bold text-navy-800 mt-2 mb-1";
-    retailHeading.textContent = "Buy Now";
+    retailHeading.className = "text-sm font-bold text-navy-800 mb-2";
+    retailHeading.textContent = "Buy Now — Compare Prices";
     modalLinks.appendChild(retailHeading);
 
     product.links.forEach((link) => {
-      const btn = document.createElement("a");
-      btn.href = link.url;
-      btn.target = "_blank";
-      btn.rel = "noopener";
-      btn.className =
-        "block w-full py-2 px-4 mb-2 bg-brand-600 hover:bg-brand-700 text-white text-sm font-medium rounded-lg transition text-center";
-      btn.textContent = link.platform;
-      modalLinks.appendChild(btn);
+      const row = document.createElement("div");
+      row.className =
+        "mb-3 border border-gray-200 rounded-xl p-3 hover:border-brand-500 transition-colors";
+
+      const priceDisplay = link.price
+        ? formatPrice(link.price)
+        : product.price
+          ? formatPrice(product.price)
+          : "Check price";
+
+      row.innerHTML = `
+        <div class="flex items-center justify-between mb-2">
+          <div class="flex items-center gap-2 min-w-0">
+            <span class="font-semibold text-navy-800 text-sm truncate">${link.platform}</span>
+            <span class="text-[10px] text-gray-400 flex-shrink-0">· Verified retailer</span>
+          </div>
+          <span class="text-base font-bold text-brand-600 flex-shrink-0">${priceDisplay}</span>
+        </div>
+        <a href="${link.url}" target="_blank" rel="noopener"
+           class="block w-full py-2 px-4 bg-brand-600 hover:bg-brand-700 text-white text-sm font-medium rounded-lg transition text-center mb-2">
+          Buy Now on ${link.platform}
+        </a>
+        <div class="flex items-center gap-2">
+          <code class="flex-1 text-[10px] text-gray-500 bg-gray-50 rounded px-2 py-1.5 truncate" title="${link.url}">${getFullUrl(link.url)}</code>
+          <button class="copy-link-btn flex-shrink-0 text-xs text-brand-600 hover:text-brand-800 font-semibold px-2 py-1" data-url="${link.url}">Copy</button>
+        </div>
+      `;
+      modalLinks.appendChild(row);
     });
+
+    const trustNote = document.createElement("p");
+    trustNote.className = "text-[11px] text-gray-400 italic mb-2";
+    trustNote.textContent =
+      "Full links shown above for transparency. No URL shorteners.";
+    modalLinks.appendChild(trustNote);
   }
 
-  // Bulk links
+  // ---- BULK / WHOLESALE LINKS ----
   if (product.bulkLinks && product.bulkLinks.length > 0) {
     const bulkHeading = document.createElement("div");
-    bulkHeading.className = "text-sm font-bold text-orange-600 mt-4 mb-1";
+    bulkHeading.className =
+      "text-sm font-bold text-orange-600 mt-4 mb-2 pt-3 border-t border-gray-100";
     bulkHeading.textContent = "Bulk / Wholesale";
     modalLinks.appendChild(bulkHeading);
 
     product.bulkLinks.forEach((link) => {
-      const btn = document.createElement("a");
-      btn.href = link.url;
-      btn.target = "_blank";
-      btn.rel = "noopener";
-      btn.className =
-        "block w-full py-2 px-4 mb-2 bg-orange-500 hover:bg-orange-600 text-white text-sm font-medium rounded-lg transition text-center";
-      btn.textContent = link.platform + " (Wholesale)";
-      modalLinks.appendChild(btn);
+      const row = document.createElement("div");
+      row.className =
+        "mb-3 border border-orange-200 rounded-xl p-3 hover:border-orange-500 transition-colors bg-orange-50/30";
+
+      const priceDisplay = link.price
+        ? `${formatPrice(link.price)}/unit`
+        : "Request price";
+      const minOrderDisplay = link.min_order
+        ? `<div class="text-xs text-gray-500 mb-2">Min order: ${link.min_order} units</div>`
+        : "";
+
+      row.innerHTML = `
+        <div class="flex items-center justify-between mb-2">
+          <span class="font-semibold text-orange-800 text-sm">${link.platform}</span>
+          <span class="text-base font-bold text-orange-600">${priceDisplay}</span>
+        </div>
+        ${minOrderDisplay}
+        <a href="${link.url}" target="_blank" rel="noopener"
+           class="block w-full py-2 px-4 bg-orange-500 hover:bg-orange-600 text-white text-sm font-medium rounded-lg transition text-center mb-2">
+          Request Quote on ${link.platform}
+        </a>
+        <div class="flex items-center gap-2">
+          <code class="flex-1 text-[10px] text-gray-500 bg-white rounded px-2 py-1.5 truncate" title="${link.url}">${getFullUrl(link.url)}</code>
+          <button class="copy-link-btn flex-shrink-0 text-xs text-orange-600 hover:text-orange-800 font-semibold px-2 py-1" data-url="${link.url}">Copy</button>
+        </div>
+      `;
+      modalLinks.appendChild(row);
     });
   }
 
-  // Conditionally hide "Request Wholesale" button if bulk links exist
-  const bulkOrderBtn = document.getElementById("bulk-order-btn");
+  // ---- CONDITIONAL WHOLESALE REQUEST BUTTON ----
   if (product.bulkLinks && product.bulkLinks.length > 0) {
     bulkOrderBtn.style.display = "none";
   } else {
     bulkOrderBtn.style.display = "block";
-    // Re-attach click handler
     bulkOrderBtn.onclick = () => requestBulkOrder(product);
   }
 
-  // "Report broken link" button
+  // ---- REPORT BROKEN LINK ----
   const reportBtn = document.createElement("button");
-  reportBtn.className = "mt-4 text-sm text-red-500 hover:underline";
+  reportBtn.className = "mt-2 text-xs text-red-500 hover:underline block";
   reportBtn.textContent = "Report broken link";
   reportBtn.onclick = () => reportBrokenLink(product);
   modalLinks.appendChild(reportBtn);
 
-  buyModal.classList.remove("hidden");
-  buyModal.classList.add("flex");
-
-  // Tiktok link
+  // ---- TIKTOK LINK ----
   const tiktokBtn = document.createElement("button");
   tiktokBtn.className =
     "mt-2 text-sm text-[#000000] hover:text-[#FE2C55] flex items-center gap-2";
@@ -505,11 +594,36 @@ function openBuyModal(productId) {
     window.open(url, "_blank");
   };
   modalLinks.appendChild(tiktokBtn);
+
+  // ---- COPY LINK HANDLERS ----
+  modalLinks.querySelectorAll(".copy-link-btn").forEach((btn) => {
+    btn.addEventListener("click", function (e) {
+      e.preventDefault();
+      e.stopPropagation();
+      const url = this.getAttribute("data-url");
+      navigator.clipboard
+        .writeText(url)
+        .then(() => {
+          const original = this.textContent;
+          this.textContent = "✓ Copied";
+          this.classList.add("text-green-600");
+          setTimeout(() => {
+            this.textContent = original;
+            this.classList.remove("text-green-600");
+          }, 2000);
+        })
+        .catch(() => {
+          alert("Could not copy. Please copy manually:\n" + url);
+        });
+    });
+  });
+
+  buyModal.classList.remove("hidden");
+  buyModal.classList.add("flex");
 }
 
-// Report broken link
+// ---------- REPORT BROKEN LINK ----------
 async function reportBrokenLink(product) {
-  // For simplicity, report the first retail link
   const link =
     product.links && product.links.length > 0 ? product.links[0].url : "";
   const platform =
@@ -534,7 +648,6 @@ if (closeModal) {
     buyModal.classList.remove("flex");
   });
 }
-
 window.addEventListener("click", (e) => {
   if (e.target === buyModal) {
     buyModal.classList.add("hidden");
@@ -546,11 +659,8 @@ function copyPayPalEmail() {
   const email = "pesapad.app@gmail.com";
   navigator.clipboard
     .writeText(email)
-    .then(() => {
-      alert("PayPal email copied to clipboard!");
-    })
+    .then(() => alert("PayPal email copied to clipboard!"))
     .catch(() => {
-      // Fallback for older browsers
       const textArea = document.createElement("textarea");
       textArea.value = email;
       document.body.appendChild(textArea);
@@ -579,7 +689,6 @@ if (mobileMenuBtn) {
     mobileMenu.classList.toggle("hidden");
   });
 }
-
 document
   .querySelectorAll("#mobile-menu a, #mobile-menu button")
   .forEach((link) => {
@@ -589,16 +698,6 @@ document
 // ---------- YEAR ----------
 if (yearSpan) {
   yearSpan.textContent = new Date().getFullYear();
-}
-
-// ---------- TYPEWRITER ----------
-// Shuffle function for phrases
-function shuffleArray(arr) {
-  for (let i = arr.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [arr[i], arr[j]] = [arr[j], arr[i]];
-  }
-  return arr;
 }
 
 // ---------- TYPEWRITER ----------
@@ -648,11 +747,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const phrase = rawPhrases[phraseIndex];
     const { label, rest } = splitPhrase(phrase);
     const typedRest = rest.slice(0, Math.max(0, charIndex));
-    if (label) {
-      return `<b>${label}</b> ${typedRest}`;
-    } else {
-      return typedRest;
-    }
+    return label ? `<b>${label}</b> ${typedRest}` : typedRest;
   }
 
   function typeEffect() {
@@ -660,7 +755,6 @@ document.addEventListener("DOMContentLoaded", function () {
     const { label, rest } = splitPhrase(phrase);
 
     if (!isDeleting) {
-      // Typing phase
       if (charIndex <= rest.length) {
         typewriterEl.innerHTML = getCurrentText();
         charIndex++;
@@ -672,13 +766,10 @@ document.addEventListener("DOMContentLoaded", function () {
         setTimeout(typeEffect, 40);
       }
     } else {
-      // Deleting phase
       charIndex--;
       if (charIndex < 0) {
-        // Move to next phrase
         isDeleting = false;
         phraseIndex = (phraseIndex + 1) % rawPhrases.length;
-        // Reset charIndex to 0 and immediately set the new bold label (if any) to avoid flicker
         charIndex = 0;
         typewriterEl.innerHTML = getCurrentText();
         setTimeout(typeEffect, 300);
@@ -688,7 +779,6 @@ document.addEventListener("DOMContentLoaded", function () {
       setTimeout(typeEffect, 20);
     }
   }
-
   setTimeout(typeEffect, 600);
 });
 
@@ -711,14 +801,10 @@ document.addEventListener("DOMContentLoaded", async () => {
   let currentSlide = 0;
   let autoPlayInterval = null;
   const totalSlides = slides.length;
-  const slideDuration = 5000; // 3 seconds per slide
+  const slideDuration = 5000;
 
-  // Check if user has already seen the popup
-  if (localStorage.getItem("wigachu_welcome_seen") === "true") {
-    return;
-  }
+  if (localStorage.getItem("wigachu_welcome_seen") === "true") return;
 
-  // Show popup after 1 second
   setTimeout(() => {
     popup.classList.remove("hidden");
     popup.classList.add("flex");
@@ -726,22 +812,16 @@ document.addEventListener("DOMContentLoaded", async () => {
   }, 1000);
 
   function goToSlide(index) {
-    // Clamp index
     if (index < 0) index = totalSlides - 1;
     if (index >= totalSlides) index = 0;
     currentSlide = index;
 
-    // Update slides
     slides.forEach((slide, i) => {
       slide.classList.toggle("active", i === currentSlide);
     });
-
-    // Update dots
     dots.forEach((dot, i) => {
       dot.classList.toggle("active", i === currentSlide);
     });
-
-    // Update progress bar
     const progressPercent = ((currentSlide + 1) / totalSlides) * 100;
     progress.style.width = progressPercent + "%";
   }
@@ -749,57 +829,40 @@ document.addEventListener("DOMContentLoaded", async () => {
   function nextSlide() {
     goToSlide(currentSlide + 1);
   }
-
   function startAutoPlay() {
     if (autoPlayInterval) clearInterval(autoPlayInterval);
     autoPlayInterval = setInterval(nextSlide, slideDuration);
   }
-
   function stopAutoPlay() {
     if (autoPlayInterval) {
       clearInterval(autoPlayInterval);
       autoPlayInterval = null;
     }
   }
-
-  // Dot click handlers
-  dots.forEach((dot) => {
-    dot.addEventListener("click", function () {
-      const index = parseInt(this.dataset.index);
-      stopAutoPlay();
-      goToSlide(index);
-      startAutoPlay(); // Restart after manual click
-    });
-  });
-
-  // Close button
-  closeBtn.addEventListener("click", function () {
+  function closePopup() {
     stopAutoPlay();
     popup.classList.add("hidden");
     popup.classList.remove("flex");
     localStorage.setItem("wigachu_welcome_seen", "true");
-  });
+  }
 
-  // Click outside to close (optional)
-  popup.addEventListener("click", function (e) {
-    if (e.target === popup) {
+  dots.forEach((dot) => {
+    dot.addEventListener("click", function () {
       stopAutoPlay();
-      popup.classList.add("hidden");
-      popup.classList.remove("flex");
-      localStorage.setItem("wigachu_welcome_seen", "true");
-    }
+      goToSlide(parseInt(this.dataset.index));
+      startAutoPlay();
+    });
   });
 
-  // Keyboard support (Escape to close)
+  closeBtn.addEventListener("click", closePopup);
+  popup.addEventListener("click", function (e) {
+    if (e.target === popup) closePopup();
+  });
   document.addEventListener("keydown", function (e) {
     if (e.key === "Escape" && !popup.classList.contains("hidden")) {
-      stopAutoPlay();
-      popup.classList.add("hidden");
-      popup.classList.remove("flex");
-      localStorage.setItem("wigachu_welcome_seen", "true");
+      closePopup();
     }
   });
 
-  // Start on slide 0
   goToSlide(0);
 })();
