@@ -271,6 +271,12 @@ html {
   font-weight: bold;
 }
 
+@media (max-width: 430px) {
+  .donation-card p {
+    overflow: scroll;
+  }
+}
+
 @media (max-width: 640px) {
   .swiper-button-next,
   .swiper-button-prev {
