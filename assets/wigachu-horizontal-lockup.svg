@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1440" height="420" viewBox="0 0 1440 420" role="img" aria-labelledby="title">
+  <title id="title">Wigachu — Good finds, less scrolling</title>
+  <g transform="translate(0 -170) scale(.42)">
+    <path fill="#FEBD17" d="M386 435 760 424 818 869 356 893Z"/><path fill="#11B4C3" d="M449 543 833 538 891 957 408 961Z"/><path fill="#00840D" d="M449 543 777 539 818 869 414 891Z"/><path d="M470 500V449C470 357 493 305 554 302 626 298 677 342 682 449V500" fill="none" stroke="#050505" stroke-width="31" stroke-linecap="round" stroke-linejoin="round"/><path fill="#FFFFFF" d="M424 718 484 706 578 906 588 680 650 670 748 843 752 648 812 636 792 925 728 942 635 755 621 960 549 961Z"/>
+  </g>
+  <text x="390" y="210" fill="#123D22" font-family="Poppins, Arial, sans-serif" font-weight="800" font-size="110" letter-spacing="-5">wigachu<tspan fill="#11B4C3">.</tspan></text>
+  <text x="398" y="278" fill="#677267" font-family="Arial, sans-serif" font-weight="700" font-size="25" letter-spacing="5">GOOD FINDS. LESS SCROLLING.</text>
+</svg>

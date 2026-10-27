@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1000" height="1000" viewBox="300 230 650 740" role="img" aria-labelledby="title desc">
+  <title id="title">Wigachu logo</title>
+  <desc id="desc">A shopping bag made from yellow, green and cyan layers, with a black handle and white W.</desc>
+  <g id="wigachu-mark">
+    <path fill="#FEBD17" d="M386 435 760 424 818 869 356 893Z"/>
+    <path fill="#11B4C3" d="M449 543 833 538 891 957 408 961Z"/>
+    <path fill="#00840D" d="M449 543 777 539 818 869 414 891Z"/>
+    <path d="M470 500V449C470 357 493 305 554 302 626 298 677 342 682 449V500" fill="none" stroke="#050505" stroke-width="31" stroke-linecap="round" stroke-linejoin="round"/>
+    <path fill="#FFFFFF" d="M424 718 484 706 578 906 588 680 650 670 748 843 752 648 812 636 792 925 728 942 635 755 621 960 549 961Z"/>
+  </g>
+</svg>

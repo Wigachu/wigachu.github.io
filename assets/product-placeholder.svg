@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="600" viewBox="0 0 800 600" role="img" aria-labelledby="t d">
+  <title id="t">Wigachu product placeholder</title><desc id="d">A simple shopping bag illustration used when a product image cannot load.</desc>
+  <rect width="800" height="600" rx="28" fill="#F6F6F0"/>
+  <circle cx="400" cy="285" r="155" fill="#FFF3C7"/>
+  <path d="M286 250 493 238 522 454 265 463Z" fill="#11B4C3"/>
+  <path d="M280 222 478 213 507 420 251 431Z" fill="#00840D"/>
+  <path d="M335 260V225C335 180 358 159 390 159S445 182 445 225V260" fill="none" stroke="#050505" stroke-width="18" stroke-linecap="round"/>
+  <path d="M298 318 330 312 379 407 384 306 418 302 467 378 470 291 503 285 492 429 458 437 411 356 404 447 367 448Z" fill="#fff"/>
+  <text x="400" y="530" text-anchor="middle" fill="#687266" font-family="Arial, sans-serif" font-size="20" font-weight="700" letter-spacing="3">WIGACHU FIND</text>
+</svg>

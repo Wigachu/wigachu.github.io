@@ -1,16 +1,13 @@
-// ======================== SUPABASE SETUP ========================
+/* Wigachu front-end: product discovery, affiliate links, saving, sharing and wholesale requests. */
 const SUPABASE_URL = "https://qzwpyvpprgpqzibzgzcz.supabase.co";
 const SUPABASE_PUBLISHABLE_KEY =
   "sb_publishable_MpVET6kJ_-a7HrfBl5t2Iw_V_83g-wV";
+const supabaseClient = window.supabase?.createClient
+  ? window.supabase.createClient(SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY)
+  : null;
+const FALLBACK_IMAGE = "assets/product-placeholder.svg";
+const FAVORITES_KEY = "wigachu_saved_products_v1";
 
-const supabaseClient = window.supabase.createClient(
-  SUPABASE_URL,
-  SUPABASE_PUBLISHABLE_KEY,
-);
-
-let isBulkLoading = false;
-
-// ======================== FALLBACK PRODUCTS ========================
 const fallbackProducts = [
   {
     id: 1,
@@ -19,8 +16,8 @@ const fallbackProducts = [
     image:
       "https://ae-pic-a1.aliexpress-media.com/kf/S12993c177d104a9eb738a3d27258e16dF.jpg_960x960q75.jpg_.avif",
     description:
-      "USB rechargeable solar fan hat with breathable fabric and sun protection – stays cool during outdoor work, fishing, or hiking.",
-    badge: "Beat the Heat",
+      "USB rechargeable solar fan hat with breathable fabric and sun protection for outdoor work, fishing, or hiking.",
+    badge: "Beat the heat",
     price: 8.05,
     links: [
       {
@@ -38,8 +35,8 @@ const fallbackProducts = [
     image:
       "https://ae-pic-a1.aliexpress-media.com/kf/Sfba35ba7ba75419ca26192c5b19d6515j.jpg_960x960q75.jpg_.avif",
     description:
-      "High-speed handheld fan with semiconductor cooling plate – blows genuinely cold air, not just a breeze. 3000mAh, rechargeable, portable.",
-    badge: "Beat the Heat",
+      "A rechargeable handheld fan with a cooling plate and a portable design for commutes, travel, and warm days.",
+    badge: "Cooling pick",
     price: 18.58,
     links: [
       {
@@ -52,13 +49,13 @@ const fallbackProducts = [
   },
   {
     id: 6,
-    title: "HY300 Portable 4K Projector",
+    title: "HY300 Portable Projector",
     category: "Tech & Gadgets",
     image:
       "https://ae-pic-a1.aliexpress-media.com/kf/Sc0eef3ea56974199bbf6f0c9690e86d7o.jpg_960x960q75.jpg_.avif",
     description:
-      "4K ready, Android 11, WiFi6, 290 ANSI lumens, 1080P native. Portable cinema for movie nights, gaming, or presentations.",
-    badge: "Trending",
+      "A compact projector idea for movie nights, gaming, or presentations. Check the seller listing for the exact resolution and supported features.",
+    badge: "Movie night",
     price: 62.78,
     links: [
       {
@@ -76,8 +73,8 @@ const fallbackProducts = [
     image:
       "https://ae-pic-a1.aliexpress-media.com/kf/Sf8dd7b8e95be434eb87a8864c1fc119bH.png?has_lang=1&ver=2_960x960.png_.avif",
     description:
-      "Portable cervical spine massager for neck and shoulder pain relief. Compact, mini design – use at home, work, or while travelling.",
-    badge: "Best seller",
+      "A compact neck and shoulder massager to explore for at-home relaxation or travel. Check the seller's instructions and suitability before use.",
+    badge: "Relaxation pick",
     price: 13.1,
     links: [
       {
@@ -90,256 +87,514 @@ const fallbackProducts = [
   },
 ];
 
-// ======================== PRICE HELPERS ========================
-
-function getLowestPrice(product) {
-  if (!product.links || product.links.length === 0) {
-    return product.price || null;
-  }
-  const prices = product.links
-    .map((l) => parseFloat(l.price))
-    .filter((p) => !isNaN(p) && p > 0);
-  if (prices.length > 0) return Math.min(...prices);
-  return product.price || null;
-}
-
-function getHighestPrice(product) {
-  if (!product.links || product.links.length === 0) return null;
-  const prices = product.links
-    .map((l) => parseFloat(l.price))
-    .filter((p) => !isNaN(p) && p > 0);
-  return prices.length > 0 ? Math.max(...prices) : null;
-}
-
-function getMaxSavings(product) {
-  const low = getLowestPrice(product);
-  const high = getHighestPrice(product);
-  if (low === null || high === null || low === high) return null;
-  return high - low;
-}
-
-function formatPrice(price) {
-  if (price === null || price === undefined || isNaN(price)) return "";
-  return `$${parseFloat(price).toFixed(2)}`;
-}
-
-function getFullUrl(url) {
-  if (!url) return "";
-  return url.replace(/^https?:\/\//, "");
-}
-
-// ======================== PRODUCT CATALOGUE ========================
 let products = [];
-
-async function loadProducts() {
-  try {
-    const { data, error } = await supabaseClient
-      .from("wigachu_products")
-      .select("*")
-      .eq("is_active", true)
-      .order("display_order", { ascending: true });
-
-    if (error) throw error;
-
-    return data.map((p) => ({
-      id: p.id,
-      title: p.title,
-      category: p.category,
-      image: p.image_url,
-      description: p.description,
-      badge: p.badge,
-      price: p.price,
-      links: p.links || [],
-      bulkLinks: p.bulk_links || [],
-    }));
-  } catch (e) {
-    console.error("Failed to load products from Supabase:", e);
-    return fallbackProducts;
-  }
-}
-
-// ======================== HERO CAROUSEL ========================
-function renderHeroSlides(products) {
-  const wrapper = document.getElementById("hero-slides");
-  if (!wrapper) return;
-
-  const featured = products.filter((p) => p.badge && p.badge.length > 0);
-  let slides = featured.length > 0 ? featured : products.slice(0, 10);
-
-  let html = "";
-  slides.forEach((product) => {
-    const badge = product.badge || "Featured";
-    const title = product.title;
-    const desc = product.description || "";
-    const image = product.image;
-
-    const lowest = getLowestPrice(product);
-    const priceDisplay = lowest ? `From ${formatPrice(lowest)}` : "";
-
-    html += `
-      <div class="swiper-slide">
-        <div class="slide-grid">
-          <div class="order-2 order-md-1">
-            <div class="inline-block px-3 py-0.5 rounded-full text-xs font-semibold bg-brand-100 text-brand-700 uppercase tracking-wide">
-              ${badge}
-            </div>
-            <h3 class="slide-title mt-2">${title}</h3>
-            <p class="slide-desc">${desc}</p>
-            ${priceDisplay ? `<p class="text-sm font-semibold text-brand-600 mt-1">${priceDisplay}</p>` : ""}
-            <button onclick="openBuyModal(${product.id})" class="slide-cta" type="button">
-              Shop Now <i class="fas fa-arrow-right"></i>
-            </button>
-          </div>
-          <div class="order-1 order-md-2 flex justify-center">
-            <div class="slide-img-wrap">
-              <img src="${image}" alt="${title}" class="slide-img" />
-            </div>
-          </div>
-        </div>
-      </div>
-    `;
-  });
-
-  wrapper.innerHTML = html;
-
-  if (window.heroSwiper) {
-    window.heroSwiper.destroy(true, true);
-    window.heroSwiper = null;
-  }
-
-  const enableLoop = slides.length > 1;
-
-  setTimeout(() => {
-    if (typeof Swiper !== "undefined") {
-      window.heroSwiper = new Swiper(".mySwiper", {
-        loop: enableLoop,
-        autoplay: { delay: 5000, disableOnInteraction: false },
-        navigation: {
-          nextEl: ".swiper-button-next",
-          prevEl: ".swiper-button-prev",
-        },
-        breakpoints: {
-          320: { slidesPerView: 1, spaceBetween: 20 },
-          768: { slidesPerView: 1, spaceBetween: 30 },
-        },
-      });
-    }
-  }, 100);
-}
-
-// ======================== APP STATE ========================
 let activeCategory = "All";
 let searchQuery = "";
-let currentBulkProduct = null;
+let sortMode = "featured";
+let favoritesOnly = false;
+let favorites = readFavorites();
+let currentProduct = null;
+let heroSwiper = null;
+let toastTimer = null;
+let lastFocusedElement = null;
 
-const filterContainer = document.getElementById("filter-buttons");
-const productGrid = document.getElementById("product-grid");
-const searchInput = document.getElementById("search-input");
-const mobileMenuBtn = document.getElementById("mobile-menu-btn");
-const mobileMenu = document.getElementById("mobile-menu");
-const yearSpan = document.getElementById("current-year");
-const buyModal = document.getElementById("buy-modal");
-const closeModal = document.getElementById("close-modal");
-const modalTitle = document.getElementById("modal-title");
-const modalDesc = document.getElementById("modal-desc");
-const modalPrice = document.getElementById("modal-price");
-const modalLinks = document.getElementById("modal-links");
-const bulkOrderBtn = document.getElementById("bulk-order-btn");
+const $ = (selector, root = document) => root.querySelector(selector);
+const $$ = (selector, root = document) => [...root.querySelectorAll(selector)];
+const productGrid = $("#product-grid");
+const filterContainer = $("#filter-buttons");
+const searchInput = $("#search-input");
+const sortSelect = $("#sort-select");
+const productCount = $("#product-count");
+const favoritesCount = $("#favorites-count");
+const favoritesFilter = $("#favorites-filter");
+const emptyState = $("#empty-state");
+const buyModal = $("#buy-modal");
+const modalTitle = $("#modal-title");
+const modalDesc = $("#modal-desc");
+const modalPrice = $("#modal-price");
+const modalLinks = $("#modal-links");
+const modalImage = $("#modal-image");
+const modalBadge = $("#modal-badge");
+const bulkOrderBtn = $("#bulk-order-btn");
+const toast = $("#site-toast");
 
-const bookmarkToast = document.getElementById("bookmark-toast");
-const dismissBtn = document.getElementById("dismiss-bookmark");
-
-// ---------- BOOKMARK TOAST ----------
-if (localStorage.getItem("wigachu_bookmark_dismissed") !== "true") {
-  setTimeout(() => {
-    bookmarkToast.classList.add("visible");
-  }, 5000);
+function trackPixel(eventName, payload = {}, custom = false) {
+  try {
+    if (typeof window.fbq === "function")
+      window.fbq(custom ? "trackCustom" : "track", eventName, payload);
+  } catch (_) {
+    /* Analytics should never block the shopping flow. */
+  }
 }
-if (dismissBtn) {
-  dismissBtn.addEventListener("click", () => {
-    bookmarkToast.classList.remove("visible");
-    localStorage.setItem("wigachu_bookmark_dismissed", "true");
+
+function escapeHtml(value) {
+  return String(value ?? "").replace(
+    /[&<>"']/g,
+    (character) =>
+      ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[
+        character
+      ],
+  );
+}
+
+function safeHttpUrl(value) {
+  if (!value) return "";
+  try {
+    const url = new URL(String(value), window.location.origin);
+    if (url.protocol !== "http:" && url.protocol !== "https:") return "";
+    return url.href;
+  } catch (_) {
+    return "";
+  }
+}
+
+function readFavorites() {
+  try {
+    const parsed = JSON.parse(localStorage.getItem(FAVORITES_KEY) || "[]");
+    return new Set(Array.isArray(parsed) ? parsed.map(String) : []);
+  } catch (_) {
+    return new Set();
+  }
+}
+
+function writeFavorites() {
+  try {
+    localStorage.setItem(FAVORITES_KEY, JSON.stringify([...favorites]));
+  } catch (_) {
+    /* Local storage may be disabled. */
+  }
+  updateFavoritesCount();
+}
+
+function updateFavoritesCount() {
+  if (favoritesCount) favoritesCount.textContent = String(favorites.size);
+  if (favoritesFilter)
+    favoritesFilter.setAttribute("aria-pressed", String(favoritesOnly));
+  const icon = favoritesFilter?.querySelector("i");
+  if (icon)
+    icon.className = favoritesOnly
+      ? "fa-solid fa-heart"
+      : "fa-regular fa-heart";
+}
+
+function showToast(message) {
+  const messageEl = $("#toast-message");
+  if (!toast || !messageEl) return;
+  messageEl.textContent = message;
+  toast.classList.add("visible");
+  window.clearTimeout(toastTimer);
+  toastTimer = window.setTimeout(() => toast.classList.remove("visible"), 2800);
+}
+
+async function copyText(text, successMessage = "Link copied to clipboard.") {
+  try {
+    if (navigator.clipboard && window.isSecureContext) {
+      await navigator.clipboard.writeText(text);
+    } else {
+      const textarea = document.createElement("textarea");
+      textarea.value = text;
+      textarea.setAttribute("readonly", "");
+      textarea.style.position = "fixed";
+      textarea.style.opacity = "0";
+      document.body.appendChild(textarea);
+      textarea.select();
+      const copied = document.execCommand("copy");
+      textarea.remove();
+      if (!copied) throw new Error("Copy was not available");
+    }
+    showToast(successMessage);
+    return true;
+  } catch (_) {
+    showToast(
+      "Copy was blocked by your browser. Please copy the link manually.",
+    );
+    return false;
+  }
+}
+
+function getProductShareUrl(product) {
+  const url = new URL(window.location.href);
+  url.hash = "";
+  url.searchParams.set("product", String(product.id));
+  return url.href;
+}
+
+async function shareProduct(product) {
+  if (!product) return;
+  const url = getProductShareUrl(product);
+  const shareData = {
+    title: `${product.title} | Wigachu`,
+    text: `Found this on Wigachu: ${product.title}`,
+    url,
+  };
+  trackPixel(
+    "ProductShared",
+    { content_name: product.title, content_ids: [String(product.id)] },
+    true,
+  );
+  if (navigator.share) {
+    try {
+      await navigator.share(shareData);
+      return;
+    } catch (error) {
+      if (error?.name === "AbortError") return;
+    }
+  }
+  await copyText(url, "Product link copied. Send it to a friend!");
+}
+
+async function shareSite() {
+  const shareData = {
+    title: "Wigachu — Good finds. Less scrolling.",
+    text: "Discover interesting gadgets and useful everyday finds on Wigachu.",
+    url: "https://wigachu.github.io/",
+  };
+  trackPixel("SiteShared", {}, true);
+  if (navigator.share) {
+    try {
+      await navigator.share(shareData);
+      return;
+    } catch (error) {
+      if (error?.name === "AbortError") return;
+    }
+  }
+  await copyText(shareData.url, "Wigachu link copied. Share it with someone!");
+}
+
+function getLowestPrice(product) {
+  const prices = (product.links || [])
+    .map((link) => Number.parseFloat(link.price))
+    .filter((price) => Number.isFinite(price) && price > 0);
+  if (prices.length) return Math.min(...prices);
+  const fallbackPrice = Number.parseFloat(product.price);
+  return Number.isFinite(fallbackPrice) && fallbackPrice > 0
+    ? fallbackPrice
+    : null;
+}
+function getHighestPrice(product) {
+  const prices = (product.links || [])
+    .map((link) => Number.parseFloat(link.price))
+    .filter((price) => Number.isFinite(price) && price > 0);
+  return prices.length > 1 ? Math.max(...prices) : null;
+}
+function getMaxSavings(product) {
+  const low = getLowestPrice(product),
+    high = getHighestPrice(product);
+  return low !== null && high !== null && high > low ? high - low : null;
+}
+function formatPrice(price, currency = "USD") {
+  const value = Number.parseFloat(price);
+  if (!Number.isFinite(value)) return "";
+  try {
+    return new Intl.NumberFormat("en", {
+      style: "currency",
+      currency: /^[A-Z]{3}$/.test(currency || "") ? currency : "USD",
+      maximumFractionDigits: 2,
+    }).format(value);
+  } catch (_) {
+    return `$${value.toFixed(2)}`;
+  }
+}
+function displayPrice(product) {
+  const low = getLowestPrice(product);
+  if (low === null) return "Price on seller site";
+  return `From ${formatPrice(low, product.currency || "USD")}`;
+}
+function getProductImage(product) {
+  return safeHttpUrl(product.image) || FALLBACK_IMAGE;
+}
+
+async function loadProducts() {
+  if (supabaseClient) {
+    try {
+      const { data, error } = await supabaseClient
+        .from("wigachu_products")
+        .select("*")
+        .eq("is_active", true)
+        .order("display_order", { ascending: true });
+      if (error) throw error;
+      if (Array.isArray(data) && data.length) {
+        return data.map((p) => ({
+          id: p.id,
+          title: p.title || "Untitled find",
+          category: p.category || "Other finds",
+          image: p.image_url || "",
+          description:
+            p.description || "Open this find to review the seller details.",
+          badge: p.badge || "",
+          price: p.price,
+          currency: p.currency || "USD",
+          links: Array.isArray(p.links) ? p.links : [],
+          bulkLinks: Array.isArray(p.bulk_links) ? p.bulk_links : [],
+        }));
+      }
+    } catch (error) {
+      console.error(
+        "Could not load the Wigachu catalogue from Supabase; using fallback finds.",
+        error,
+      );
+    }
+  }
+  return fallbackProducts;
+}
+
+function productPriceMarkup(product) {
+  const low = getLowestPrice(product);
+  if (low === null)
+    return `<p class="product-price">Check seller price<small>Price may vary by seller</small></p>`;
+  const savings = getMaxSavings(product);
+  return `<p class="product-price">${escapeHtml(displayPrice(product))}<small>${savings ? `Listed options differ by up to ${escapeHtml(formatPrice(savings, product.currency || "USD"))}` : "Check final price with the seller"}</small></p>`;
+}
+
+function renderHeroSlides() {
+  const wrapper = $("#hero-slides");
+  if (!wrapper) return;
+  const shortlist = [...products]
+    .sort((a, b) => {
+      const aFeatured = a.badge ? 1 : 0,
+        bFeatured = b.badge ? 1 : 0;
+      return bFeatured - aFeatured;
+    })
+    .slice(0, Math.min(6, products.length));
+  wrapper.innerHTML = shortlist
+    .map((product) => {
+      const badge = product.badge || "Wigachu pick";
+      return `<article class="swiper-slide spotlight-slide">
+      <div class="spotlight-copy"><span class="spotlight-label"><i class="fa-solid fa-sparkles" aria-hidden="true"></i> ${escapeHtml(badge)}</span>
+      <h3>${escapeHtml(product.title)}</h3><p>${escapeHtml(product.description || "An interesting find to explore.")}</p>
+      <div class="spotlight-price">${escapeHtml(displayPrice(product))}</div>
+      <button class="spotlight-cta" type="button" data-open-product="${escapeHtml(product.id)}">Explore this find <i class="fa-solid fa-arrow-right" aria-hidden="true"></i></button></div>
+      <div class="spotlight-image-wrap"><img src="${escapeHtml(getProductImage(product))}" alt="${escapeHtml(product.title)}" loading="lazy" decoding="async" /></div>
+    </article>`;
+    })
+    .join("");
+  wrapper.querySelectorAll("img").forEach((image) =>
+    image.addEventListener("error", () => {
+      image.src = FALLBACK_IMAGE;
+      image.onerror = null;
+    }),
+  );
+  if (heroSwiper) {
+    heroSwiper.destroy(true, true);
+    heroSwiper = null;
+  }
+  if (window.Swiper && shortlist.length > 1) {
+    heroSwiper = new Swiper(".spotlight-swiper", {
+      slidesPerView: 1,
+      spaceBetween: 16,
+      loop: shortlist.length > 2,
+      speed: 500,
+      navigation: {
+        nextEl: ".spotlight-swiper .swiper-button-next",
+        prevEl: ".spotlight-swiper .swiper-button-prev",
+      },
+      pagination: {
+        el: ".spotlight-swiper .swiper-pagination",
+        clickable: true,
+      },
+      breakpoints: { 900: { slidesPerView: 1, spaceBetween: 20 } },
+      a11y: { enabled: true },
+    });
+  }
+}
+
+function renderFilters() {
+  if (!filterContainer) return;
+  const categories = [
+    "All",
+    ...new Set(products.map((product) => product.category).filter(Boolean)),
+  ];
+  filterContainer.innerHTML = "";
+  categories.forEach((category) => {
+    const button = document.createElement("button");
+    button.type = "button";
+    button.className = `filter-chip${activeCategory === category ? " active" : ""}`;
+    button.textContent = category;
+    button.setAttribute("aria-pressed", String(activeCategory === category));
+    button.addEventListener("click", () => {
+      activeCategory = category;
+      renderFilters();
+      renderProducts();
+    });
+    filterContainer.appendChild(button);
   });
 }
 
-// ---------- SUPPORT MODAL ----------
-window.openSupportModal = function () {
-  const modal = document.getElementById("supportModal");
-  if (modal) {
-    modal.classList.add("open");
-    document.body.style.overflow = "hidden";
-  }
-};
-window.closeSupportModal = function () {
-  const modal = document.getElementById("supportModal");
-  if (modal) {
-    modal.classList.remove("open");
-    document.body.style.overflow = "";
-  }
-};
-document.addEventListener("keydown", (e) => {
-  if (e.key === "Escape") window.closeSupportModal();
-});
-document.addEventListener("DOMContentLoaded", () => {
-  const modal = document.getElementById("supportModal");
-  if (modal) {
-    modal.addEventListener("click", (e) => {
-      if (e.target === modal) window.closeSupportModal();
-    });
-  }
-});
+function renderProducts() {
+  if (!productGrid) return;
+  const query = searchQuery.toLowerCase();
+  let filtered = products.filter((product) => {
+    const categoryMatch =
+      activeCategory === "All" || product.category === activeCategory;
+    const queryMatch =
+      !query ||
+      [
+        product.title,
+        product.description,
+        product.category,
+        product.badge,
+      ].some((field) =>
+        String(field || "")
+          .toLowerCase()
+          .includes(query),
+      );
+    const favoriteMatch = !favoritesOnly || favorites.has(String(product.id));
+    return categoryMatch && queryMatch && favoriteMatch;
+  });
+  if (sortMode === "price-low")
+    filtered.sort(
+      (a, b) =>
+        (getLowestPrice(a) ?? Infinity) - (getLowestPrice(b) ?? Infinity),
+    );
+  else if (sortMode === "price-high")
+    filtered.sort(
+      (a, b) =>
+        (getLowestPrice(b) ?? -Infinity) - (getLowestPrice(a) ?? -Infinity),
+    );
+  else if (sortMode === "name")
+    filtered.sort((a, b) => a.title.localeCompare(b.title));
+  else filtered.sort((a, b) => products.indexOf(a) - products.indexOf(b));
 
-// ---------- COPY TO CLIPBOARD ----------
-window.copyToClipboard = function (elementId) {
-  const element = document.getElementById(elementId);
-  if (!element) return;
-  const text = element.innerText;
-  navigator.clipboard
-    .writeText(text)
-    .then(() => alert("Address copied to clipboard!"))
-    .catch(() => {
-      const textArea = document.createElement("textarea");
-      textArea.value = text;
-      document.body.appendChild(textArea);
-      textArea.select();
-      try {
-        document.execCommand("copy");
-        alert("Address copied to clipboard!");
-      } catch (err) {
-        alert("Could not copy. Please select and copy manually.");
-      }
-      document.body.removeChild(textArea);
-    });
-};
+  if (productCount)
+    productCount.textContent = `${filtered.length} ${filtered.length === 1 ? "find" : "finds"}`;
+  updateFavoritesCount();
+  productGrid.innerHTML = filtered
+    .map((product, index) => {
+      const isSaved = favorites.has(String(product.id));
+      return `<article class="product-card" style="animation-delay:${Math.min(index * 35, 280)}ms">
+      <div class="product-image-wrap">
+        <img class="product-image" src="${escapeHtml(getProductImage(product))}" alt="${escapeHtml(product.title)}" loading="lazy" decoding="async" />
+        ${product.badge ? `<span class="product-badge">${escapeHtml(product.badge)}</span>` : ""}
+        <div class="product-icon-actions">
+          <button class="icon-action${isSaved ? " is-saved" : ""}" type="button" data-favorite-product="${escapeHtml(product.id)}" aria-label="${isSaved ? "Remove from saved finds" : "Save this find"}" aria-pressed="${isSaved}" title="${isSaved ? "Remove saved find" : "Save find"}"><i class="${isSaved ? "fa-solid" : "fa-regular"} fa-heart" aria-hidden="true"></i></button>
+        </div>
+      </div>
+      <div class="product-card-content">
+        <span class="product-category">${escapeHtml(product.category)}</span>
+        <h3>${escapeHtml(product.title)}</h3>
+        <p class="product-card-description">${escapeHtml(product.description || "Open to explore seller information and available options.")}</p>
+        ${productPriceMarkup(product)}
+        <div class="product-card-actions"><button class="compare-btn" type="button" data-open-product="${escapeHtml(product.id)}">Compare options <i class="fa-solid fa-arrow-up-right-from-square" aria-hidden="true"></i></button><button class="share-card-btn" type="button" data-share-product="${escapeHtml(product.id)}" aria-label="Share ${escapeHtml(product.title)}" title="Share this find"><i class="fa-solid fa-share-nodes" aria-hidden="true"></i></button></div>
+      </div>
+    </article>`;
+    })
+    .join("");
+  productGrid.querySelectorAll(".product-image").forEach((image) =>
+    image.addEventListener("error", () => {
+      image.src = FALLBACK_IMAGE;
+      image.onerror = null;
+    }),
+  );
+  if (emptyState) emptyState.hidden = filtered.length > 0;
+  productGrid.hidden = filtered.length === 0;
+}
 
-// ---------- WHOLESALE REQUEST ----------
+function renderRetailerRows(product) {
+  const retailLinks = Array.isArray(product.links) ? product.links : [];
+  const bulkLinks = Array.isArray(product.bulkLinks) ? product.bulkLinks : [];
+  const safeRetailLinks = retailLinks
+    .map((link) => ({ ...link, safeUrl: safeHttpUrl(link.url) }))
+    .filter((link) => link.safeUrl);
+  const safeBulkLinks = bulkLinks
+    .map((link) => ({ ...link, safeUrl: safeHttpUrl(link.url) }))
+    .filter((link) => link.safeUrl);
+  let html = "";
+  if (safeRetailLinks.length) {
+    html += `<h3 class="modal-links-heading">Available seller options</h3>`;
+    html += safeRetailLinks
+      .map((link) => {
+        const price = link.price
+          ? formatPrice(link.price, link.currency || product.currency || "USD")
+          : product.price
+            ? formatPrice(product.price, product.currency || "USD")
+            : "Check price";
+        return `<div class="retailer-row">
+        <div class="retailer-main"><strong>${escapeHtml(link.platform || "Retailer")}</strong><small>Opens the seller's product page · <button class="retailer-copy" type="button" data-copy-url="${escapeHtml(link.safeUrl)}"><i class="fa-regular fa-copy" aria-hidden="true"></i> Copy seller link</button></small></div>
+        <span class="retailer-price">${escapeHtml(price)}</span>
+        <a class="retailer-visit" href="${escapeHtml(link.safeUrl)}" target="_blank" rel="sponsored nofollow noopener noreferrer" data-retailer-click="${escapeHtml(link.platform || "Retailer")}">Visit seller <i class="fa-solid fa-arrow-up-right-from-square" aria-hidden="true"></i></a>
+      </div>`;
+      })
+      .join("");
+  }
+  if (safeBulkLinks.length) {
+    html += `<h3 class="modal-links-heading" style="margin-top:22px">Bulk and wholesale options</h3>`;
+    html += safeBulkLinks
+      .map(
+        (link) =>
+          `<div class="retailer-row"><div class="retailer-main"><strong>${escapeHtml(link.platform || "Wholesale seller")}</strong><small>${link.min_order ? `Minimum order: ${escapeHtml(link.min_order)} units` : "Ask the seller about minimum order quantity"}</small><small><button class="retailer-copy" type="button" data-copy-url="${escapeHtml(link.safeUrl)}"><i class="fa-regular fa-copy" aria-hidden="true"></i> Copy seller link</button></small></div><span class="retailer-price">${link.price ? `${escapeHtml(formatPrice(link.price, link.currency || product.currency || "USD"))}/unit` : "Request price"}</span><a class="retailer-visit" href="${escapeHtml(link.safeUrl)}" target="_blank" rel="sponsored nofollow noopener noreferrer" data-retailer-click="${escapeHtml(link.platform || "Wholesale seller")}">View option <i class="fa-solid fa-arrow-up-right-from-square" aria-hidden="true"></i></a></div>`,
+      )
+      .join("");
+  }
+  if (!safeRetailLinks.length && !safeBulkLinks.length) {
+    html = `<div class="modal-empty-links">There are no seller links saved for this find yet. You can still share it, or check back later as the catalogue is updated.</div>`;
+  } else {
+    html += `<p class="modal-note">Prices shown here are listings we have on file, not live price quotes. The retailer's checkout is the final source for the current price, delivery, taxes, and stock.</p>`;
+  }
+  html += `<button class="modal-report-link" type="button" data-report-product="${escapeHtml(product.id)}"><i class="fa-regular fa-flag" aria-hidden="true"></i> Report a broken seller link</button>`;
+  return html;
+}
+
+function openBuyModal(productId) {
+  const product = products.find(
+    (item) => String(item.id) === String(productId),
+  );
+  if (!product || !buyModal) return;
+  currentProduct = product;
+  lastFocusedElement = document.activeElement;
+  modalTitle.textContent = product.title;
+  modalDesc.textContent =
+    product.description || "Open the seller options below to review details.";
+  modalImage.src = getProductImage(product);
+  modalImage.alt = product.title;
+  modalImage.onerror = () => {
+    modalImage.src = FALLBACK_IMAGE;
+    modalImage.onerror = null;
+  };
+  modalBadge.textContent = product.badge || "";
+  modalBadge.hidden = !product.badge;
+  const low = getLowestPrice(product),
+    savings = getMaxSavings(product);
+  modalPrice.innerHTML =
+    low === null
+      ? ""
+      : `${escapeHtml(displayPrice(product))}${savings ? `<span class="modal-savings">Options differ by ${escapeHtml(formatPrice(savings, product.currency || "USD"))}</span>` : ""}`;
+  modalLinks.innerHTML = renderRetailerRows(product);
+  bulkOrderBtn.hidden = Boolean(product.bulkLinks?.length);
+  bulkOrderBtn.disabled = false;
+  bulkOrderBtn.innerHTML =
+    '<i class="fa-solid fa-boxes-stacked" aria-hidden="true"></i> Ask about wholesale';
+  buyModal.classList.add("open");
+  buyModal.setAttribute("aria-hidden", "false");
+  document.body.classList.add("modal-open");
+  $("#close-modal")?.focus();
+  trackPixel("ViewContent", {
+    content_name: product.title,
+    content_category: product.category,
+    content_ids: [String(product.id)],
+    content_type: "product",
+  });
+}
+
+function closeBuyModal() {
+  if (!buyModal) return;
+  buyModal.classList.remove("open");
+  buyModal.setAttribute("aria-hidden", "true");
+  document.body.classList.remove("modal-open");
+  if (lastFocusedElement && typeof lastFocusedElement.focus === "function")
+    lastFocusedElement.focus();
+}
+
 async function requestBulkOrder(product) {
-  if (isBulkLoading) return;
-  isBulkLoading = true;
-
-  const gridBtns = document.querySelectorAll(".bulk-request-btn");
-  let gridBtn = null;
-  for (const btn of gridBtns) {
-    if (parseInt(btn.getAttribute("data-product-id")) === product.id) {
-      gridBtn = btn;
-      break;
-    }
+  if (!product) return;
+  if (!supabaseClient) {
+    showToast("Wholesale requests are temporarily unavailable.");
+    return;
   }
-  const modalBtn = document.getElementById("bulk-order-btn");
-  const originalGridHtml = gridBtn ? gridBtn.innerHTML : null;
-  const originalModalHtml = modalBtn ? modalBtn.innerHTML : null;
-
-  if (gridBtn) {
-    gridBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i>';
-    gridBtn.disabled = true;
-  }
-  if (modalBtn) {
-    modalBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Requesting...';
-    modalBtn.disabled = true;
-  }
-
+  bulkOrderBtn.disabled = true;
+  bulkOrderBtn.innerHTML =
+    '<i class="fa-solid fa-spinner fa-spin" aria-hidden="true"></i> Sending request…';
   try {
-    const { data, error } = await supabaseClient.from("bulk_orders").insert([
+    const { error } = await supabaseClient.from("bulk_orders").insert([
       {
         product_title: product.title,
         product_image: product.image,
@@ -348,521 +603,217 @@ async function requestBulkOrder(product) {
       },
     ]);
     if (error) throw error;
-    alert("Awesome! We'll find the best deal for you.");
-  } catch (err) {
-    console.error("Wholesale failed:", err);
-    alert("Something went wrong. Please try again later.");
+    trackPixel(
+      "WholesaleRequest",
+      { content_name: product.title, content_ids: [String(product.id)] },
+      true,
+    );
+    showToast("Request received. Thanks for your interest!");
+    closeBuyModal();
+  } catch (error) {
+    console.error("Wholesale request failed:", error);
+    showToast("Could not send the request. Please try again later.");
   } finally {
-    isBulkLoading = false;
-    if (gridBtn) {
-      gridBtn.innerHTML = originalGridHtml || '<i class="fas fa-boxes"></i>';
-      gridBtn.disabled = false;
-    }
-    if (modalBtn) {
-      modalBtn.innerHTML = originalModalHtml || "Request Wholesale";
-      modalBtn.disabled = false;
-    }
+    bulkOrderBtn.disabled = false;
+    bulkOrderBtn.innerHTML =
+      '<i class="fa-solid fa-boxes-stacked" aria-hidden="true"></i> Ask about wholesale';
   }
 }
 
-// ---------- RENDER FILTERS ----------
-function renderFilters() {
-  if (!filterContainer) return;
-  filterContainer.innerHTML = "";
-  const categories = ["All", ...new Set(products.map((p) => p.category))];
-  categories.forEach((cat) => {
-    const btn = document.createElement("button");
-    btn.className = `px-4 py-2 rounded-full text-sm font-medium transition ${
-      activeCategory === cat
-        ? "bg-brand-600 text-white shadow-sm"
-        : "bg-white text-gray-700 border border-gray-300 hover:bg-gray-50"
-    }`;
-    btn.textContent = cat;
-    btn.addEventListener("click", () => {
-      activeCategory = cat;
-      renderFilters();
-      renderProducts();
-    });
-    filterContainer.appendChild(btn);
-  });
-}
-
-// ---------- RENDER PRODUCTS ----------
-function renderProducts() {
-  if (!productGrid) return;
-  const filtered = products.filter((p) => {
-    const catMatch = activeCategory === "All" || p.category === activeCategory;
-    const searchMatch =
-      !searchQuery ||
-      p.title.toLowerCase().includes(searchQuery) ||
-      p.description.toLowerCase().includes(searchQuery);
-    return catMatch && searchMatch;
-  });
-
-  productGrid.innerHTML = "";
-  filtered.forEach((product, index) => {
-    const lowest = getLowestPrice(product);
-    const savings = getMaxSavings(product);
-
-    let priceHtml = "";
-    if (lowest !== null) {
-      priceHtml = `<p class="mt-2 text-base font-bold text-brand-600">From ${formatPrice(lowest)}`;
-      if (savings) {
-        priceHtml += `<span class="ml-2 text-xs font-normal text-gray-400">Save ${formatPrice(savings)}</span>`;
-      }
-      priceHtml += `</p>`;
-    }
-
-    const card = document.createElement("div");
-    card.className =
-      "product-card bg-white rounded-xl shadow-sm overflow-hidden border border-gray-100 flex flex-col";
-    card.style.animationDelay = `${index * 0.05}s`;
-
-    card.innerHTML = `
-      <div class="relative aspect-[4/3] bg-gray-100 overflow-hidden">
-        <img src="${product.image}" alt="${product.title}" class="w-full h-full object-cover" loading="lazy" referrerpolicy="no-referrer" />
-        ${product.badge ? `<span class="absolute top-2 left-2 px-2 py-1 bg-brand-500 text-white text-xs font-semibold rounded-full">${product.badge}</span>` : ""}
-      </div>
-      <div class="p-4 flex flex-col flex-1">
-        <span class="text-xs text-gray-500 uppercase tracking-wide">${product.category}</span>
-        <h3 class="mt-1 text-sm font-semibold text-navy-900 line-clamp-2">${product.title}</h3>
-        <p class="mt-1 text-xs text-gray-600 line-clamp-2">${product.description}</p>
-        ${priceHtml}
-        <div class="mt-auto pt-4 flex gap-2">
-          <button class="flex-1 buy-options-btn py-2 px-4 bg-brand-600 hover:bg-brand-700 text-white text-sm font-medium rounded-lg transition" data-product-id="${product.id}">
-            Buy Options
-          </button>
-          <button class="bulk-request-btn py-2 px-3 bg-navy-900 hover:bg-navy-800 text-white text-sm font-medium rounded-lg transition" data-product-id="${product.id}" title="Request Wholesale">
-            <i class="fas fa-boxes"></i>
-          </button>
-        </div>
-      </div>
-    `;
-    productGrid.appendChild(card);
-  });
-
-  document.querySelectorAll(".buy-options-btn").forEach((btn) => {
-    btn.addEventListener("click", () => {
-      const productId = parseInt(btn.getAttribute("data-product-id"));
-      openBuyModal(productId);
-    });
-  });
-
-  document.querySelectorAll(".bulk-request-btn").forEach((btn) => {
-    btn.addEventListener("click", () => {
-      const productId = parseInt(btn.getAttribute("data-product-id"));
-      const product = products.find((p) => p.id === productId);
-      if (product) requestBulkOrder(product);
-    });
-  });
-}
-
-// ---------- BUY MODAL ----------
-function openBuyModal(productId) {
-  const product = products.find((p) => p.id === productId);
-  if (!product) return;
-  currentBulkProduct = product;
-
-  modalTitle.textContent = product.title;
-  modalDesc.textContent = product.description;
-
-  const lowest = getLowestPrice(product);
-  const highest = getHighestPrice(product);
-  const savings = getMaxSavings(product);
-
-  if (lowest !== null && highest !== null && savings !== null) {
-    modalPrice.innerHTML = `
-      <span class="text-2xl font-bold text-brand-600">From ${formatPrice(lowest)}</span>
-      <span class="ml-2 text-xs font-medium text-green-600 bg-green-50 px-2 py-0.5 rounded-full">Save up to ${formatPrice(savings)}</span>
-    `;
-  } else if (lowest !== null) {
-    modalPrice.innerHTML = `<span class="text-2xl font-bold text-brand-600">From ${formatPrice(lowest)}</span>`;
-  } else {
-    modalPrice.innerHTML = "";
-  }
-
-  modalLinks.innerHTML = "";
-
-  // ---- RETAIL LINKS ----
-  if (product.links && product.links.length > 0) {
-    const retailHeading = document.createElement("div");
-    retailHeading.className = "text-sm font-bold text-navy-800 mb-2";
-    retailHeading.textContent = "Buy Now — Compare Prices";
-    modalLinks.appendChild(retailHeading);
-
-    product.links.forEach((link) => {
-      const row = document.createElement("div");
-      row.className =
-        "mb-3 border border-gray-200 rounded-xl p-3 hover:border-brand-500 transition-colors";
-
-      const priceDisplay = link.price
-        ? formatPrice(link.price)
-        : product.price
-          ? formatPrice(product.price)
-          : "Check price";
-
-      row.innerHTML = `
-        <div class="flex items-center justify-between mb-2">
-          <div class="flex items-center gap-2 min-w-0">
-            <span class="font-semibold text-navy-800 text-sm truncate">${link.platform}</span>
-            <span class="text-[10px] text-gray-400 flex-shrink-0">· Verified retailer</span>
-          </div>
-          <span class="text-base font-bold text-brand-600 flex-shrink-0">${priceDisplay}</span>
-        </div>
-        <a href="${link.url}" target="_blank" rel="noopener"
-           class="block w-full py-2 px-4 bg-brand-600 hover:bg-brand-700 text-white text-sm font-medium rounded-lg transition text-center mb-2">
-          Buy Now on ${link.platform}
-        </a>
-        <div class="flex items-center gap-2">
-          <code class="flex-1 text-[10px] text-gray-500 bg-gray-50 rounded px-2 py-1.5 truncate" title="${link.url}">${getFullUrl(link.url)}</code>
-          <button class="copy-link-btn flex-shrink-0 text-xs text-brand-600 hover:text-brand-800 font-semibold px-2 py-1" data-url="${link.url}">Copy</button>
-        </div>
-      `;
-      modalLinks.appendChild(row);
-    });
-
-    const trustNote = document.createElement("p");
-    trustNote.className = "text-[11px] text-gray-400 italic mb-2";
-    trustNote.textContent =
-      "Full links shown above for transparency. No URL shorteners.";
-    modalLinks.appendChild(trustNote);
-  }
-
-  // ---- BULK / WHOLESALE LINKS ----
-  if (product.bulkLinks && product.bulkLinks.length > 0) {
-    const bulkHeading = document.createElement("div");
-    bulkHeading.className =
-      "text-sm font-bold text-orange-600 mt-4 mb-2 pt-3 border-t border-gray-100";
-    bulkHeading.textContent = "Bulk / Wholesale";
-    modalLinks.appendChild(bulkHeading);
-
-    product.bulkLinks.forEach((link) => {
-      const row = document.createElement("div");
-      row.className =
-        "mb-3 border border-orange-200 rounded-xl p-3 hover:border-orange-500 transition-colors bg-orange-50/30";
-
-      const priceDisplay = link.price
-        ? `${formatPrice(link.price)}/unit`
-        : "Request price";
-      const minOrderDisplay = link.min_order
-        ? `<div class="text-xs text-gray-500 mb-2">Min order: ${link.min_order} units</div>`
-        : "";
-
-      row.innerHTML = `
-        <div class="flex items-center justify-between mb-2">
-          <span class="font-semibold text-orange-800 text-sm">${link.platform}</span>
-          <span class="text-base font-bold text-orange-600">${priceDisplay}</span>
-        </div>
-        ${minOrderDisplay}
-        <a href="${link.url}" target="_blank" rel="noopener"
-           class="block w-full py-2 px-4 bg-orange-500 hover:bg-orange-600 text-white text-sm font-medium rounded-lg transition text-center mb-2">
-          Request Quote on ${link.platform}
-        </a>
-        <div class="flex items-center gap-2">
-          <code class="flex-1 text-[10px] text-gray-500 bg-white rounded px-2 py-1.5 truncate" title="${link.url}">${getFullUrl(link.url)}</code>
-          <button class="copy-link-btn flex-shrink-0 text-xs text-orange-600 hover:text-orange-800 font-semibold px-2 py-1" data-url="${link.url}">Copy</button>
-        </div>
-      `;
-      modalLinks.appendChild(row);
-    });
-  }
-
-  // ---- CONDITIONAL WHOLESALE REQUEST BUTTON ----
-  if (product.bulkLinks && product.bulkLinks.length > 0) {
-    bulkOrderBtn.style.display = "none";
-  } else {
-    bulkOrderBtn.style.display = "block";
-    bulkOrderBtn.onclick = () => requestBulkOrder(product);
-  }
-
-  // ---- REPORT BROKEN LINK ----
-  const reportBtn = document.createElement("button");
-  reportBtn.className = "mt-2 text-xs text-red-500 hover:underline block";
-  reportBtn.textContent = "Report broken link";
-  reportBtn.onclick = () => reportBrokenLink(product);
-  modalLinks.appendChild(reportBtn);
-
-  // ---- TIKTOK LINK ----
-  const tiktokBtn = document.createElement("button");
-  tiktokBtn.className =
-    "mt-2 text-sm text-[#000000] hover:text-[#FE2C55] flex items-center gap-2";
-  tiktokBtn.innerHTML = '<i class="fab fa-tiktok"></i> Find this on TikTok';
-  tiktokBtn.onclick = function (e) {
-    e.stopPropagation();
-    const searchTerm = product.title;
-    const url = `https://www.tiktok.com/search?q=${encodeURIComponent(searchTerm)}`;
-    window.open(url, "_blank");
-  };
-  modalLinks.appendChild(tiktokBtn);
-
-  // ---- COPY LINK HANDLERS ----
-  modalLinks.querySelectorAll(".copy-link-btn").forEach((btn) => {
-    btn.addEventListener("click", function (e) {
-      e.preventDefault();
-      e.stopPropagation();
-      const url = this.getAttribute("data-url");
-      navigator.clipboard
-        .writeText(url)
-        .then(() => {
-          const original = this.textContent;
-          this.textContent = "✓ Copied";
-          this.classList.add("text-green-600");
-          setTimeout(() => {
-            this.textContent = original;
-            this.classList.remove("text-green-600");
-          }, 2000);
-        })
-        .catch(() => {
-          alert("Could not copy. Please copy manually:\n" + url);
-        });
-    });
-  });
-
-  buyModal.classList.remove("hidden");
-  buyModal.classList.add("flex");
-}
-
-// ---------- REPORT BROKEN LINK ----------
 async function reportBrokenLink(product) {
-  const link =
-    product.links && product.links.length > 0 ? product.links[0].url : "";
-  const platform =
-    product.links && product.links.length > 0
-      ? product.links[0].platform
-      : "Unknown";
+  if (!supabaseClient) {
+    showToast("Link reporting is temporarily unavailable.");
+    return;
+  }
+  const firstLink = (product.links || []).find((link) => safeHttpUrl(link.url));
   try {
-    const { error } = await supabaseClient
-      .from("broken_link_reports")
-      .insert([{ product_id: product.id, link_url: link, platform }]);
+    const { error } = await supabaseClient.from("broken_link_reports").insert([
+      {
+        product_id: product.id,
+        link_url: firstLink?.url || "",
+        platform: firstLink?.platform || "Unknown",
+      },
+    ]);
     if (error) throw error;
-    alert("Thank you! We'll check the link.");
-  } catch (e) {
-    alert("Could not report. Please try again later.");
+    showToast("Thanks. We'll check that seller link.");
+  } catch (error) {
+    console.error("Could not report seller link:", error);
+    showToast("Could not send the report. Please try again later.");
   }
 }
 
-// ---------- CLOSE MODAL ----------
-if (closeModal) {
-  closeModal.addEventListener("click", () => {
-    buyModal.classList.add("hidden");
-    buyModal.classList.remove("flex");
-  });
-}
-window.addEventListener("click", (e) => {
-  if (e.target === buyModal) {
-    buyModal.classList.add("hidden");
-    buyModal.classList.remove("flex");
+function toggleFavorite(productId) {
+  const id = String(productId);
+  if (favorites.has(id)) {
+    favorites.delete(id);
+    showToast("Removed from your saved finds.");
+  } else {
+    favorites.add(id);
+    showToast("Saved for your next visit on this device.");
   }
-});
-
-function copyPayPalEmail() {
-  const email = "pesapad.app@gmail.com";
-  navigator.clipboard
-    .writeText(email)
-    .then(() => alert("PayPal email copied to clipboard!"))
-    .catch(() => {
-      const textArea = document.createElement("textarea");
-      textArea.value = email;
-      document.body.appendChild(textArea);
-      textArea.select();
-      try {
-        document.execCommand("copy");
-        alert("PayPal email copied to clipboard!");
-      } catch (err) {
-        alert("Could not copy. Please copy manually: " + email);
-      }
-      document.body.removeChild(textArea);
-    });
+  writeFavorites();
+  renderProducts();
 }
 
-// ---------- SEARCH ----------
-if (searchInput) {
-  searchInput.addEventListener("input", (e) => {
-    searchQuery = e.target.value.toLowerCase().trim();
-    renderProducts();
-  });
-}
-
-// ---------- MOBILE MENU ----------
-if (mobileMenuBtn) {
-  mobileMenuBtn.addEventListener("click", () => {
-    mobileMenu.classList.toggle("hidden");
-  });
-}
-document
-  .querySelectorAll("#mobile-menu a, #mobile-menu button")
-  .forEach((link) => {
-    link.addEventListener("click", () => mobileMenu.classList.add("hidden"));
-  });
-
-// ---------- YEAR ----------
-if (yearSpan) {
-  yearSpan.textContent = new Date().getFullYear();
-}
-
-// ---------- TYPEWRITER ----------
-document.addEventListener("DOMContentLoaded", function () {
-  const rawPhrases = [
-    "4K Projector: Turn any wall into a cinema.",
-    "Best seller: Neck massager for instant relief.",
-    "Inflatable Sofa: Fits in a backpack – inflates in 10 seconds.",
-    "3D Hologram Fan: Upload your own 3D content.",
-    "Swim Earphones: Underwater audio – 32GB storage.",
-    "Tire Inflator: Never get stranded with a flat tire.",
-    "First Aid Kit: 379 pieces – be prepared for anything.",
-    "Handheld Steamer: Wrinkle-free clothes anywhere.",
-    "Galaxy Projector: Transform any room into a galaxy.",
-    "Solar Fan Hat: Stay cool and protected under the sun.",
-    "Discover the gear that actually works.",
-    "We dig through reviews so you get the best ones.",
-    "Just the stuff that makes life easier.",
-    "Track debts & get trust scores with Pesapad – it's 100% free.",
-  ];
-
-  function shuffleArray(arr) {
-    for (let i = arr.length - 1; i > 0; i--) {
-      const j = Math.floor(Math.random() * (i + 1));
-      [arr[i], arr[j]] = [arr[j], arr[i]];
-    }
-    return arr;
-  }
-  shuffleArray(rawPhrases);
-
-  let phraseIndex = 0;
-  let charIndex = 0;
-  let isDeleting = false;
-  const typewriterEl = document.getElementById("typewriter-text");
-  if (!typewriterEl) return;
-
-  function splitPhrase(phrase) {
-    const colonIndex = phrase.indexOf(":");
-    if (colonIndex === -1) return { label: "", rest: phrase };
-    return {
-      label: phrase.substring(0, colonIndex + 1),
-      rest: phrase.substring(colonIndex + 1).trimStart(),
-    };
-  }
-
-  function getCurrentText() {
-    const phrase = rawPhrases[phraseIndex];
-    const { label, rest } = splitPhrase(phrase);
-    const typedRest = rest.slice(0, Math.max(0, charIndex));
-    return label ? `<b>${label}</b> ${typedRest}` : typedRest;
-  }
-
-  function typeEffect() {
-    const phrase = rawPhrases[phraseIndex];
-    const { label, rest } = splitPhrase(phrase);
-
-    if (!isDeleting) {
-      if (charIndex <= rest.length) {
-        typewriterEl.innerHTML = getCurrentText();
-        charIndex++;
-        if (charIndex > rest.length) {
-          isDeleting = true;
-          setTimeout(typeEffect, 2800);
-          return;
-        }
-        setTimeout(typeEffect, 40);
-      }
-    } else {
-      charIndex--;
-      if (charIndex < 0) {
-        isDeleting = false;
-        phraseIndex = (phraseIndex + 1) % rawPhrases.length;
-        charIndex = 0;
-        typewriterEl.innerHTML = getCurrentText();
-        setTimeout(typeEffect, 300);
-        return;
-      }
-      typewriterEl.innerHTML = getCurrentText();
-      setTimeout(typeEffect, 20);
-    }
-  }
-  setTimeout(typeEffect, 600);
-});
-
-// ======================== INITIALISE ========================
-document.addEventListener("DOMContentLoaded", async () => {
+async function init() {
+  const year = $("#current-year");
+  if (year) year.textContent = String(new Date().getFullYear());
   products = await loadProducts();
   renderFilters();
   renderProducts();
-  renderHeroSlides(products);
-});
+  renderHeroSlides();
+  updateFavoritesCount();
 
-// ======== WELCOME POPUP ========
-(function initWelcomePopup() {
-  const popup = document.getElementById("welcome-popup");
-  const slides = document.querySelectorAll(".welcome-slide");
-  const dots = document.querySelectorAll(".welcome-dot");
-  const progress = document.getElementById("welcome-progress");
-  const closeBtn = document.getElementById("close-welcome-popup");
-
-  let currentSlide = 0;
-  let autoPlayInterval = null;
-  const totalSlides = slides.length;
-  const slideDuration = 5000;
-
-  if (localStorage.getItem("wigachu_welcome_seen") === "true") return;
-
-  setTimeout(() => {
-    popup.classList.remove("hidden");
-    popup.classList.add("flex");
-    startAutoPlay();
-  }, 1000);
-
-  function goToSlide(index) {
-    if (index < 0) index = totalSlides - 1;
-    if (index >= totalSlides) index = 0;
-    currentSlide = index;
-
-    slides.forEach((slide, i) => {
-      slide.classList.toggle("active", i === currentSlide);
-    });
-    dots.forEach((dot, i) => {
-      dot.classList.toggle("active", i === currentSlide);
-    });
-    const progressPercent = ((currentSlide + 1) / totalSlides) * 100;
-    progress.style.width = progressPercent + "%";
-  }
-
-  function nextSlide() {
-    goToSlide(currentSlide + 1);
-  }
-  function startAutoPlay() {
-    if (autoPlayInterval) clearInterval(autoPlayInterval);
-    autoPlayInterval = setInterval(nextSlide, slideDuration);
-  }
-  function stopAutoPlay() {
-    if (autoPlayInterval) {
-      clearInterval(autoPlayInterval);
-      autoPlayInterval = null;
-    }
-  }
-  function closePopup() {
-    stopAutoPlay();
-    popup.classList.add("hidden");
-    popup.classList.remove("flex");
-    localStorage.setItem("wigachu_welcome_seen", "true");
-  }
-
-  dots.forEach((dot) => {
-    dot.addEventListener("click", function () {
-      stopAutoPlay();
-      goToSlide(parseInt(this.dataset.index));
-      startAutoPlay();
-    });
-  });
-
-  closeBtn.addEventListener("click", closePopup);
-  popup.addEventListener("click", function (e) {
-    if (e.target === popup) closePopup();
-  });
-  document.addEventListener("keydown", function (e) {
-    if (e.key === "Escape" && !popup.classList.contains("hidden")) {
-      closePopup();
+  // Product-card interactions are delegated so they remain active after filters/sorts.
+  productGrid?.addEventListener("click", (event) => {
+    const openButton = event.target.closest("[data-open-product]");
+    const saveButton = event.target.closest("[data-favorite-product]");
+    const shareButton = event.target.closest("[data-share-product]");
+    if (openButton) openBuyModal(openButton.dataset.openProduct);
+    if (saveButton) toggleFavorite(saveButton.dataset.favoriteProduct);
+    if (shareButton) {
+      const product = products.find(
+        (item) => String(item.id) === String(shareButton.dataset.shareProduct),
+      );
+      shareProduct(product);
     }
   });
 
-  goToSlide(0);
-})();
+  $("#hero-slides")?.addEventListener("click", (event) => {
+    const button = event.target.closest("[data-open-product]");
+    if (button) openBuyModal(button.dataset.openProduct);
+  });
+
+  filterContainer?.addEventListener("keydown", (event) => {
+    if (event.key === "/" && document.activeElement !== searchInput) {
+      event.preventDefault();
+      searchInput?.focus();
+    }
+  });
+  searchInput?.addEventListener("input", (event) => {
+    searchQuery = event.target.value.trim();
+    renderProducts();
+  });
+  sortSelect?.addEventListener("change", (event) => {
+    sortMode = event.target.value;
+    renderProducts();
+  });
+  favoritesFilter?.addEventListener("click", () => {
+    favoritesOnly = !favoritesOnly;
+    updateFavoritesCount();
+    renderProducts();
+  });
+  $("#clear-filters")?.addEventListener("click", () => {
+    activeCategory = "All";
+    searchQuery = "";
+    sortMode = "featured";
+    favoritesOnly = false;
+    if (searchInput) searchInput.value = "";
+    if (sortSelect) sortSelect.value = "featured";
+    renderFilters();
+    updateFavoritesCount();
+    renderProducts();
+  });
+
+  const menuButton = $("#mobile-menu-btn"),
+    navigation = $("#site-navigation");
+  menuButton?.addEventListener("click", () => {
+    const isOpen = navigation.classList.toggle("is-open");
+    menuButton.setAttribute("aria-expanded", String(isOpen));
+    menuButton.setAttribute(
+      "aria-label",
+      isOpen ? "Close navigation" : "Open navigation",
+    );
+  });
+  navigation?.querySelectorAll("a, button").forEach((link) =>
+    link.addEventListener("click", () => {
+      navigation.classList.remove("is-open");
+      menuButton?.setAttribute("aria-expanded", "false");
+      menuButton?.setAttribute("aria-label", "Open navigation");
+    }),
+  );
+
+  $("#share-site-btn")?.addEventListener("click", shareSite);
+  $("#share-about-btn")?.addEventListener("click", shareSite);
+  $("#footer-share-btn")?.addEventListener("click", shareSite);
+  const supportSection = $("#support-wigachu");
+  supportSection?.addEventListener("click", async (event) => {
+    const supportLink = event.target.closest("a[data-support-method]");
+    if (supportLink) {
+      trackPixel(
+        "SupportOutboundClick",
+        { support_method: supportLink.dataset.supportMethod },
+        true,
+      );
+    }
+    const copyButton = event.target.closest("[data-copy-text]");
+    if (copyButton) {
+      event.preventDefault();
+      trackPixel(
+        "SupportDetailCopied",
+        { support_method: copyButton.dataset.supportCopy || "payment-detail" },
+        true,
+      );
+      await copyText(
+        copyButton.dataset.copyText || "",
+        copyButton.dataset.copyMessage || "Copied.",
+      );
+    }
+  });
+  $("#close-modal")?.addEventListener("click", closeBuyModal);
+  buyModal?.addEventListener("click", (event) => {
+    if (event.target === buyModal) closeBuyModal();
+  });
+  document.addEventListener("keydown", (event) => {
+    if (event.key === "Escape" && buyModal?.classList.contains("open"))
+      closeBuyModal();
+    if (
+      event.key === "/" &&
+      !["INPUT", "TEXTAREA", "SELECT"].includes(document.activeElement?.tagName)
+    ) {
+      event.preventDefault();
+      searchInput?.focus();
+    }
+  });
+
+  modalLinks?.addEventListener("click", async (event) => {
+    const copyButton = event.target.closest("[data-copy-url]");
+    const reportButton = event.target.closest("[data-report-product]");
+    const retailerLink = event.target.closest("[data-retailer-click]");
+    if (copyButton)
+      await copyText(copyButton.dataset.copyUrl, "Seller link copied.");
+    if (reportButton && currentProduct) await reportBrokenLink(currentProduct);
+    if (retailerLink && currentProduct) {
+      trackPixel(
+        "RetailerOutboundClick",
+        {
+          content_name: currentProduct.title,
+          content_category: currentProduct.category,
+          content_ids: [String(currentProduct.id)],
+          retailer: retailerLink.dataset.retailerClick,
+        },
+        true,
+      );
+    }
+  });
+  bulkOrderBtn?.addEventListener("click", () =>
+    requestBulkOrder(currentProduct),
+  );
+  $("#modal-share-btn")?.addEventListener("click", () =>
+    shareProduct(currentProduct),
+  );
+
+  // A shared product link opens the same item for the recipient, rather than dumping them at the homepage.
+  const productFromUrl = new URL(window.location.href).searchParams.get(
+    "product",
+  );
+  if (productFromUrl) {
+    const sharedProduct = products.find(
+      (product) => String(product.id) === String(productFromUrl),
+    );
+    if (sharedProduct)
+      window.setTimeout(() => openBuyModal(sharedProduct.id), 250);
+  }
+}
+
+document.addEventListener("DOMContentLoaded", init);
