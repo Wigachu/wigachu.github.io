@@ -1,81 +1,127 @@
-# Wigachu
+# Wigachu - Good finds. Less scrolling.
 
-**Good finds. Less scrolling.** 
+**Wigachu** is a curated product-discovery website that helps people
+find interesting gadgets and useful everyday products without endless
+scrolling.
 
-Wigachu is a clean, minimal product-discovery platform built for curious people. It cuts through the noise of endless online shopping tabs by providing a carefully curated shortlist of interesting gadgets and useful everyday tools in one simple place. 
+🌐 **Website:** https://wigachu.github.io/\
+📦 **Repository:** https://github.com/briankebabe/wigachu
 
-Live Website: [wigachu.github.io](https://wigachu.github.io/)
+Wigachu showcases selected products, gives visitors useful context, and
+links them to external retailers where they can review the current
+listing and make a purchase. Wigachu is a discovery and affiliate
+platform---not the seller or manufacturer of the products featured.
 
----
+## What Wigachu does
 
-## 🚀 How It Works
+-   **Curated product discovery:** highlights selected gadgets and
+    everyday finds.
+-   **Search and filters:** helps visitors browse the catalogue by
+    category and search terms.
+-   **Product details:** shows product descriptions, images, indicative
+    prices and available seller links.
+-   **Seller choice:** sends visitors to external retailer listings so
+    they can check the latest price, availability, shipping and product
+    details.
+-   **Saved finds:** lets visitors keep a list of products they want to
+    revisit in the same browser.
+-   **Product sharing:** makes it easier to share a product with friends
+    or on social media.
+-   **Spotlight carousel:** gives selected products extra visibility.
+-   **Community support:** offers optional ways to support the project.
+-   **Wholesale enquiries and issue reports:** provides forms for
+    bulk-order interest and reporting broken product links.
 
-Wigachu simplifies online discovery into three straightforward steps:
+Features and catalogue availability may change as the project develops.
 
-1. **Find Something Useful:** Browse a highly curated collection of unique gadgets and daily helpers instead of scrolling through massive, overwhelming catalogues.
-2. **Compare Your Options:** Click on any product to instantly view available retailer links and public price breakdowns.
-3. **Choose Where to Buy:** Leave Wigachu and securely complete your checkout directly on your chosen seller's website. 
+## Brand
 
----
+Wigachu uses a colourful shopping-bag mark and a bright, approachable
+palette.
 
-## ✨ Features
+  Colour       Hex
+  ------------ -----------
+  Yellow       `#FDBE19`
+  Green        `#00840D`
+  Cyan         `#11B4C3`
+  Black        `#050505`
+  Deep green   `#073B27`
+  Warm cream   `#FFFCF5`
 
-* **Shortlist, Not a Catalogue:** Focuses only on high-value, unique items worth a closer look.
-* **Smart Sorting & Filtering:** Quickly filter products by feature, name, or price range.
-* **Wishlist functionality:** Save items locally to keep track of your favourite finds.
-* **Fully Transparent:** No hidden checkouts or marketplace accounts—Wigachu acts strictly as an independent discovery engine.
+The working tagline is **"Good finds. Less scrolling."**
 
----
+## Technology
 
-## 🛠️ Built With
+The website is built with a lightweight front end:
 
-* **Frontend Framework:** Vanilla HTML5, CSS3, and JavaScript (ES6+)
-* **Hosting:** GitHub Pages
-* **Data Layer:** Product collection managed dynamically via localized configuration/JSON data.
+-   HTML5
+-   CSS3 and responsive layouts
+-   Vanilla JavaScript
+-   Supabase for product and form data
+-   Font Awesome icons
+-   Google Fonts
 
----
+The site is designed for GitHub Pages hosting. The browser-side Supabase
+configuration uses a publishable/anonymous key; database access must be
+protected by appropriate Supabase Row Level Security (RLS) policies.
 
-## 📂 Project Structure
+## Affiliate disclosure
 
-```bash
-├── index.html          # Main landing page & application shell
-├── css/                # Component styles, typography, and responsive layouts
-├── js/                 # Product sorting, search, filtering, and user interactions
-├── assets/             # Brand logos, icons, and product images
-└── README.md           # Project documentation
-```
+Some product links may be affiliate links. If a visitor buys through a
+qualifying link, Wigachu may earn a commission at no additional cost to
+the visitor. This helps support the project.
 
----
+Wigachu does not control third-party prices, stock, shipping,
+warranties, returns or checkout. Retailer listings are the source of
+truth for current product details. Visitors should review the seller's
+terms and confirm delivery options and total costs before ordering.
 
-## 🏗️ Getting Started (Local Development)
+See [Affiliate Disclosure](https://wigachu.github.io/disclosure.html)
+and [Privacy Policy](https://wigachu.github.io/privacy.html).
 
-To run or modify the website locally on your computer:
+## Marketing and product selection
 
-1. **Clone the repository:**
-   ```bash
-   git clone https://github.com/wigachu/wigachu.github.io.git
-   ```
+Wigachu's goal is to help visitors discover products that are
+interesting and useful---not simply to send as much traffic as possible
+to retailer links.
 
-2. **Navigate into the project directory:**
-   ```bash
-   cd wigachu.github.io
-   ```
+Useful next steps include:
 
-3. **Open the project:**
-   Simply open `index.html` in your web browser, or launch it using a local development server like Live Server in VS Code.
+1.  Create a dedicated landing page for each product being promoted.
+2.  Make short videos or GIFs that demonstrate one clear use case.
+3.  Link each campaign to the exact product shown in the creative.
+4.  Use campaign UTM parameters to compare traffic sources.
+5.  Track retailer outbound clicks separately from confirmed purchases.
+6.  Compare click data with affiliate-network reports before increasing
+    ad spend.
+7.  Review prices, seller links, product availability and delivery
+    limitations regularly.
 
----
+An outbound click is **not** proof of a sale. Attribute commissions
+using the reporting available from the relevant affiliate network.
 
-## 🤝 Support the Project
+## Contributing and reporting issues
 
-Wigachu is an independent, creator-supported project built with curiosity. If you enjoy using the site or want to support its upkeep, product research, and development, feel free to pitch in:
+If you find a broken product link, incorrect detail or display issue,
+please report it through the website if the form is available, or open
+an issue in this repository with:
 
-* **Traditional channels:** Buy Me a Coffee, Ko-fi, PayPal (`pesapad.app@gmail.com`), or GitHub Sponsors.
-* **Crypto support:** BTC, ETH, SOL, or DOGE (addresses available via the site's footer).
+-   A clear description of the problem
+-   The affected page or product
+-   Steps to reproduce it
+-   A screenshot, if useful
 
----
+Do not include passwords, private keys, payment details or other
+sensitive information in an issue.
 
-## 📄 License & Disclosures
+## Disclaimer
 
-* **Affiliate Disclosure:** Wigachu is a discovery platform, not the retailer. Some seller links may be affiliate links, earning a small commission on qualifying purchases at no extra cost to the user.
-* Distributed under the MIT License. See `LICENSE` for more information.
+Product descriptions and displayed prices are provided for discovery
+purposes and may change. Confirm specifications, compatibility, seller
+reputation, delivery, taxes and final price with the retailer before
+purchasing. Wigachu does not claim that every featured product has been
+independently tested.
+
+------------------------------------------------------------------------
+
+Made with curiosity by the Wigachu project.

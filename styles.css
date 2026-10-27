@@ -672,8 +672,7 @@ h3 {
 .spotlight-image-wrap {
   flex: 0 0 clamp(230px, 32%, 360px);
   width: auto;
-  max-width: 40%;
-  aspect-ratio: 4 / 3;
+  max-width: 50%;
   height: auto;
   min-height: 210px;
   display: grid;
@@ -690,6 +689,7 @@ h3 {
   object-fit: contain;
   object-position: center;
   mix-blend-mode: multiply;
+  border-radius: 18px;
 }
 .swiper-controls {
   position: relative;
@@ -945,7 +945,6 @@ h3 {
 }
 .product-image-wrap {
   position: relative;
-  aspect-ratio: 4/3;
   display: grid;
   place-items: center;
   overflow: hidden;
@@ -2937,7 +2936,7 @@ button:disabled {
   .spotlight-image-wrap {
     margin-top: 10px;
     flex-basis: 100px;
-    max-width: 75%;
+    max-width: 100%;
     height: 80%;
   }
   .swiper-slide {
